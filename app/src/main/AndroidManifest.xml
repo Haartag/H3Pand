@@ -4,6 +4,7 @@
     package="com.valerytimofeev.h3pand">
 
     <application
+        android:name=".H3PandApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
