@@ -2,12 +2,13 @@ package com.valerytimofeev.h3pand.repositories.local
 
 import com.valerytimofeev.h3pand.data.local.AdditionalValueItem
 import com.valerytimofeev.h3pand.data.local.GuardItem
+import com.valerytimofeev.h3pand.utils.Resource
 
 
 interface PandRepository {
 
-    suspend fun getGuardByName(id: Int): GuardItem
+    suspend fun getGuardById(id: Int): Resource<GuardItem>
 
-    suspend fun getAdditionalValueByName(id: Int): AdditionalValueItem
+    suspend fun getAdditionalValueById(id: Int): Resource<AdditionalValueItem>
 
 }

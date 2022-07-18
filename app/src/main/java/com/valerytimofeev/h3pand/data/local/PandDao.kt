@@ -7,9 +7,9 @@ import androidx.room.Query
 interface PandDao {
 
     @Query("SELECT * FROM GuardDB WHERE id = :id")
-    suspend fun getGuardByName(id: Int): GuardItem
+    suspend fun getGuardById(id: Int): GuardItem?
 
     @Query("SELECT * FROM AdditionalDB WHERE id = :id")
-    suspend fun getAdditionalValueByName(id: Int): AdditionalValueItem
+    suspend fun getAdditionalValueById(id: Int): AdditionalValueItem?
 
 }
