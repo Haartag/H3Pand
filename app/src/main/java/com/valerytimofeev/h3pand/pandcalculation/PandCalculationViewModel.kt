@@ -18,11 +18,11 @@ class PandCalculationViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            testString.value = testString.value.plus(repository.getGuardById(1).toString())
+            //testString.value = testString.value.plus(repository.getGuardById(1).toString())
             delay(1000L)
-            testString.value = testString.value.plus(repository.getGuardById(2).toString())
+            //testString.value = testString.value.plus(repository.getGuardById(2).toString())
             delay(1000L)
-            testString.value = testString.value.plus(repository.getGuardById(3).toString())
+            //testString.value = testString.value.plus(repository.getGuardById(3).toString())
             //testString.value = testString.value.plus(repository.getAdditionalValueByName(3).toString())
         }
     }

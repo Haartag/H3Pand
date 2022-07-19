@@ -6,10 +6,13 @@ import androidx.room.Query
 @Dao
 interface PandDao {
 
-    @Query("SELECT * FROM GuardDB WHERE id = :id")
-    suspend fun getGuardById(id: Int): GuardItem?
+    @Query("SELECT * FROM GuardDB")
+    suspend fun getAllGuardsList(): List<GuardItem>
 
-    @Query("SELECT * FROM AdditionalDB WHERE id = :id")
-    suspend fun getAdditionalValueById(id: Int): AdditionalValueItem?
+    @Query("SELECT * FROM AdditionalDB")
+    suspend fun getAllAdditionalValuesList(): List<AdditionalValueItem>
+
+    @Query("SELECT * FROM BoxDB WHERE (value BETWEEN :minValue AND :maxValue) ")
+    suspend fun getAllBoxesInRange(minValue: Int, maxValue: Int): List<BoxValueItem>
 
 }

@@ -5,7 +5,7 @@ import androidx.room.RoomDatabase
 
 
 @Database(
-    entities = [GuardItem::class, AdditionalValueItem::class],
+    entities = [GuardItem::class, AdditionalValueItem::class, BoxValueItem::class],
     version = 1,
     exportSchema = false
 )

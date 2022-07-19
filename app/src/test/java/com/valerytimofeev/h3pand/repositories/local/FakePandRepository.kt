@@ -1,10 +1,11 @@
 package com.valerytimofeev.h3pand.repositories.local
 
 import com.valerytimofeev.h3pand.data.local.AdditionalValueItem
+import com.valerytimofeev.h3pand.data.local.BoxValueItem
 import com.valerytimofeev.h3pand.data.local.GuardItem
 import com.valerytimofeev.h3pand.utils.Resource
 
-class FakePandRepository: PandRepository {
+class FakePandRepository : PandRepository {
 
     private val fakeGuardDatabase = listOf<GuardItem>(
         GuardItem(1, "test name 1", 80),
@@ -13,22 +14,49 @@ class FakePandRepository: PandRepository {
     )
 
     private val fakeAdditionalValueDatabase = listOf<AdditionalValueItem>(
-        AdditionalValueItem(1, "add name 1", 1400),
-        AdditionalValueItem(2, "add name 2", 2000),
-        AdditionalValueItem(3, "add name 3", 5000),
+        AdditionalValueItem(1, "add name 1", 1400, 0),
+        AdditionalValueItem(2, "add name 2", 2000, 0),
+        AdditionalValueItem(3, "add name 3", 5000, 1),
     )
 
-    override suspend fun getGuardById(id: Int): Resource<GuardItem> {
-        return when (fakeGuardDatabase.find { it.id == id }) {
-            null -> Resource.error("Error: no such unit in database", null)
-            else -> Resource.success(fakeGuardDatabase.find { it.id == id })
+    private val fakeBoxValueDatabase = listOf<BoxValueItem>(
+        BoxValueItem(1, "item 1", 5000, 0),
+        BoxValueItem(2, "item 2", 6000, 0),
+        BoxValueItem(3, "item 3", 9600, 0),
+    )
+
+    private var returnError = false
+
+    fun shouldReturnError(value: Boolean) {
+        returnError = value
+    }
+
+
+    override suspend fun getAllGuardsList(): Resource<List<GuardItem>> {
+        return if (returnError) {
+            Resource.error("Error", null)
+        } else {
+            Resource.success(fakeGuardDatabase)
         }
     }
 
-    override suspend fun getAdditionalValueById(id: Int): Resource<AdditionalValueItem> {
-        return when (fakeAdditionalValueDatabase.find { it.id == id }) {
-            null -> Resource.error("Error: no such item in database", null)
-            else -> Resource.success(fakeAdditionalValueDatabase.find { it.id == id })
+    override suspend fun getAllAdditionalValuesList(): Resource<List<AdditionalValueItem>> {
+        return if (returnError) {
+            Resource.error("Error", null)
+        } else {
+            Resource.success(fakeAdditionalValueDatabase)
         }
     }
+
+    override suspend fun getAllBoxesInRange(
+        minValue: Int,
+        maxValue: Int
+    ): Resource<List<BoxValueItem>> {
+        return if (returnError) {
+            Resource.error("Error", null)
+        } else {
+            Resource.success(fakeBoxValueDatabase.filter { it.value in minValue..maxValue })
+        }
+    }
+
 }

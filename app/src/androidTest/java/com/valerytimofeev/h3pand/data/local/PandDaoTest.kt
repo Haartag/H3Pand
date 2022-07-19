@@ -44,14 +44,26 @@ class PandDaoTest {
 
 
     @Test
-    fun getGuardItemById() = runTest {
-        val result = dao.getGuardById(2)
-        assertThat(result).isEqualTo(GuardItem(2, "test2", 250))
+    fun getAllGuardList_returnCorrectListSize() = runTest {
+        val result = dao.getAllGuardsList()
+        assertThat(result.size).isEqualTo(2)
     }
 
     @Test
-    fun getAdditionalValueItemById() = runTest {
-        val result = dao.getAdditionalValueById(2)
-        assertThat(result).isEqualTo(AdditionalValueItem(2, "add2", 2000))
+    fun getAllAdditionalValuesList_returnCorrectListSize() = runTest {
+        val result = dao.getAllAdditionalValuesList()
+        assertThat(result.size).isEqualTo(3)
+    }
+
+    @Test
+    fun getAllBoxValueItems_checkSize() = runTest {
+        val minRange = 5000
+        val maxRange = 8000
+        val result = dao.getAllBoxesInRange(minRange, maxRange)
+        val value = listOf(
+            BoxValueItem(1, "5k gld", 5000, 0),
+            BoxValueItem(2, "5k exp", 6000, 0)
+        )
+        assertThat(result).isEqualTo(value)
     }
 }

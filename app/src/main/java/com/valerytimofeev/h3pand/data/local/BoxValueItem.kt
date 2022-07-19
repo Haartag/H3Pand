@@ -4,11 +4,10 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "AdditionalDB")
-data class AdditionalValueItem(
+@Entity(tableName = "BoxDB")
+data class BoxValueItem(
     @PrimaryKey val id: Int,
-    @ColumnInfo val name: String,
+    @ColumnInfo val boxContent: String,
     @ColumnInfo val value: Int,
     @ColumnInfo val castle: Int
-
 )
