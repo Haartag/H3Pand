@@ -21,35 +21,17 @@ class GetGuardCharacteristicsUseCaseTest {
     fun `Get GuardCharacteristics, valid import, returns success`() {
 
         val guardRangeIndex = 4
-        val guardValue = 200
-        val valueRange = 2000..22000
+        val guardValue = 201
         val minGuardOnMap = 20
+        val maxGuardOnMap = 99
 
         val value = getGuardCharacteristicsUseCase(
             guardRangeIndex,
             guardValue,
-            valueRange,
-            minGuardOnMap
-        )
-        assertThat(value).isEqualTo(Resource.success(GuardCharacteristics(20, 4000, 49, 9800)))
-    }
-
-    @Test
-    fun `Get GuardCharacteristics, valid import with correction, returns success`() {
-
-        val guardRangeIndex = 4
-        val guardValue = 200
-        val valueRange = 2000..22000
-        val minGuardOnMap = 20
-
-        val value = getGuardCharacteristicsUseCase(
-            guardRangeIndex,
-            guardValue,
-            valueRange,
             minGuardOnMap,
-            true
+            maxGuardOnMap
         )
-        assertThat(value).isEqualTo(Resource.success(GuardCharacteristics(15, 3000, 61, 12200)))
+        assertThat(value).isEqualTo(Resource.success(GuardCharacteristics(20, 4020, 65, 13065)))
     }
 
     @Test
@@ -57,68 +39,50 @@ class GetGuardCharacteristicsUseCaseTest {
 
         val guardRangeIndex = 1
         val guardValue = 25000
-        val valueRange = 10000..55000
         val minGuardOnMap = 2
+        val maxGuardOnMap = 99
 
         val value = getGuardCharacteristicsUseCase(
             guardRangeIndex,
             guardValue,
-            valueRange,
-            minGuardOnMap
-        )
-        assertThat(value).isEqualTo(Resource.success(GuardCharacteristics(2, 50000, 2, 50000)))
-    }
-
-    @Test
-    fun `Get GuardCharacteristics, 1-4 unit with correction, returns success`() {
-
-        val guardRangeIndex = 1
-        val guardValue = 25000
-        val valueRange = 10000..55000
-        val minGuardOnMap = 2
-
-        val value = getGuardCharacteristicsUseCase(
-            guardRangeIndex,
-            guardValue,
-            valueRange,
             minGuardOnMap,
-            true
+            maxGuardOnMap
         )
-        assertThat(value).isEqualTo(Resource.success(GuardCharacteristics(2, 50000, 2, 50000)))
+        assertThat(value).isEqualTo(Resource.success(GuardCharacteristics(2, 50000, 5, 125000)))
     }
 
     @Test
-    fun `Get GuardCharacteristics, some units under min threshold, returns success`() {
+    fun `Get GuardCharacteristics, range under min guards, returns success`() {
 
         val guardRangeIndex = 3
-        val guardValue = 200
-        val valueRange = 3000..22000
-        val minGuardOnMap = 10
+        val guardValue = 201
+        val minGuardOnMap = 20
+        val maxGuardOnMap = 99
 
         val value = getGuardCharacteristicsUseCase(
             guardRangeIndex,
             guardValue,
-            valueRange,
-            minGuardOnMap
+            minGuardOnMap,
+            maxGuardOnMap
         )
-        assertThat(value).isEqualTo(Resource.success(GuardCharacteristics(15, 3000, 19, 3800)))
+        assertThat(value).isEqualTo(Resource.success(GuardCharacteristics(20, 4020, 25, 5025)))
     }
 
     @Test
-    fun `Get GuardCharacteristics, some units above max threshold, returns success`() {
+    fun `Get GuardCharacteristics, range above max guards, returns success`() {
 
-        val guardRangeIndex = 3
-        val guardValue = 1500
-        val valueRange = 3000..22000
-        val minGuardOnMap = 7
+        val guardRangeIndex = 6
+        val guardValue = 201
+        val minGuardOnMap = 20
+        val maxGuardOnMap = 99
 
         val value = getGuardCharacteristicsUseCase(
             guardRangeIndex,
             guardValue,
-            valueRange,
-            minGuardOnMap
+            minGuardOnMap,
+            maxGuardOnMap
         )
-        assertThat(value).isEqualTo(Resource.success(GuardCharacteristics(10, 15000, 14, 21000)))
+        assertThat(value).isEqualTo(Resource.success(GuardCharacteristics(80, 16080, 99, 19899)))
     }
 
     @Test
@@ -126,32 +90,54 @@ class GetGuardCharacteristicsUseCaseTest {
 
         val guardRangeIndex = 2
         val guardValue = 270
-        val valueRange = 3000..22000
         val minGuardOnMap = 18
+        val maxGuardOnMap = 99
 
         val value = getGuardCharacteristicsUseCase(
             guardRangeIndex,
             guardValue,
-            valueRange,
-            minGuardOnMap
+            minGuardOnMap,
+            maxGuardOnMap
         )
         assertThat(value).isEqualTo(Resource.error("Too weak unit", null))
     }
 
     @Test
-    fun `Get GuardCharacteristics, all units above max threshold, returns error`() {
+    fun `Get GuardCharacteristics, valid import, week correction, returns success`() {
 
         val guardRangeIndex = 4
-        val guardValue = 2100
-        val valueRange = 3000..22000
-        val minGuardOnMap = 7
+        val guardValue = 201
+        val minGuardOnMap = 20
+        val maxGuardOnMap = 99
+        val week = 2
 
         val value = getGuardCharacteristicsUseCase(
             guardRangeIndex,
             guardValue,
-            valueRange,
-            minGuardOnMap
+            minGuardOnMap,
+            maxGuardOnMap,
+            week
         )
-        assertThat(value).isEqualTo(Resource.error("Too strong unit", null))
+        assertThat(value).isEqualTo(Resource.success(GuardCharacteristics(20, 4020, 59, 11859)))
     }
+
+    @Test
+    fun `Get GuardCharacteristics, 1-4 import, week correction, returns success`() {
+
+        val guardRangeIndex = 1
+        val guardValue = 25000
+        val minGuardOnMap = 2
+        val maxGuardOnMap = 99
+        val week = 3
+
+        val value = getGuardCharacteristicsUseCase(
+            guardRangeIndex,
+            guardValue,
+            minGuardOnMap,
+            maxGuardOnMap,
+            week
+        )
+        assertThat(value).isEqualTo(Resource.success(GuardCharacteristics(2, 50000, 5, 125000)))
+    }
+
 }
