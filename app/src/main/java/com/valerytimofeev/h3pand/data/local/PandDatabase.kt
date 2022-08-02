@@ -5,11 +5,16 @@ import androidx.room.RoomDatabase
 
 
 @Database(
-    entities = [GuardItem::class, AdditionalValueItem::class, BoxValueItem::class],
+    entities = [
+        GuardItem::class,
+        AdditionalValueItem::class,
+        BoxValueItem::class,
+        UnitBoxValueItem::class
+    ],
     version = 1,
     exportSchema = false
 )
 
-abstract class PandDatabase: RoomDatabase() {
+abstract class PandDatabase : RoomDatabase() {
     abstract fun pandDao(): PandDao
 }

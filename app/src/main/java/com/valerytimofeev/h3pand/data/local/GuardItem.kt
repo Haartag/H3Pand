@@ -8,5 +8,8 @@ import androidx.room.PrimaryKey
 data class GuardItem(
     @PrimaryKey val id: Int,
     @ColumnInfo val name: String,
-    @ColumnInfo val AIValue: Int
+    @ColumnInfo val AIValue: Int,
+    @ColumnInfo val minOnMap: Int,
+    @ColumnInfo val maxOnMap: Int,
+
 )

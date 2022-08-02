@@ -4,10 +4,12 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "BoxDB")
-data class BoxValueItem(
+
+@Entity(tableName = "UnitBoxDB")
+data class UnitBoxValueItem(
     @PrimaryKey val id: Int,
-    @ColumnInfo val boxContent: String,
-    @ColumnInfo val value: Int,
+    @ColumnInfo val unitName: String,
+    @ColumnInfo val unitNumber: Int,
+    @ColumnInfo val castle: Int,
     @ColumnInfo val img: String,
 )
