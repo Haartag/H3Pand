@@ -44,26 +44,122 @@ class PandDaoTest {
 
 
     @Test
-    fun getAllGuardList_returnCorrectListSize() = runTest {
-        val result = dao.getAllGuardsList()
-        assertThat(result.size).isEqualTo(2)
+    fun getAllGuardList_returnCorrectGuardAndListSize() = runTest {
+        val result = dao.getAllGuardsList(5)
+        assertThat(result[0]).isEqualTo(
+            Guard(name="Gnoll", AIValue=56, minOnMap=20, maxOnMap=50)
+        )
+        assertThat(result.size).isEqualTo(14)
     }
 
     @Test
-    fun getAllAdditionalValuesList_returnCorrectListSize() = runTest {
-        val result = dao.getAllAdditionalValuesList()
-        assertThat(result.size).isEqualTo(3)
+    fun getAllGuardList_invalidCastle_returnEmptyList() = runTest {
+        val result = dao.getAllGuardsList(20)
+        assertThat(result).isEmpty()
     }
 
     @Test
-    fun getAllBoxValueItems_checkSize() = runTest {
+    fun getAdditionalValueTypesList_returnCorrectTypes() = runTest {
+        val result = dao.getAdditionalValueTypesList()
+        assertThat(result).isEqualTo(
+            listOf("Misc.", "Resource", "Bank", "Artifact")
+        )
+    }
+
+    @Test
+    fun getAdditionalValuesList_returnCorrectAdditionalValueItemAndListSize() = runTest {
+        val result = dao.getAdditionalValuesList("Bank")
+        assertThat(result[0]).isEqualTo(
+            AdditionalValueItem(id=31, name="Crypt", value=1000, type="Bank", castle=0)
+        )
+        assertThat(result.size).isEqualTo(20)
+    }
+
+    @Test
+    fun getAdditionalValuesList_invalidType_returnEmptyList() = runTest {
+        val result = dao.getAdditionalValuesList("TestType")
+        assertThat(result).isEmpty()
+    }
+
+
+
+    @Test
+    fun getNonUnitBoxes_validInput() = runTest {
         val minRange = 5000
         val maxRange = 8000
-        val result = dao.getAllBoxesInRange(minRange, maxRange)
-        val value = listOf(
-            BoxValueItem(1, "5k gld", 5000, 0),
-            BoxValueItem(2, "5k exp", 6000, 0)
+        val result = dao.getNonUnitBoxesInRange(minRange, maxRange)
+
+        assertThat(result).isEqualTo(
+            listOf(
+                BoxValueItem(id = 1, boxContent = "5000 gold", value = 5000, img = "gold"),
+                BoxValueItem(id = 5, boxContent = "5000 exp.", value = 6000, img = "exp"),
+                BoxValueItem(id = 13, boxContent = "1 lvl. spells", value = 5000, img = "spells1"),
+                BoxValueItem(id = 14, boxContent = "2 lvl. spells", value = 7500, img = "spells1")
+            )
         )
-        assertThat(result).isEqualTo(value)
+    }
+
+    @Test
+    fun getNonUnitBoxes_tooLowRange_returnEmptyList() = runTest {
+        val minRange = 1000
+        val maxRange = 4000
+        val result = dao.getNonUnitBoxesInRange(minRange, maxRange)
+
+        assertThat(result).isEmpty()
+    }
+
+    @Test
+    fun getNonUnitBoxes_tooHiRange_returnEmptyList() = runTest {
+        val minRange = 35000
+        val maxRange = 40000
+        val result = dao.getNonUnitBoxesInRange(minRange, maxRange)
+
+        assertThat(result).isEmpty()
+    }
+
+    @Test
+    fun getUnitBoxes_validInput() = runTest {
+        val minRange = 5000
+        val maxRange = 8000
+        val castle = 4
+        val result = dao.getUnitBoxesInRange(minRange, maxRange, castle)
+
+        assertThat(result).isEqualTo(
+            listOf(
+                UnitBox(name = "Infernal troglodyte", AIValue = 84, numberInBox = 60, castle = 4),
+                UnitBox(name = "Harpy", AIValue = 154, numberInBox = 45, castle = 4),
+                UnitBox(name = "Harpy hag", AIValue = 238, numberInBox = 30, castle = 4),
+            )
+        )
+    }
+
+    @Test
+    fun getUnitBoxes_tooLowRange_returnEmptyList() = runTest {
+        val minRange = 1000
+        val maxRange = 4000
+        val castle = 1
+        val result = dao.getUnitBoxesInRange(minRange, maxRange, castle)
+
+        assertThat(result).isEmpty()
+    }
+
+    @Test
+    fun getUnitBoxes_tooHiRange_returnEmptyList() = runTest {
+        val minRange = 35000
+        val maxRange = 40000
+        val castle = 1
+        val result = dao.getUnitBoxesInRange(minRange, maxRange, castle)
+
+        assertThat(result).isEmpty()
+    }
+
+    @Test
+    fun getUnitBoxes_invalidCastle_returnEmptyList() = runTest {
+        val minRange = 5000
+        val maxRange = 8000
+        val castle = 20
+        val result = dao.getUnitBoxesInRange(minRange, maxRange, castle)
+
+        assertThat(result).isEmpty()
     }
 }
