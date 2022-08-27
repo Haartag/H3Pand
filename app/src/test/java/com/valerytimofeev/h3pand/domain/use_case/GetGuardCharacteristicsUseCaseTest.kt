@@ -20,16 +20,18 @@ class GetGuardCharacteristicsUseCaseTest {
     @Test
     fun `Get GuardCharacteristics, valid import, returns success`() {
 
-        val guardRangeIndex = 4
+        val weekCorrectedMin = 20.0
+        val weekCorrectedMax = 49.0
         val guardValue = 201
         val minGuardOnMap = 20
         val maxGuardOnMap = 99
 
         val value = getGuardCharacteristicsUseCase(
-            guardRangeIndex,
+            weekCorrectedMin,
+            weekCorrectedMax,
             guardValue,
             minGuardOnMap,
-            maxGuardOnMap
+            maxGuardOnMap,
         )
         assertThat(value).isEqualTo(Resource.success(GuardCharacteristics(20, 4020, 65, 13065)))
     }
@@ -37,16 +39,18 @@ class GetGuardCharacteristicsUseCaseTest {
     @Test
     fun `Get GuardCharacteristics, 1-4 unit, returns success`() {
 
-        val guardRangeIndex = 1
+        val weekCorrectedMin = 1.0
+        val weekCorrectedMax = 4.0
         val guardValue = 25000
         val minGuardOnMap = 2
         val maxGuardOnMap = 99
 
         val value = getGuardCharacteristicsUseCase(
-            guardRangeIndex,
+            weekCorrectedMin,
+            weekCorrectedMax,
             guardValue,
             minGuardOnMap,
-            maxGuardOnMap
+            maxGuardOnMap,
         )
         assertThat(value).isEqualTo(Resource.success(GuardCharacteristics(2, 50000, 5, 125000)))
     }
@@ -54,16 +58,18 @@ class GetGuardCharacteristicsUseCaseTest {
     @Test
     fun `Get GuardCharacteristics, range under min guards, returns success`() {
 
-        val guardRangeIndex = 3
+        val weekCorrectedMin = 10.0
+        val weekCorrectedMax = 19.0
         val guardValue = 201
         val minGuardOnMap = 20
         val maxGuardOnMap = 99
 
         val value = getGuardCharacteristicsUseCase(
-            guardRangeIndex,
+            weekCorrectedMin,
+            weekCorrectedMax,
             guardValue,
             minGuardOnMap,
-            maxGuardOnMap
+            maxGuardOnMap,
         )
         assertThat(value).isEqualTo(Resource.success(GuardCharacteristics(20, 4020, 25, 5025)))
     }
@@ -71,16 +77,18 @@ class GetGuardCharacteristicsUseCaseTest {
     @Test
     fun `Get GuardCharacteristics, range above max guards, returns success`() {
 
-        val guardRangeIndex = 6
+        val weekCorrectedMin = 100.0
+        val weekCorrectedMax = 249.0
         val guardValue = 201
         val minGuardOnMap = 20
         val maxGuardOnMap = 99
 
         val value = getGuardCharacteristicsUseCase(
-            guardRangeIndex,
+            weekCorrectedMin,
+            weekCorrectedMax,
             guardValue,
             minGuardOnMap,
-            maxGuardOnMap
+            maxGuardOnMap,
         )
         assertThat(value).isEqualTo(Resource.success(GuardCharacteristics(80, 16080, 99, 19899)))
     }
@@ -88,56 +96,38 @@ class GetGuardCharacteristicsUseCaseTest {
     @Test
     fun `Get GuardCharacteristics, all units below min threshold, returns error`() {
 
-        val guardRangeIndex = 2
+        val weekCorrectedMin = 5.0
+        val weekCorrectedMax = 9.0
         val guardValue = 270
         val minGuardOnMap = 18
         val maxGuardOnMap = 99
 
         val value = getGuardCharacteristicsUseCase(
-            guardRangeIndex,
+            weekCorrectedMin,
+            weekCorrectedMax,
             guardValue,
             minGuardOnMap,
-            maxGuardOnMap
+            maxGuardOnMap,
         )
         assertThat(value).isEqualTo(Resource.error("Too weak unit", null))
     }
 
     @Test
-    fun `Get GuardCharacteristics, valid import, week correction, returns success`() {
+    fun `Get GuardCharacteristics, valid import, week corrected guard range, returns success`() {
 
-        val guardRangeIndex = 4
+        val weekCorrectedMin = 20.0 * 1.1
+        val weekCorrectedMax = 49.0 * 1.1
         val guardValue = 201
         val minGuardOnMap = 20
         val maxGuardOnMap = 99
-        val week = 2
 
         val value = getGuardCharacteristicsUseCase(
-            guardRangeIndex,
+            weekCorrectedMin,
+            weekCorrectedMax,
             guardValue,
             minGuardOnMap,
             maxGuardOnMap,
-            week
         )
-        assertThat(value).isEqualTo(Resource.success(GuardCharacteristics(20, 4020, 59, 11859)))
+        assertThat(value).isEqualTo(Resource.success(GuardCharacteristics(20, 4020, 71, 14271)))
     }
-
-    @Test
-    fun `Get GuardCharacteristics, 1-4 import, week correction, returns success`() {
-
-        val guardRangeIndex = 1
-        val guardValue = 25000
-        val minGuardOnMap = 2
-        val maxGuardOnMap = 99
-        val week = 3
-
-        val value = getGuardCharacteristicsUseCase(
-            guardRangeIndex,
-            guardValue,
-            minGuardOnMap,
-            maxGuardOnMap,
-            week
-        )
-        assertThat(value).isEqualTo(Resource.success(GuardCharacteristics(2, 50000, 5, 125000)))
-    }
-
 }

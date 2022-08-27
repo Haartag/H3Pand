@@ -1,10 +1,8 @@
 package com.valerytimofeev.h3pand.domain.use_case
 
-import com.valerytimofeev.h3pand.utils.Constants.MAX_GENERATED_GUARD
 import com.valerytimofeev.h3pand.utils.GuardCharacteristics
-import com.valerytimofeev.h3pand.utils.GuardRanges
 import com.valerytimofeev.h3pand.utils.Resource
-import dagger.Provides
+import com.valerytimofeev.h3pand.utils.ceilToInt
 import javax.inject.Inject
 import kotlin.math.ceil
 
@@ -16,34 +14,31 @@ class GetGuardCharacteristicsUseCase @Inject constructor(
 
 ) {
     operator fun invoke(
-        guardRangeIndex: Int,
+        weekCorrectedMin: Double,
+        weekCorrectedMax: Double,
         guardValue: Int,
         minGuardOnMap: Int,
         maxGuardOnMap: Int,
-        week: Int = 1
     ): Resource<GuardCharacteristics> {
 
-        val uncorrectedGuardRange = GuardRanges.range[guardRangeIndex]
-            ?: return Resource.error("An unknown error occurred", null)
-
-        val weekCorrectedMin = uncorrectedGuardRange.first.weekCorrection(week)
-        val weekCorrectedMax = uncorrectedGuardRange.last.weekCorrection(week)
-
-        val guardRange = weekCorrectedMin..weekCorrectedMax
-        //val guardRange = uncorrectedGuardRange
-
-        val minRoll = when (guardRange.first) {
+        /**
+         * It can't be less than 2 guards
+         */
+        val minRoll = when (weekCorrectedMin.ceilToInt()) {
             in 0..2 -> 2
             3 -> 3
-            else -> guardRange.first.getMinRoll(minGuardOnMap, maxGuardOnMap)
+            else -> weekCorrectedMin.ceilToInt().getMinRoll(minGuardOnMap, maxGuardOnMap)
         }
 
-        val maxRoll = when (guardRange.last) {
+        val maxRoll = when (weekCorrectedMax.ceilToInt()) {
             in 0..2 -> 2
             3 -> 3
-            else -> guardRange.last.getMaxRoll(maxGuardOnMap)
+            else -> weekCorrectedMax.ceilToInt().getMaxRoll(maxGuardOnMap)
         }
 
+        /**
+         * Check that the roll is within unit limits
+         */
         if (minRoll > maxGuardOnMap) return Resource.error("Too strong unit", null)
         if (maxRoll < minGuardOnMap) return Resource.error("Too weak unit", null)
 
@@ -60,6 +55,14 @@ class GetGuardCharacteristicsUseCase @Inject constructor(
         )
     }
 
+    /**
+     * Calculate possible min. roll of guard.
+     *  - If calculated number of units is less than minimum possible number of units,
+     * the number of units increases.
+     *  - If calculated value is greater than the maximum possible
+     * number of units, the value is equal to the maximum value.
+     *  - If calculated number of units is ok, then ok.
+     */
     private fun Int.getMinRoll(
         minGuardOnMap: Int,
         maxGuardOnMap: Int
@@ -71,6 +74,12 @@ class GetGuardCharacteristicsUseCase @Inject constructor(
         return minRoll
     }
 
+    /**
+     * Calculate possible max. roll of guard.
+     *  - If calculated value is greater than the maximum possible
+     * number of units, the value is equal to the maximum value.
+     * - If calculated number of units is ok, then ok.
+     */
     private fun Int.getMaxRoll(
         maxGuardOnMap: Int
     ): Int {
@@ -78,15 +87,5 @@ class GetGuardCharacteristicsUseCase @Inject constructor(
         if ((maxRoll * 1.33).toInt() > maxGuardOnMap) maxRoll = maxGuardOnMap
         if ((maxRoll * 1.33).toInt() < maxGuardOnMap) maxRoll = (maxRoll * 1.33).toInt()
         return maxRoll
-    }
-
-    private fun Int.weekCorrection(
-        week: Int
-    ): Int {
-        var weekModifier = 1.0
-        repeat(week - 1) {
-            weekModifier *= 1.1
-        }
-        return ceil(this / weekModifier).toInt()
     }
 }
