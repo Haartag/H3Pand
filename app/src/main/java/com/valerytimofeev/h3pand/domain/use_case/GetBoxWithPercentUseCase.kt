@@ -30,9 +30,12 @@ class GetBoxWithPercentUseCase @Inject constructor(
             } else {
                 ((sumValue - difficult.minValue1) * difficult.coefficient1).roundToInt()
             }
-        val lowGuardNumber =
-            ((midGuardValue * 0.75).ceilToInt() / unitValue.toDouble()).ceilToInt()
-        val hiGuardNumber = ((midGuardValue * 1.25).toInt() / unitValue.toDouble()).toInt()
+
+        val midGuardNumber = (midGuardValue / unitValue.toDouble()).roundToInt()
+        val randomWindowSize = (midGuardNumber * 0.25).toInt()
+
+        val lowGuardNumber = midGuardNumber - randomWindowSize
+        val hiGuardNumber = midGuardNumber + randomWindowSize
 
         val numbersList = (lowGuardNumber..hiGuardNumber).map { it }
 
