@@ -39,7 +39,9 @@ class GetBoxWithPercentUseCase @Inject constructor(
 
         val numbersList = (lowGuardNumber..hiGuardNumber).map { it }
 
-        val numbersWithPercentsMap = numbersList.getPercents()
+        val numbersWithPercentsMap = numbersList.getPercents(
+            if (boxValueItem.boxContent.contains("exp.")) 2 else 1
+        )
 
         val guards = mutableListOf<Int>()
         var summaryPercent = 0.0
@@ -87,7 +89,7 @@ class GetBoxWithPercentUseCase @Inject constructor(
         )
     }
 
-    private fun List<Int>.getPercents(): Map<Int, Double> {
+    private fun List<Int>.getPercents(multiplier: Int): Map<Int, Double> {
 
         var divider = 1
 
@@ -102,11 +104,11 @@ class GetBoxWithPercentUseCase @Inject constructor(
 
         val percentList = mutableListOf<Double>()
 
-        for (i in 1..this.size / 2 + 1) {
-            percentList.add((i.toDouble() / divider) * 100)
+        for (number in 1..this.size / 2 + 1) {
+            percentList.add(((number.toDouble() / divider) * 100) * multiplier)
         }
-        for (i in this.size / 2 downTo 1) {
-            percentList.add((i.toDouble() / divider) * 100)
+        for (number in this.size / 2 downTo 1) {
+            percentList.add(((number.toDouble() / divider) * 100) * multiplier)
         }
 
         return this.zip(percentList).toMap()
