@@ -20,24 +20,29 @@ class GetBoxForGuardRangeUseCase @Inject constructor(
     suspend operator fun invoke(
         guardRange: GuardCharacteristics,
         difficult: Difficult,
+        guardValue: Int,
         additionalValue: Int,
         castleZones: Int,
         zones: Int,
         castle: Int
     ): Resource<List<BoxValueItem>> {
 
-        val minBoxRoll = (guardRange.minValue).valueOfBox(difficult) - additionalValue
-        val maxBoxRoll = (guardRange.maxValue).valueOfBox(difficult) - additionalValue
+        val minBoxRoll = (guardRange.minAverage * guardValue).valueOfBox(difficult) - additionalValue
+        val maxBoxRoll = (guardRange.maxAverage * guardValue).valueOfBox(difficult) - additionalValue
 
-        val nonUnitBoxes = repository.getNonUnitBoxesInRange(minBoxRoll, maxBoxRoll)
-
+        /**
+         * Get boxes with units and boxes without units separately.
+         * unitCoefficient reflects AI value cost of unit boxes depending on number of zones.
+         */
         val unitCoefficient = ((1.0 + (castleZones / zones.toDouble())) * 10).roundToInt() / 10.0
 
+        val nonUnitBoxes = repository.getNonUnitBoxesInRange(minBoxRoll, maxBoxRoll)
         val unitBoxes = repository.getUnitBoxesInRange(
             (minBoxRoll / unitCoefficient).roundToInt(),
             (maxBoxRoll / unitCoefficient).roundToInt(),
             castle
         )
+
         val allBoxesList = mutableListOf<BoxValueItem>()
 
         when {
@@ -63,7 +68,6 @@ class GetBoxForGuardRangeUseCase @Inject constructor(
         return Resource.success(allBoxesList)
     }
 
-
     /**
      * Calculate value of box from guard
      */
@@ -87,6 +91,9 @@ class GetBoxForGuardRangeUseCase @Inject constructor(
         return boxValue
     }
 
+    /**
+     * Make fake BoxValueItem from UnitBox
+     */
     private fun UnitBox.toBoxValueItem(unitCoefficient: Double): BoxValueItem {
         return BoxValueItem(
             0,
@@ -95,5 +102,4 @@ class GetBoxForGuardRangeUseCase @Inject constructor(
             "img"
         )
     }
-
 }
