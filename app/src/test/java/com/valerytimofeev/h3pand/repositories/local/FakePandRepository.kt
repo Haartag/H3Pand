@@ -21,10 +21,10 @@ class FakePandRepository : PandRepository {
         BoxValueItem(1, "item 1", 5000, img = "img"),
         BoxValueItem(2, "item 2", 7500, img = "img"),
         BoxValueItem(3, "item 3", 10000, img = "img"),
-        BoxValueItem(4, "item 3", 12500, img = "img"),
-        BoxValueItem(5, "item 3", 15000, img = "img"),
-        BoxValueItem(6, "item 3", 17500, img = "img"),
-        BoxValueItem(7, "item 3", 20000, img = "img"),
+        BoxValueItem(4, "item 4", 12500, img = "img"),
+        BoxValueItem(5, "item 5", 15000, img = "img"),
+        BoxValueItem(6, "item 6", 17500, img = "img"),
+        BoxValueItem(7, "item 7", 20000, img = "img"),
     )
 
     private var returnError = false
