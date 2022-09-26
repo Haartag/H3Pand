@@ -9,6 +9,8 @@ val Teal200 = Color(0xFF03DAC5)
 
 val Secondary = Color(0xFFeddaca)
 
+val ErrorBoxColor = Color(0x99E2BCC4)
+
 val CastleColor = Color(0xFFE6E1DE)
 val ConfluxColor = Color(0xFFE5BCF5)
 val CoveColor = Color(0xFFA9D5C6)
@@ -24,3 +26,5 @@ val NeutralColor = Color(0xFFeddaca)
 val GoldColor = Color(0xFFF1E8D2)
 val ExpColor = Color(0xFFDFBCBC)
 val SpellColor = Color(0xFFDED1EB)
+val UnitColor = Color(0xFFB5BDBB)
+
