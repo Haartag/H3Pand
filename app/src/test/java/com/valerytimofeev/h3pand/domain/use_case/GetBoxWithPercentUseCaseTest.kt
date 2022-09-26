@@ -18,7 +18,7 @@ class GetBoxWithPercentUseCaseTest() {
     @Test
     fun `Get BoxWithDropPercent, valid input, all guards in range`() {
         val boxValueItem = BoxValueItem(1, "5000exp", 6000, "exp")
-        val guardValue = GuardCharacteristics(20, 4020, 65, 13065)
+        val guardValue = GuardCharacteristics(16, 13, 65, 86)
         val difficult = Difficult.THREE
         val unitValue = 190
         val week = 1
@@ -34,7 +34,8 @@ class GetBoxWithPercentUseCaseTest() {
     @Test
     fun `Get BoxWithDropPercent, valid input, some guards not in range`() {
         val boxValueItem = BoxValueItem(1, "5000exp", 6000, "exp")
-        val guardValue = GuardCharacteristics(25, 4020, 65, 13065)
+        //val guardValue = GuardCharacteristics(25, 4020, 65, 13065)
+        val guardValue = GuardCharacteristics(30, 24, 65, 86)
         val difficult = Difficult.THREE
         val unitValue = 201
         val week = 1
@@ -45,14 +46,14 @@ class GetBoxWithPercentUseCaseTest() {
             boxValueItem, guardValue, difficult, unitValue, week, chosenGuardRange, additionalValue
         )
 
-        assertThat(value.data!!.dropChance).isAtLeast(57.0)
-        assertThat(value.data!!.dropChance).isAtMost(57.5)
+        assertThat(value.data!!.dropChance).isAtLeast(69.0)
+        assertThat(value.data!!.dropChance).isAtMost(69.5)
     }
 
     @Test
     fun `Get BoxWithDropPercent, too high value, returns error`() {
         val boxValueItem = BoxValueItem(1, "1LvlSpells", 5000, "1LvlSpells")
-        val guardValue = GuardCharacteristics(20, 20, 65, 65)
+        val guardValue = GuardCharacteristics(16, 13, 65, 86)
         val difficult = Difficult.THREE
         val unitValue = 1350
         val week = 1
@@ -69,7 +70,7 @@ class GetBoxWithPercentUseCaseTest() {
     @Test
     fun `Get BoxWithDropPercent, valid input, week after 1`() {
         val boxValueItem = BoxValueItem(1, "5000exp", 6000, "exp")
-        val guardValue = GuardCharacteristics(20, 4020, 65, 13065)
+        val guardValue = GuardCharacteristics(16, 13, 65, 86)
         val difficult = Difficult.THREE
         val unitValue = 190
         val week = 3
@@ -85,7 +86,7 @@ class GetBoxWithPercentUseCaseTest() {
     @Test
     fun `!! Get BoxWithDropPercent, valid input, part of week-modified range above guard range`() {
         val boxValueItem = BoxValueItem(1, "5000exp", 6000, "exp")
-        val guardValue = GuardCharacteristics(20, 4020, 65, 13065)
+        val guardValue = GuardCharacteristics(16, 13, 65, 86)
         val difficult = Difficult.THREE
         val unitValue = 190
         val week = 7
@@ -103,7 +104,7 @@ class GetBoxWithPercentUseCaseTest() {
     @Test
     fun `!! Get BoxWithDropPercent, valid input, all week-modified range above guard range`() {
         val boxValueItem = BoxValueItem(1, "5000exp", 6000, "exp")
-        val guardValue = GuardCharacteristics(20, 4020, 65, 13065)
+        val guardValue = GuardCharacteristics(16, 13, 65, 86)
         val difficult = Difficult.THREE
         val unitValue = 190
         val week = 11

@@ -2,16 +2,13 @@ package com.valerytimofeev.h3pand.domain.use_case
 
 import com.valerytimofeev.h3pand.data.local.BoxValueItem
 import com.valerytimofeev.h3pand.utils.*
-import javax.inject.Inject
 import kotlin.math.roundToInt
 
 /**
  * Get drop chances for valid box.
  * Box obtained from GetBoxForGuardRangeUseCase
  */
-class GetBoxWithPercentUseCase @Inject constructor(
-
-) {
+class GetBoxWithPercentUseCase {
     operator fun invoke(
         boxValueItem: BoxValueItem,
         guardValue: GuardCharacteristics,
@@ -26,7 +23,9 @@ class GetBoxWithPercentUseCase @Inject constructor(
 
         val midGuardValue =
             if ((sumValue - difficult.minValue2) * difficult.coefficient2 > 0) {
-                ((sumValue - difficult.minValue1) * difficult.coefficient1 + (sumValue - difficult.minValue2) * difficult.coefficient2).roundToInt()
+                ((sumValue - difficult.minValue1) * difficult.coefficient1 +
+                        (sumValue - difficult.minValue2) * difficult.coefficient2)
+                    .roundToInt()
             } else {
                 ((sumValue - difficult.minValue1) * difficult.coefficient1).roundToInt()
             }
@@ -39,6 +38,9 @@ class GetBoxWithPercentUseCase @Inject constructor(
 
         val numbersList = (lowGuardNumber..hiGuardNumber).map { it }
 
+        /**
+         * Exp. drop rate twice as much as the rest, but probably need some additional correction.
+         */
         val numbersWithPercentsMap = numbersList.getPercents(
             if (boxValueItem.boxContent.contains("exp.")) 2 else 1
         )
@@ -52,9 +54,8 @@ class GetBoxWithPercentUseCase @Inject constructor(
         run breaking@{
             numbersWithPercentsMap.forEach {
                 if (
-                    it.key in guardValue.minRoll..guardValue.maxRoll && it.key.weekCorrectionUndo(
-                        week
-                    ) in chosenGuardRange
+                    it.key in guardValue.minTotal..guardValue.maxTotal &&
+                    it.key.weekCorrectionUndo(week) in chosenGuardRange
                 ) {
                     summaryPercent += it.value
                     guards.add(it.key.weekCorrectionUndo(week))
@@ -114,6 +115,9 @@ class GetBoxWithPercentUseCase @Inject constructor(
         return this.zip(percentList).toMap()
     }
 
+    /**
+     * Reverse weekly increase of guard to the value of first week
+     */
     private fun Int.weekCorrectionUndo(
         week: Int
     ): Int {
