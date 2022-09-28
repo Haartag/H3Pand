@@ -90,4 +90,21 @@ class DefaultPandRepository @Inject constructor(
         }
     }
 
+    override suspend fun getDwellingsByCastle(
+        castle: Int
+    ): Resource<List<Dwelling>> {
+        return try {
+            val dwellings = pandDao.getDwellingsByCastle(castle)
+            if (dwellings.isEmpty()) return Resource.error(
+                "An unknown database error occurred: database_5.0",
+                null
+            )
+            dwellings.let {
+                return@let Resource.success(it)
+            }
+        } catch (e: Exception) {
+            Resource.error("An unknown database error occurred: database_5.1", null)
+        }
+    }
+
 }

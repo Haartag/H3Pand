@@ -16,4 +16,5 @@ interface PandRepository {
 
     suspend fun getUnitBoxesInRange(minValue: Int, maxValue: Int, castle: Int): Resource<List<UnitBox>>
 
+    suspend fun getDwellingsByCastle(castle: Int): Resource<List<Dwelling>>
 }

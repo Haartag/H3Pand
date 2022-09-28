@@ -6,15 +6,15 @@ import com.valerytimofeev.h3pand.utils.Resource
 class FakePandRepository : PandRepository {
 
     private val fakeGuardDatabase = listOf<UnitItem>(
-        UnitItem(1, "test name 1", 80, 20, 50, 80, 1, "img1"),
-        UnitItem(2, "test name 2", 250, 12, 25, 30, 3, "img2"),
-        UnitItem(3, "test name 3", 1068, 8, 12, 15, 5, "img3"),
+        UnitItem(1, "test name 1", 80, 20, 50, 15, 80, "test dwelling 1", 1, "img1"),
+        UnitItem(2, "test name 2", 250, 12, 25, 7, 30, "test dwelling 2", 3, "img2"),
+        UnitItem(3, "test name 3", 1068, 8, 12, 3, 15, "test dwelling 3", 5, "img3"),
     )
 
     private val fakeAdditionalValueDatabase = listOf<AdditionalValueItem>(
-        AdditionalValueItem(1, "add name 1", 1400, "Misc.", 0),
-        AdditionalValueItem(2, "add name 2", 2000, "Misc.", 0),
-        AdditionalValueItem(3, "add name 3", 5000, "Misc.", 0),
+        AdditionalValueItem(1, "add name 1", 1400, "Misc.", "Trade", 0),
+        AdditionalValueItem(2, "add name 2", 2000, "Misc.", "Trade", 0),
+        AdditionalValueItem(3, "add name 3", 5000, "Misc.", "Trade", 0),
     )
 
     private val fakeBoxValueDatabase = listOf<BoxValueItem>(
@@ -34,9 +34,11 @@ class FakePandRepository : PandRepository {
     fun shouldReturnError(value: Boolean) {
         returnError = value
     }
+
     fun shouldReturnEmptyNonUnitBoxList(value: Boolean) {
         returnEmptyNonUnitBoxList = value
     }
+
     fun shouldReturnEmptyUnitBoxList(value: Boolean) {
         returnEmptyUnitBoxList = value
     }
@@ -101,6 +103,24 @@ class FakePandRepository : PandRepository {
                     it.name,
                     it.AIValue,
                     it.numberInBox,
+                    it.castle
+                )
+            })
+        }
+    }
+
+    override suspend fun getDwellingsByCastle(
+        castle: Int
+    ): Resource<List<Dwelling>> {
+        return if (returnError) {
+            Resource.error("Error", null)
+        } else {
+            Resource.success(fakeGuardDatabase.map {
+                Dwelling(
+                    it.dwellingName!!,
+                    it.name,
+                    it.AIValue,
+                    it.weeklyGain,
                     it.castle
                 )
             })
