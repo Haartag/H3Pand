@@ -18,8 +18,12 @@ interface PandDao {
     @Query("SELECT * FROM BoxDB WHERE (value BETWEEN :minValue AND :maxValue) ")
     suspend fun getNonUnitBoxesInRange(minValue: Int, maxValue: Int): List<BoxValueItem>
 
-    @Query("SELECT name, AIValue, numberInBox, castle FROM UnitDB WHERE " +
-            "((AIValue * numberInBox) BETWEEN :minValue AND :maxValue) AND castle = :castle ")
+    @Query(
+        "SELECT name, AIValue, numberInBox, castle FROM UnitDB WHERE " +
+                "((AIValue * numberInBox) BETWEEN :minValue AND :maxValue) AND castle = :castle "
+    )
     suspend fun getUnitBoxesInRange(minValue: Int, maxValue: Int, castle: Int): List<UnitBox>
 
+    @Query("SELECT * FROM UnitDB WHERE castle = :castle AND dwellingName IS NOT NULL")
+    suspend fun getDwellingsByCastle(castle: Int): List<Dwelling>
 }

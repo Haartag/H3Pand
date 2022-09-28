@@ -11,28 +11,12 @@ data class UnitItem(
     @ColumnInfo val AIValue: Int,
     @ColumnInfo val minOnMap: Int,
     @ColumnInfo val maxOnMap: Int,
+    @ColumnInfo val weeklyGain: Int,
     @ColumnInfo val numberInBox: Int,
+    @ColumnInfo val dwellingName: String?,
     @ColumnInfo val castle: Int,
     @ColumnInfo val img: String,
-) {
-/*    fun UnitItem.getGuard(): Guard {
-        return Guard(
-            name = this.name,
-            AIValue = this.AIValue,
-            minOnMap = this.minOnMap,
-            maxOnMap = this.maxOnMap
-        )
-    }
-
-    fun UnitItem.getUnitBox(): UnitBox {
-        return UnitBox(
-            name = this.name,
-            AIValue = this.AIValue,
-            numberInBox = this.numberInBox,
-            castle = this.castle
-        )
-    }*/
-}
+)
 
 data class Guard(
     val name: String,
@@ -45,6 +29,14 @@ data class UnitBox(
     val name: String,
     val AIValue: Int,
     val numberInBox: Int,
+    val castle: Int,
+)
+
+data class Dwelling(
+    val dwellingName: String,
+    val name: String,
+    val AIValue: Int,
+    val weeklyGain: Int,
     val castle: Int,
 )
 

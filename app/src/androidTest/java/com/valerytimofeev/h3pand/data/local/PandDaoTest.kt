@@ -70,7 +70,7 @@ class PandDaoTest {
     fun getAdditionalValuesList_returnCorrectAdditionalValueItemAndListSize() = runTest {
         val result = dao.getAdditionalValuesList("Bank")
         assertThat(result[0]).isEqualTo(
-            AdditionalValueItem(id=31, name="Crypt", value=1000, type="Bank", castle=0)
+            AdditionalValueItem(id=31, name="Crypt", value=1000, type="Bank", subtype = "", castle=0)
         )
         assertThat(result.size).isEqualTo(20)
     }
@@ -79,6 +79,12 @@ class PandDaoTest {
     fun getAdditionalValuesList_invalidType_returnEmptyList() = runTest {
         val result = dao.getAdditionalValuesList("TestType")
         assertThat(result).isEmpty()
+    }
+
+    @Test
+    fun getAdditionalValuesList_returnValidSubtype() = runTest {
+        val result = dao.getAdditionalValuesList("Artifact")
+        assertThat(result[0].subtype).isEqualTo("Treasure artifact")
     }
 
 
@@ -160,6 +166,18 @@ class PandDaoTest {
         val castle = 20
         val result = dao.getUnitBoxesInRange(minRange, maxRange, castle)
 
+        assertThat(result).isEmpty()
+    }
+
+    @Test
+    fun getDwellings_validInput() = runTest {
+        val result = dao.getDwellingsByCastle(1)
+        assertThat(result[0]).isEqualTo(Dwelling("Guardhouse", "Pikeman", 80, 14, 1))
+    }
+
+    @Test
+    fun getDwellings_invalidCastle_returnEmptyList() = runTest {
+        val result = dao.getDwellingsByCastle(20)
         assertThat(result).isEmpty()
     }
 }

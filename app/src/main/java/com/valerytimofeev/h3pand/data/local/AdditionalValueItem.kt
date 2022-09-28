@@ -10,5 +10,6 @@ data class AdditionalValueItem(
     @ColumnInfo val name: String,
     @ColumnInfo val value: Int,
     @ColumnInfo val type: String,
+    @ColumnInfo val subtype: String?,
     @ColumnInfo val castle: Int
 )
