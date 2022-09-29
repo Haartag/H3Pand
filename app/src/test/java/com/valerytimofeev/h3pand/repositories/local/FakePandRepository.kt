@@ -112,18 +112,23 @@ class FakePandRepository : PandRepository {
     override suspend fun getDwellingsByCastle(
         castle: Int
     ): Resource<List<Dwelling>> {
+        val result = fakeGuardDatabase.filter { it.castle == castle }.map {
+            Dwelling(
+                it.dwellingName!!,
+                it.name,
+                it.AIValue,
+                it.weeklyGain,
+                it.castle
+            )
+        }
+        if (result.isEmpty()) return Resource.error(
+            "An unknown database error occurred: database_5.0",
+            null
+        )
         return if (returnError) {
             Resource.error("Error", null)
         } else {
-            Resource.success(fakeGuardDatabase.map {
-                Dwelling(
-                    it.dwellingName!!,
-                    it.name,
-                    it.AIValue,
-                    it.weeklyGain,
-                    it.castle
-                )
-            })
+            Resource.success(result)
         }
     }
 }
