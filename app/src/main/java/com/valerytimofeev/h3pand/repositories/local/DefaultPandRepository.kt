@@ -53,9 +53,12 @@ class DefaultPandRepository @Inject constructor(
         }
     }
 
-    override suspend fun getAdditionalValuesList(type: String): Resource<List<AdditionalValueItem>> {
+    override suspend fun getAdditionalValuesList(
+        type: String,
+        subtype: String
+    ): Resource<List<AdditionalValueItem>> {
         return try {
-            val addValuesList = pandDao.getAdditionalValuesList(type)
+            val addValuesList = pandDao.getAdditionalValuesList(type, subtype)
             if (addValuesList.isEmpty()) return Resource.error(
                 "An unknown database error occurred: database_2.4",
                 null

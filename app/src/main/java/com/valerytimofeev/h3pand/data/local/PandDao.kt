@@ -15,8 +15,8 @@ interface PandDao {
     @Query("SELECT DISTINCT subtype FROM AdditionalDB WHERE type = :type")
     suspend fun getAdditionalValueSubtypesList(type: String): List<String>
 
-    @Query("SELECT * FROM AdditionalDB WHERE type = :type")
-    suspend fun getAdditionalValuesList(type: String): List<AdditionalValueItem>
+    @Query("SELECT * FROM AdditionalDB WHERE type = :type AND subtype = :subtype")
+    suspend fun getAdditionalValuesList(type: String, subtype: String): List<AdditionalValueItem>
 
     @Query("SELECT * FROM BoxDB WHERE (value BETWEEN :minValue AND :maxValue) ")
     suspend fun getNonUnitBoxesInRange(minValue: Int, maxValue: Int): List<BoxValueItem>

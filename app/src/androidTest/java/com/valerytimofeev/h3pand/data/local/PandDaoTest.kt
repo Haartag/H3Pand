@@ -47,7 +47,7 @@ class PandDaoTest {
     fun getAllGuardList_returnCorrectGuardAndListSize() = runTest {
         val result = dao.getAllGuardsList(5)
         assertThat(result[0]).isEqualTo(
-            Guard(name="Gnoll", AIValue=56, minOnMap=20, maxOnMap=50)
+            Guard(name = "Gnoll", AIValue = 56, minOnMap = 20, maxOnMap = 50)
         )
         assertThat(result.size).isEqualTo(14)
     }
@@ -67,7 +67,7 @@ class PandDaoTest {
     }
 
     @Test
-    fun getAdditionalValueSubtypesList_returnCorrectTypes() = runTest {
+    fun getAdditionalValueSubtypesList_returnCorrectSubtypes() = runTest {
         val result = dao.getAdditionalValueSubtypesList("Artifact")
         assertThat(result).isEqualTo(
             listOf("Treasure artifact", "Minor artifact", "Major artifact", "Relic artifact")
@@ -84,26 +84,37 @@ class PandDaoTest {
 
     @Test
     fun getAdditionalValuesList_returnCorrectAdditionalValueItemAndListSize() = runTest {
-        val result = dao.getAdditionalValuesList("Bank")
+        val result = dao.getAdditionalValuesList("Bank", "Artifact bank")
         assertThat(result[0]).isEqualTo(
-            AdditionalValueItem(id=31, name="Crypt", value=1000, type="Bank", subtype = "", castle=0)
+            AdditionalValueItem(
+                id = 31,
+                name = "Crypt",
+                value = 1000,
+                type = "Bank",
+                subtype = "Artifact bank",
+                castle = 0
+            )
         )
-        assertThat(result.size).isEqualTo(20)
+        assertThat(result.size).isEqualTo(5)
     }
 
     @Test
     fun getAdditionalValuesList_invalidType_returnEmptyList() = runTest {
-        val result = dao.getAdditionalValuesList("TestType")
+        val result = dao.getAdditionalValuesList("TestType", "")
+        assertThat(result).isEmpty()
+    }
+
+    @Test
+    fun getAdditionalValuesList_invalidSubtype_returnEmptyList() = runTest {
+        val result = dao.getAdditionalValuesList("Bank", "Test subtype")
         assertThat(result).isEmpty()
     }
 
     @Test
     fun getAdditionalValuesList_returnValidSubtype() = runTest {
-        val result = dao.getAdditionalValuesList("Artifact")
+        val result = dao.getAdditionalValuesList("Artifact", "Treasure artifact")
         assertThat(result[0].subtype).isEqualTo("Treasure artifact")
     }
-
-
 
     @Test
     fun getNonUnitBoxes_validInput() = runTest {
