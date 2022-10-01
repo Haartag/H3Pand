@@ -9,6 +9,9 @@ interface PandDao {
     @Query("SELECT name, AIValue, minOnMap, maxOnMap FROM UnitDB WHERE castle = :castle")
     suspend fun getAllGuardsList(castle: Int): List<Guard>
 
+    @Query("SELECT * FROM AdditionalDB")
+    suspend fun getFullAdditionalValueList(): List<AdditionalValueItem>
+
     @Query("SELECT DISTINCT type FROM AdditionalDB")
     suspend fun getAdditionalValueTypesList(): List<String>
 

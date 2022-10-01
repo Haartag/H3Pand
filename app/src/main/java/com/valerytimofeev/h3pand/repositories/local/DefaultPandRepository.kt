@@ -23,6 +23,21 @@ class DefaultPandRepository @Inject constructor(
         }
     }
 
+    override suspend fun getFullAdditionalValueList(): Resource<List<AdditionalValueItem>> {
+        return try {
+            val fullAddValueList = pandDao.getFullAdditionalValueList()
+            if (fullAddValueList.isEmpty()) return Resource.error(
+                "An unknown database error occurred: database_1.2",
+                null
+            )
+            fullAddValueList.let {
+                return@let Resource.success(it)
+            }
+        } catch (e: Exception) {
+            Resource.error("An unknown database error occurred: database_1.3", null)
+        }
+    }
+
     override suspend fun getAdditionalValueTypesList(): Resource<List<String>> {
         return try {
             val addValueTypesList = pandDao.getAdditionalValueTypesList()

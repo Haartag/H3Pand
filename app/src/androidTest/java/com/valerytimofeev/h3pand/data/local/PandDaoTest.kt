@@ -59,6 +59,15 @@ class PandDaoTest {
     }
 
     @Test
+    fun getFullAdditionalValueList_returnCorrectAddValueAndListSize() = runTest {
+        val result = dao.getFullAdditionalValueList()
+        assertThat(result[0]).isEqualTo(
+            AdditionalValueItem(1, "Altar of sacrifice", 100, "Misc.", "Expirience", 0)
+        )
+        assertThat(result.size).isEqualTo(231)
+    }
+
+    @Test
     fun getAdditionalValueTypesList_returnCorrectTypes() = runTest {
         val result = dao.getAdditionalValueTypesList()
         assertThat(result).isEqualTo(

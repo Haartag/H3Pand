@@ -8,6 +8,8 @@ interface PandRepository {
 
     suspend fun getAllGuardsList(castle: Int): Resource<List<Guard>>
 
+    suspend fun getFullAdditionalValueList(): Resource<List<AdditionalValueItem>>
+
     suspend fun getAdditionalValueTypesList(): Resource<List<String>>
 
     suspend fun getAdditionalValueSubtypesList(type: String): Resource<List<String>>
