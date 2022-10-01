@@ -10,6 +10,8 @@ interface PandRepository {
 
     suspend fun getAdditionalValueTypesList(): Resource<List<String>>
 
+    suspend fun getAdditionalValueSubtypesList(type: String): Resource<List<String>>
+
     suspend fun getAdditionalValuesList(type: String): Resource<List<AdditionalValueItem>>
 
     suspend fun getNonUnitBoxesInRange(minValue: Int, maxValue: Int): Resource<List<BoxValueItem>>

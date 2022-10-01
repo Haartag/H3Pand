@@ -12,7 +12,7 @@ class FakePandRepository : PandRepository {
     )
 
     private val fakeAdditionalValueDatabase = listOf<AdditionalValueItem>(
-        AdditionalValueItem(1, "add name 1", 1400, "Misc.", "Trade", 0),
+        AdditionalValueItem(1, "add name 1", 1400, "Misc.", "Morale/Luck", 0),
         AdditionalValueItem(2, "add name 2", 2000, "Misc.", "Trade", 0),
         AdditionalValueItem(3, "add name 3", 5000, "Misc.", "Trade", 0),
     )
@@ -63,6 +63,14 @@ class FakePandRepository : PandRepository {
             Resource.error("Error", null)
         } else {
             Resource.success(fakeAdditionalValueDatabase.map { it.type })
+        }
+    }
+
+    override suspend fun getAdditionalValueSubtypesList(type: String): Resource<List<String>> {
+        return if (returnError) {
+            Resource.error("Error", null)
+        } else {
+            Resource.success(fakeAdditionalValueDatabase.filter { it.type == type }.map { it.subtype!! })
         }
     }
 

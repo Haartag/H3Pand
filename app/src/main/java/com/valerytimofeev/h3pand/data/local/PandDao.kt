@@ -12,6 +12,9 @@ interface PandDao {
     @Query("SELECT DISTINCT type FROM AdditionalDB")
     suspend fun getAdditionalValueTypesList(): List<String>
 
+    @Query("SELECT DISTINCT subtype FROM AdditionalDB WHERE type = :type")
+    suspend fun getAdditionalValueSubtypesList(type: String): List<String>
+
     @Query("SELECT * FROM AdditionalDB WHERE type = :type")
     suspend fun getAdditionalValuesList(type: String): List<AdditionalValueItem>
 
