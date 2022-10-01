@@ -5,19 +5,19 @@ import com.valerytimofeev.h3pand.utils.Resource
 
 class FakePandRepository : PandRepository {
 
-    private val fakeGuardDatabase = listOf<UnitItem>(
+    private val fakeGuardDatabase = listOf(
         UnitItem(1, "test name 1", 80, 20, 50, 15, 80, "test dwelling 1", 1, "img1"),
         UnitItem(2, "test name 2", 250, 12, 25, 7, 30, "test dwelling 2", 3, "img2"),
         UnitItem(3, "test name 3", 1068, 8, 12, 3, 15, "test dwelling 3", 5, "img3"),
     )
 
-    private val fakeAdditionalValueDatabase = listOf<AdditionalValueItem>(
+    private val fakeAdditionalValueDatabase = listOf(
         AdditionalValueItem(1, "add name 1", 1400, "Misc.", "Morale/Luck", 0),
         AdditionalValueItem(2, "add name 2", 2000, "Misc.", "Trade", 0),
         AdditionalValueItem(3, "add name 3", 5000, "Misc.", "Trade", 0),
     )
 
-    private val fakeBoxValueDatabase = listOf<BoxValueItem>(
+    private val fakeBoxValueDatabase = listOf(
         BoxValueItem(1, "item 1", 5000, img = "img"),
         BoxValueItem(2, "item 2", 7500, img = "img"),
         BoxValueItem(3, "item 3", 10000, img = "img"),
@@ -58,6 +58,14 @@ class FakePandRepository : PandRepository {
         }
     }
 
+    override suspend fun getFullAdditionalValueList(): Resource<List<AdditionalValueItem>> {
+        return if (returnError) {
+            Resource.error("Error", null)
+        } else {
+            Resource.success(fakeAdditionalValueDatabase)
+        }
+    }
+
     override suspend fun getAdditionalValueTypesList(): Resource<List<String>> {
         return if (returnError) {
             Resource.error("Error", null)
@@ -70,15 +78,21 @@ class FakePandRepository : PandRepository {
         return if (returnError) {
             Resource.error("Error", null)
         } else {
-            Resource.success(fakeAdditionalValueDatabase.filter { it.type == type }.map { it.subtype!! })
+            Resource.success(fakeAdditionalValueDatabase.filter { it.type == type }
+                .map { it.subtype })
         }
     }
 
-    override suspend fun getAdditionalValuesList(type: String): Resource<List<AdditionalValueItem>> {
+    override suspend fun getAdditionalValuesList(
+        type: String,
+        subtype: String
+    ): Resource<List<AdditionalValueItem>> {
         return if (returnError) {
             Resource.error("Error", null)
         } else {
-            Resource.success(fakeAdditionalValueDatabase.filter { it.type == type })
+            Resource.success(fakeAdditionalValueDatabase
+                .filter { it.type == type }
+                .filter { it.subtype == subtype })
         }
     }
 
