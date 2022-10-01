@@ -67,6 +67,22 @@ class PandDaoTest {
     }
 
     @Test
+    fun getAdditionalValueSubtypesList_returnCorrectTypes() = runTest {
+        val result = dao.getAdditionalValueSubtypesList("Artifact")
+        assertThat(result).isEqualTo(
+            listOf("Treasure artifact", "Minor artifact", "Major artifact", "Relic artifact")
+        )
+    }
+
+    @Test
+    fun getAdditionalValueSubtypesList_invalidInput() = runTest {
+        val result = dao.getAdditionalValueSubtypesList("Test type")
+        assertThat(result).isEqualTo(
+            listOf<String>()
+        )
+    }
+
+    @Test
     fun getAdditionalValuesList_returnCorrectAdditionalValueItemAndListSize() = runTest {
         val result = dao.getAdditionalValuesList("Bank")
         assertThat(result[0]).isEqualTo(
