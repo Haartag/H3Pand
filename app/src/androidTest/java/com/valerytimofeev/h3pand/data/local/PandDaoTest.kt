@@ -47,7 +47,7 @@ class PandDaoTest {
     fun getAllGuardList_returnCorrectGuardAndListSize() = runTest {
         val result = dao.getAllGuardsList(5)
         assertThat(result[0]).isEqualTo(
-            Guard(name = "Gnoll", AIValue = 56, minOnMap = 20, maxOnMap = 50)
+            Guard(name = "Gnoll", AIValue = 56, minOnMap = 20, maxOnMap = 50, img = "Pawn")
         )
         assertThat(result.size).isEqualTo(14)
     }
@@ -168,9 +168,9 @@ class PandDaoTest {
 
         assertThat(result).isEqualTo(
             listOf(
-                UnitBox(name = "Infernal troglodyte", AIValue = 84, numberInBox = 60, castle = 4),
-                UnitBox(name = "Harpy", AIValue = 154, numberInBox = 45, castle = 4),
-                UnitBox(name = "Harpy hag", AIValue = 238, numberInBox = 30, castle = 4),
+                UnitBox(name = "Infernal troglodyte", AIValue = 84, numberInBox = 60, castle = 4, img = "Pawn"),
+                UnitBox(name = "Harpy", AIValue = 154, numberInBox = 45, castle = 4, img = "Pawn"),
+                UnitBox(name = "Harpy hag", AIValue = 238, numberInBox = 30, castle = 4, img = "Pawn"),
             )
         )
     }

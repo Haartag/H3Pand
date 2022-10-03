@@ -23,6 +23,7 @@ data class Guard(
     val AIValue: Int,
     val minOnMap: Int,
     val maxOnMap: Int,
+    val img: String
 )
 
 data class UnitBox(
@@ -30,6 +31,7 @@ data class UnitBox(
     val AIValue: Int,
     val numberInBox: Int,
     val castle: Int,
+    val img: String
 )
 
 data class Dwelling(

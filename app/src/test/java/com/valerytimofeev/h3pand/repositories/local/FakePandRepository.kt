@@ -52,7 +52,8 @@ class FakePandRepository : PandRepository {
                     it.name,
                     it.AIValue,
                     it.minOnMap,
-                    it.maxOnMap
+                    it.maxOnMap,
+                    it.img
                 )
             })
         }
@@ -125,7 +126,8 @@ class FakePandRepository : PandRepository {
                     it.name,
                     it.AIValue,
                     it.numberInBox,
-                    it.castle
+                    it.castle,
+                    it.img
                 )
             })
         }
