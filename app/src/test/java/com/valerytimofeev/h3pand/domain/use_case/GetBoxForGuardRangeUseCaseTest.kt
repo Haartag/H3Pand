@@ -54,7 +54,7 @@ class GetBoxForGuardRangeUseCaseTest {
                     BoxValueItem(id = 1, boxContent = "item 1", value = 5000, img = "img"),
                     BoxValueItem(id = 2, boxContent = "item 2", value = 7500, img = "img"),
                     BoxValueItem(id = 3, boxContent = "item 3", value = 10000, img = "img"),
-                    BoxValueItem(id = 0, boxContent = "test name 1 80", value = 7680, img = "img")
+                    BoxValueItem(id = 0, boxContent = "test name 1 80", value = 7680, img = "img1")
                 )
             )
         )
@@ -74,7 +74,7 @@ class GetBoxForGuardRangeUseCaseTest {
                     BoxValueItem(id = 1, boxContent = "item 1", value = 5000, img = "img"),
                     BoxValueItem(id = 2, boxContent = "item 2", value = 7500, img = "img"),
                     BoxValueItem(id = 3, boxContent = "item 3", value = 10000, img = "img"),
-                    BoxValueItem(id=0, boxContent="test name 2 30", value=9000, img="img")
+                    BoxValueItem(id=0, boxContent="test name 2 30", value=9000, img="img2")
                 )
             )
         )
@@ -118,7 +118,7 @@ class GetBoxForGuardRangeUseCaseTest {
         assertThat(result).isEqualTo(
             Resource.success(
                 listOf(
-                    BoxValueItem(id = 0, boxContent = "test name 1 80", value = 7680, img = "img")
+                    BoxValueItem(id = 0, boxContent = "test name 1 80", value = 7680, img = "img1")
                 )
             )
         )
@@ -166,7 +166,7 @@ class GetBoxForGuardRangeUseCaseTest {
 
         assertThat(result).isEqualTo(
             listOf(
-                BoxValueItem(id=0, boxContent="test name 2 30", value=9000, img="img")
+                BoxValueItem(id=0, boxContent="test name 2 30", value=9000, img="img2")
             )
         )
     }
@@ -186,7 +186,7 @@ class GetBoxForGuardRangeUseCaseTest {
         assertThat(result).isEqualTo(
             Resource.success(
                 listOf(
-                    BoxValueItem(id = 0, boxContent = "test name 1 80", value = 8960, img = "img")
+                    BoxValueItem(id = 0, boxContent = "test name 1 80", value = 8960, img = "img1")
                 )
             )
         )
@@ -207,7 +207,7 @@ class GetBoxForGuardRangeUseCaseTest {
         assertThat(result).isEqualTo(
             Resource.success(
                 listOf(
-                    BoxValueItem(id = 0, boxContent = "test name 1 80", value = 12800, img = "img")
+                    BoxValueItem(id = 0, boxContent = "test name 1 80", value = 12800, img = "img1")
                 )
             )
         )

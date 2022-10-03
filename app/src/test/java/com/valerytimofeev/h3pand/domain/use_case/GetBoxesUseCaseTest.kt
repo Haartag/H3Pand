@@ -48,7 +48,7 @@ class GetBoxesUseCaseTest {
     @Test
     fun `Get Boxes, valid input, returns success`() = runTest {
 
-        val guardUnit = Guard("testUnit", 201, 20, 30)
+        val guardUnit = Guard("testUnit", 201, 20, 30, "img")
         val result = getBox.invoke(
             guardUnit = guardUnit,
             castle = 1,
@@ -63,7 +63,7 @@ class GetBoxesUseCaseTest {
         assertThat(result).isEqualTo(
             Resource.success(listOf<BoxWithDropPercent>(
                 BoxWithDropPercent(name="item 2", dropChance=47.1, range=24..40, img="img"),
-                BoxWithDropPercent(name="test name 1 80", dropChance=47.1, range=26..42, img="img"),
+                BoxWithDropPercent(name="test name 1 80", dropChance=47.1, range=26..42, img="img1"),
                 BoxWithDropPercent(name="item 3", dropChance=5.9, range=43..49, img="img")
             ))
         )
@@ -72,7 +72,7 @@ class GetBoxesUseCaseTest {
     @Test
     fun `Get Boxes, valid input, 1-4 guard range, returns success`() = runTest {
 
-        val guardUnit = Guard("testUnit", 6000, 3, 8)
+        val guardUnit = Guard("testUnit", 6000, 3, 8, "img")
         val result = getBox.invoke(
             guardUnit = guardUnit,
             castle = 5,
@@ -94,7 +94,7 @@ class GetBoxesUseCaseTest {
     @Test
     fun `Get Boxes, valid input, week correction, returns success`() = runTest {
 
-        val guardUnit = Guard("testUnit", 201, 20, 30)
+        val guardUnit = Guard("testUnit", 201, 20, 30, "img")
         val result = getBox.invoke(
             guardUnit = guardUnit,
             castle = 1,
@@ -109,7 +109,7 @@ class GetBoxesUseCaseTest {
         assertThat(result).isEqualTo(
             Resource.success(listOf<BoxWithDropPercent>(
                 BoxWithDropPercent(name="item 2", dropChance=50.9, range=30..49, img="img"),
-                BoxWithDropPercent(name="test name 1 80", dropChance=49.1, range=32..49, img="img")
+                BoxWithDropPercent(name="test name 1 80", dropChance=49.1, range=32..49, img="img1")
             ))
         )
     }
@@ -117,7 +117,7 @@ class GetBoxesUseCaseTest {
     @Test
     fun `Get Boxes, valid input, too big week correction, returns error`() = runTest {
 
-        val guardUnit = Guard("testUnit", 201, 20, 30)
+        val guardUnit = Guard("testUnit", 201, 20, 30, "img")
         val result = getBox.invoke(
             guardUnit = guardUnit,
             castle = 1,
@@ -135,7 +135,7 @@ class GetBoxesUseCaseTest {
     @Test
     fun `Get Boxes, additional value, returns success`() = runTest {
 
-        val guardUnit = Guard("testUnit", 201, 20, 30)
+        val guardUnit = Guard("testUnit", 201, 20, 30, "img")
         val result = getBox.invoke(
             guardUnit = guardUnit,
             castle = 1,
@@ -157,7 +157,7 @@ class GetBoxesUseCaseTest {
     @Test
     fun `Get Boxes, too big additional value, returns error`() = runTest {
 
-        val guardUnit = Guard("testUnit", 201, 20, 30)
+        val guardUnit = Guard("testUnit", 201, 20, 30, "img")
         val result = getBox.invoke(
             guardUnit = guardUnit,
             castle = 1,
@@ -174,7 +174,7 @@ class GetBoxesUseCaseTest {
     @Test
     fun `Get Boxes, additional value and week correction, returns success`() = runTest {
 
-        val guardUnit = Guard("testUnit", 201, 20, 30)
+        val guardUnit = Guard("testUnit", 201, 20, 30, "img")
         val result = getBox.invoke(
             guardUnit = guardUnit,
             castle = 1,
@@ -195,7 +195,7 @@ class GetBoxesUseCaseTest {
     @Test
     fun `Get Boxes, too big additional value and week correction, returns success`() = runTest {
 
-        val guardUnit = Guard("testUnit", 201, 20, 30)
+        val guardUnit = Guard("testUnit", 201, 20, 30, "img")
         val result = getBox.invoke(
             guardUnit = guardUnit,
             castle = 1,
