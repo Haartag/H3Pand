@@ -5,7 +5,7 @@ import com.valerytimofeev.h3pand.R
 import com.valerytimofeev.h3pand.ui.theme.ExpColor
 import com.valerytimofeev.h3pand.ui.theme.GoldColor
 import com.valerytimofeev.h3pand.ui.theme.SpellColor
-import javax.inject.Inject
+import com.valerytimofeev.h3pand.ui.theme.UnitColor
 
 class GetItemImageAndColorUseCase (
     val itemImage: String
@@ -21,7 +21,12 @@ class GetItemImageAndColorUseCase (
             "earth" -> R.drawable.item_earth
             "fire" -> R.drawable.item_fire
             "water" -> R.drawable.item_water
-            else -> R.drawable.placeholder
+            "Pawn" -> R.drawable.item_pawn
+            "Knight" -> R.drawable.item_knight
+            "Rook" -> R.drawable.item_rook
+            "Queen" -> R.drawable.item_queen
+            "King" -> R.drawable.item_king
+            else -> R.drawable.ic_dice
         }
     }
     fun getItemColor(): Color {
@@ -35,6 +40,11 @@ class GetItemImageAndColorUseCase (
             "earth" -> SpellColor
             "fire" -> SpellColor
             "water" -> SpellColor
+            "Pawn" -> UnitColor
+            "Knight" -> UnitColor
+            "Rook" -> UnitColor
+            "Queen" -> UnitColor
+            "King" -> UnitColor
             else -> Color.White
         }
     }
