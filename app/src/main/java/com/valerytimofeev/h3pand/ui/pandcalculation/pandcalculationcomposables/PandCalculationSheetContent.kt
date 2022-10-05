@@ -72,7 +72,7 @@ fun SheetChooseUnit(
     ) {
         val painter = rememberAsyncImagePainter(
             ImageRequest.Builder(LocalContext.current)
-                .data(data = R.drawable.placeholder)
+                .data(data = viewModel.currentImg.value)
                 .scale(scale = Scale.FILL)
                 .build()
         )
@@ -82,8 +82,7 @@ fun SheetChooseUnit(
                 .padding(horizontal = 24.dp)
                 .clickable {
                     viewModel.closeError()
-                    viewModel.guardDialogStage.value = 0
-                    viewModel.guardDialogOpened.value = true
+                    viewModel.setDialogState("GuardStageOne")
                 },
             contentAlignment = Alignment.Center
         ) {
@@ -91,7 +90,7 @@ fun SheetChooseUnit(
                 painter = painter,
                 contentDescription = "placeholder",
                 contentScale = ContentScale.Fit,
-                modifier = Modifier
+                modifier = Modifier,
             )
             Box(
                 modifier = Modifier
@@ -100,7 +99,7 @@ fun SheetChooseUnit(
                         CastleSettings
                             .values()
                             .find { it.id == viewModel.chosenCastleZone.value }?.sheetColor?.copy(
-                                alpha = 0.5f
+                                alpha = 0.6f
                             )
                             ?: MaterialTheme.colors.secondary,
                     )
@@ -174,11 +173,12 @@ fun SheetAdditionalValue(
                                                 defaultValue = 0
                                             ) == 0
                                         ) {
-                                            Color.Yellow
+                                            Color.Gray
                                         } else {
                                             Color.Red
                                         }
                                     )
+
                                     .clickable {
                                         viewModel.closeError()
                                         if (viewModel.additionalValueMap.getOrDefault(
@@ -188,13 +188,30 @@ fun SheetAdditionalValue(
                                         ) {
                                             viewModel.getAdditionalValueTypesList()
                                             viewModel.clickedAddValue.value = row * 4 + column
-                                            viewModel.addValueDialogOpened.value = true
+                                            viewModel.setDialogState("AddValueStageOne")
                                         } else {
                                             viewModel.additionalValueMap[row * 4 + column] = 0
+                                            viewModel.dwellingMap.remove(row * 4 + column)
                                             viewModel.getBoxesList()
                                         }
                                     }
-                            )
+                            ) {
+                                val painter = rememberAsyncImagePainter(
+                                    ImageRequest.Builder(LocalContext.current)
+                                        /*.data(
+                                            data = CastleSettings.values()
+                                                .find { it.id == viewModel.chosenCastleZone.value }?.img
+                                        )*/
+                                        .data(R.drawable.ic_question)
+                                        .scale(scale = Scale.FILL)
+                                        .build()
+                                )
+                                Image(
+                                    painter = painter,
+                                    contentDescription = "placeholder",
+                                    contentScale = ContentScale.Fit,
+                                )
+                            }
                         }
                     }
                 }
@@ -245,9 +262,9 @@ fun SheetChooseCastleNumber(
             },
             onValueChangeFinished = {
                 viewModel.closeError()
+                viewModel.updateDwellings()
                 viewModel.getBoxesList()
             }
-
         )
     }
 }
@@ -317,8 +334,7 @@ fun SheetChooseZoneCastle(
                     .padding(horizontal = 24.dp)
                     .clickable {
                         viewModel.closeError()
-                        viewModel.castleZoneDialogStage.value = 0
-                        viewModel.castleZoneDialogOpened.value = true
+                        viewModel.setDialogState("CastleZoneDialog")
                     }
             )
         }
