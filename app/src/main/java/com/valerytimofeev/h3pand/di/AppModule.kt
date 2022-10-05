@@ -4,13 +4,9 @@ import android.content.Context
 import androidx.room.Room
 import com.valerytimofeev.h3pand.data.local.PandDao
 import com.valerytimofeev.h3pand.data.local.PandDatabase
-import com.valerytimofeev.h3pand.domain.use_case.GetBoxForGuardRangeUseCase
-import com.valerytimofeev.h3pand.domain.use_case.GetBoxWithPercentUseCase
-import com.valerytimofeev.h3pand.domain.use_case.GetGuardCharacteristicsUseCase
+import com.valerytimofeev.h3pand.domain.use_case.*
 import com.valerytimofeev.h3pand.repositories.local.DefaultPandRepository
 import com.valerytimofeev.h3pand.repositories.local.PandRepository
-import com.valerytimofeev.h3pand.utils.GuardCharacteristics
-import com.valerytimofeev.h3pand.utils.Resource
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -62,5 +58,17 @@ object AppModule {
     @Provides
     fun provideGetBoxWithPercentUseCase(): GetBoxWithPercentUseCase {
         return GetBoxWithPercentUseCase()
+    }
+
+    @Singleton
+    @Provides
+    fun provideChooseDialogContentUseCase(): ChooseDialogContentUseCase {
+        return ChooseDialogContentUseCase()
+    }
+
+    @Singleton
+    @Provides
+    fun provideGetDwellingValueUseCase(): GetDwellingValueUseCase {
+        return GetDwellingValueUseCase()
     }
 }
