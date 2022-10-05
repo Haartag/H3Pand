@@ -26,9 +26,9 @@ fun ItemsList(
     screenHeight: Dp,
     viewModel: PandCalculationViewModel = hiltViewModel()
 ) {
-    Box(modifier = Modifier.height(screenHeight - 150.dp)) {
+    Box(modifier = Modifier.height(screenHeight - 133.dp)) {
         LazyColumn(contentPadding = PaddingValues(12.dp)) {
-            items(count = viewModel.list.size) {
+            items(count = viewModel.boxesWithPercents.size) {
                 ItemEntry(
                     itemIndex = it
                 )
@@ -62,7 +62,7 @@ fun ItemEntry(
         ) {
             Image(
                 painter = painter,
-                contentDescription = viewModel.list[itemIndex].name,
+                contentDescription = viewModel.boxesWithPercents[itemIndex].name,
                 contentScale = ContentScale.FillHeight,
                 alpha = 0.6f
             )
@@ -79,12 +79,12 @@ fun ItemEntry(
                 modifier = Modifier
                     .fillMaxHeight()
             ) {
-                Text(text = viewModel.list[itemIndex].name)
+                Text(text = viewModel.boxesWithPercents[itemIndex].name)
                 Text(
-                    text = viewModel.list[itemIndex].range.toString()
+                    text = viewModel.boxesWithPercents[itemIndex].range.toString()
                 )
             }
-            Text(text = viewModel.list[itemIndex].dropChance.toString())
+            Text(text = viewModel.boxesWithPercents[itemIndex].dropChance.toString())
         }
     }
     Spacer(modifier = Modifier.height(12.dp))
