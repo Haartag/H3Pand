@@ -99,7 +99,7 @@ class GetBoxForGuardRangeUseCase @Inject constructor(
             0,
             "${this.name} ${this.numberInBox}",
             ((this.AIValue * this.numberInBox) * unitCoefficient).roundToInt(),
-            "img"
+            img
         )
     }
 }
