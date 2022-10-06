@@ -28,7 +28,7 @@ class GetBoxWithPercentUseCaseTest() {
         val value = getBoxWithPercentUseCase(
             boxValueItem, guardValue, difficult, unitValue, week, chosenGuardRange, additionalValue
         )
-        assertThat(value.data).isEqualTo(BoxWithDropPercent(name="5000exp", dropChance=100.0, range = 20..32, img="exp"))
+        assertThat(value.data).isEqualTo(BoxWithDropPercent(name="5000exp", dropChance=100.0, mostLikelyGuard = 26, range = 20..32, img="exp"))
     }
 
     @Test
@@ -80,7 +80,7 @@ class GetBoxWithPercentUseCaseTest() {
         val value = getBoxWithPercentUseCase(
             boxValueItem, guardValue, difficult, unitValue, week, chosenGuardRange, additionalValue
         )
-        assertThat(value.data).isEqualTo(BoxWithDropPercent(name="5000exp", dropChance=100.0, range = 25..39, img="exp"))
+        assertThat(value.data).isEqualTo(BoxWithDropPercent(name="5000exp", dropChance=100.0, mostLikelyGuard = 32, range = 25..39, img="exp"))
     }
 
     @Test

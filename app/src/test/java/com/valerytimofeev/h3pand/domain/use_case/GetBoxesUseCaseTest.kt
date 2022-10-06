@@ -62,9 +62,9 @@ class GetBoxesUseCaseTest {
 
         assertThat(result).isEqualTo(
             Resource.success(listOf<BoxWithDropPercent>(
-                BoxWithDropPercent(name="item 2", dropChance=47.1, range=24..40, img="img"),
-                BoxWithDropPercent(name="test name 1 80", dropChance=47.1, range=26..42, img="img1"),
-                BoxWithDropPercent(name="item 3", dropChance=5.9, range=43..49, img="img")
+                BoxWithDropPercent(name="item 2", dropChance=47.1, mostLikelyGuard = 32, range=24..40, img="img"),
+                BoxWithDropPercent(name="test name 1 80", dropChance=47.1, mostLikelyGuard = 34, range=26..42, img="img1"),
+                BoxWithDropPercent(name="item 3", dropChance=5.9, mostLikelyGuard = 49, range=43..49, img="img")
             ))
         )
     }
@@ -86,7 +86,7 @@ class GetBoxesUseCaseTest {
 
         assertThat(result).isEqualTo(
             Resource.success(listOf<BoxWithDropPercent>(
-                BoxWithDropPercent(name="item 7", dropChance=100.0, range=4..4, img="img")
+                BoxWithDropPercent(name="item 7", dropChance=100.0, mostLikelyGuard = 4, range=4..4, img="img")
             ))
         )
     }
@@ -108,8 +108,8 @@ class GetBoxesUseCaseTest {
 
         assertThat(result).isEqualTo(
             Resource.success(listOf<BoxWithDropPercent>(
-                BoxWithDropPercent(name="item 2", dropChance=50.9, range=30..49, img="img"),
-                BoxWithDropPercent(name="test name 1 80", dropChance=49.1, range=32..49, img="img1")
+                BoxWithDropPercent(name="item 2", dropChance=50.9, mostLikelyGuard = 39, range=30..49, img="img"),
+                BoxWithDropPercent(name="test name 1 80", dropChance=49.1, mostLikelyGuard = 42, range=32..49, img="img1")
             ))
         )
     }
@@ -149,7 +149,7 @@ class GetBoxesUseCaseTest {
 
         assertThat(result).isEqualTo(
             Resource.success(listOf<BoxWithDropPercent>(
-                BoxWithDropPercent(name="item 1", dropChance=100.0, range=43..49, img="img"),
+                BoxWithDropPercent(name="item 1", dropChance=100.0, mostLikelyGuard = 49, range=43..49, img="img"),
             ))
         )
     }
@@ -187,7 +187,7 @@ class GetBoxesUseCaseTest {
         )
         assertThat(result).isEqualTo(
             Resource.success(listOf<BoxWithDropPercent>(
-                BoxWithDropPercent(name="item 1", dropChance=100.0, range=34..49, img="img"),
+                BoxWithDropPercent(name="item 1", dropChance=100.0, mostLikelyGuard = 45, range=34..49, img="img"),
             ))
         )
     }

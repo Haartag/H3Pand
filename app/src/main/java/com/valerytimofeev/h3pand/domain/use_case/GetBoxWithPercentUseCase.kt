@@ -47,6 +47,7 @@ class GetBoxWithPercentUseCase {
 
         val guards = mutableListOf<Int>()
         var summaryPercent = 0.0
+        var mostLikelyGuardNumber = 0 to 0.0
 
         /**
          * Adding all valid boxes to list and summing up their percentages
@@ -59,6 +60,9 @@ class GetBoxWithPercentUseCase {
                 ) {
                     summaryPercent += it.value
                     guards.add(it.key.weekCorrectionUndo(week))
+                    if (it.value > mostLikelyGuardNumber.second) {
+                        mostLikelyGuardNumber = it.key.weekCorrectionUndo(week) to it.value
+                    }
                     /**
                      * For some week values, the calculated upper range value will be less than
                      * the upper guardRange value (for example, 48 instead of 49, etc.).
@@ -84,6 +88,7 @@ class GetBoxWithPercentUseCase {
             BoxWithDropPercent(
                 boxValueItem.boxContent,
                 summaryPercent,
+                mostLikelyGuardNumber.first,
                 guards.first()..guards.last(),
                 boxValueItem.img
             )
