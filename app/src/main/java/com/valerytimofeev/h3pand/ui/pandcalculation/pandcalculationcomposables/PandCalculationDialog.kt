@@ -12,10 +12,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.valerytimofeev.h3pand.ui.pandcalculation.PandCalculationViewModel
+import com.valerytimofeev.h3pand.ui.theme.Typography
 import com.valerytimofeev.h3pand.utils.GuardRanges
 import com.valerytimofeev.h3pand.utils.Values
 
@@ -250,6 +252,18 @@ fun CastleZoneDialog(
     }
 }
 
+@Composable
+fun TextHeader(text: String) {
+    Text(
+        text = text,
+        textAlign = TextAlign.Center,
+        fontSize = 18.sp,
+        modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentHeight(),
+    )
+}
+
 
 @Composable
 fun DialogTextRow(
@@ -315,13 +329,13 @@ fun NoPaddingAlertDialog(
             ) {
                 title?.let {
                     CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.high) {
-                        val textStyle = MaterialTheme.typography.subtitle1
+                        val textStyle = Typography.body1
                         ProvideTextStyle(textStyle, it)
                     }
                 }
                 text?.let {
                     CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.high) {
-                        val textStyle = MaterialTheme.typography.subtitle1
+                        val textStyle = Typography.body1
                         ProvideTextStyle(textStyle, it)
                     }
                 }
