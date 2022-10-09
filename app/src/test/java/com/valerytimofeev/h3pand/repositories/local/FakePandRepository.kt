@@ -43,7 +43,23 @@ class FakePandRepository : PandRepository {
         returnEmptyUnitBoxList = value
     }
 
-    override suspend fun getAllGuardsList(castle: Int): Resource<List<Guard>> {
+    override suspend fun getGuardsByCastle(castle: Int): Resource<List<Guard>> {
+        return if (returnError) {
+            Resource.error("Error", null)
+        } else {
+            Resource.success(fakeGuardDatabase.filter { it.castle == castle }.map {
+                Guard(
+                    it.name,
+                    it.AIValue,
+                    it.minOnMap,
+                    it.maxOnMap,
+                    it.img
+                )
+            })
+        }
+    }
+
+    override suspend fun getAllGuards(): Resource<List<Guard>> {
         return if (returnError) {
             Resource.error("Error", null)
         } else {
