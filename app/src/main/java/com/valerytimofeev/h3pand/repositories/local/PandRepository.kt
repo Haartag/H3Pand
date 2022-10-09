@@ -6,7 +6,9 @@ import com.valerytimofeev.h3pand.utils.Resource
 
 interface PandRepository {
 
-    suspend fun getAllGuardsList(castle: Int): Resource<List<Guard>>
+    suspend fun getGuardsByCastle(castle: Int): Resource<List<Guard>>
+
+    suspend fun getAllGuards(): Resource<List<Guard>>
 
     suspend fun getFullAdditionalValueList(): Resource<List<AdditionalValueItem>>
 

@@ -8,7 +8,11 @@ import androidx.room.RewriteQueriesToDropUnusedColumns
 interface PandDao {
     @RewriteQueriesToDropUnusedColumns
     @Query("SELECT * FROM UnitDB WHERE castle = :castle")
-    suspend fun getAllGuardsList(castle: Int): List<Guard>
+    suspend fun getGuardsByCastle(castle: Int): List<Guard>
+
+    @RewriteQueriesToDropUnusedColumns
+    @Query("SELECT * FROM UnitDB")
+    suspend fun getAllGuards(): List<Guard>
 
     @Query("SELECT * FROM AdditionalDB")
     suspend fun getFullAdditionalValueList(): List<AdditionalValueItem>

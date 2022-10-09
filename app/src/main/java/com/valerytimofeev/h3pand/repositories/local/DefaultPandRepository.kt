@@ -8,9 +8,9 @@ class DefaultPandRepository @Inject constructor(
     private val pandDao: PandDao
 ) : PandRepository {
 
-    override suspend fun getAllGuardsList(castle: Int): Resource<List<Guard>> {
+    override suspend fun getGuardsByCastle(castle: Int): Resource<List<Guard>> {
         return try {
-            val guardList = pandDao.getAllGuardsList(castle)
+            val guardList = pandDao.getGuardsByCastle(castle)
             if (guardList.isEmpty()) return Resource.error(
                 "An unknown database error occurred: database_1.0",
                 null
@@ -23,18 +23,33 @@ class DefaultPandRepository @Inject constructor(
         }
     }
 
+    override suspend fun getAllGuards(): Resource<List<Guard>> {
+        return try {
+            val guardList = pandDao.getAllGuards()
+            if (guardList.isEmpty()) return Resource.error(
+                "An unknown database error occurred: database_1.2",
+                null
+            )
+            guardList.let {
+                return@let Resource.success(it)
+            }
+        } catch (e: Exception) {
+            Resource.error("An unknown database error occurred: database_1.3", null)
+        }
+    }
+
     override suspend fun getFullAdditionalValueList(): Resource<List<AdditionalValueItem>> {
         return try {
             val fullAddValueList = pandDao.getFullAdditionalValueList()
             if (fullAddValueList.isEmpty()) return Resource.error(
-                "An unknown database error occurred: database_1.2",
+                "An unknown database error occurred: database_1.4",
                 null
             )
             fullAddValueList.let {
                 return@let Resource.success(it)
             }
         } catch (e: Exception) {
-            Resource.error("An unknown database error occurred: database_1.3", null)
+            Resource.error("An unknown database error occurred: database_1.5", null)
         }
     }
 
