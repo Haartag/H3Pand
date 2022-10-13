@@ -1,6 +1,7 @@
 package com.valerytimofeev.h3pand.domain.use_case
 
 import com.valerytimofeev.h3pand.data.local.Dwelling
+import com.valerytimofeev.h3pand.utils.Resource
 import com.valerytimofeev.h3pand.utils.SpecialDwellings
 import kotlin.math.roundToInt
 
@@ -12,7 +13,8 @@ class GetDwellingValueUseCase {
         dwelling: Dwelling,
         numberOfZones: Float,
         numberOfUnitZones: Float,
-    ): Int {
+    ): Resource<Int> {
+        if (numberOfUnitZones > numberOfZones) return Resource.error("Error: wrong number of zones", null)
         //Dwelling value for multi-creature dwellings
         val specialDwellings = SpecialDwellings.values().map { it.dwellingName }
         if (specialDwellings.contains(dwelling.dwellingName)) {
@@ -23,7 +25,7 @@ class GetDwellingValueUseCase {
                 fullValue += (it.unitValue * (it.unitWeeklyGain * (1 + specialNumberOfUnitZones / numberOfZones) +
                         (numberOfUnitZones / 2))).roundToInt()
             }
-            return (fullValue / 2.0f).roundToInt()
+            return Resource.success((fullValue / 2.0f).roundToInt())
         }
 
         val unitAIValue = dwelling.AIValue
@@ -32,6 +34,6 @@ class GetDwellingValueUseCase {
                     (numberOfUnitZones / 2))
         //Tripple AIValue for some dwellings
         if (dwelling.dwellingName == "Estate" || dwelling.dwellingName == "Hovel") result = result.toInt() * 3.0f
-        return result.roundToInt()
+        return Resource.success(result.roundToInt())
     }
 }

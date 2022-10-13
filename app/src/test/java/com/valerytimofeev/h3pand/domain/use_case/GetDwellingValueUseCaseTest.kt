@@ -2,6 +2,7 @@ package com.valerytimofeev.h3pand.domain.use_case
 
 import com.google.common.truth.Truth.assertThat
 import com.valerytimofeev.h3pand.data.local.Dwelling
+import com.valerytimofeev.h3pand.utils.Status
 import org.junit.Before
 import org.junit.Test
 
@@ -26,7 +27,7 @@ class GetDwellingValueUseCaseTest {
             numberOfZones,
             numberOfUnitZones,
         )
-        assertThat(value).isEqualTo(1384)
+        assertThat(value.data).isEqualTo(1384)
     }
 
     @Test
@@ -41,7 +42,7 @@ class GetDwellingValueUseCaseTest {
             numberOfZones,
             numberOfUnitZones,
         )
-        assertThat(value).isEqualTo(8823)
+        assertThat(value.data).isEqualTo(8823)
     }
 
     @Test
@@ -56,7 +57,7 @@ class GetDwellingValueUseCaseTest {
             numberOfZones,
             numberOfUnitZones,
         )
-        assertThat(value).isEqualTo(1216)
+        assertThat(value.data).isEqualTo(1216)
     }
 
     @Test
@@ -71,7 +72,22 @@ class GetDwellingValueUseCaseTest {
             numberOfZones,
             numberOfUnitZones,
         )
-        assertThat(value).isEqualTo(1912)
+        assertThat(value.data).isEqualTo(1912)
+    }
+
+    @Test
+    fun `Get dwelling value, number of unit zones improperly modified, returns error`() {
+
+        val dwelling = Dwelling("Guardhouse", "Pikeman", 80, 14, 1)
+        val numberOfZones = 5.0f
+        val numberOfUnitZones = 6.0f
+
+        val value = getDwellingValueUseCase(
+            dwelling,
+            numberOfZones,
+            numberOfUnitZones,
+        )
+        assertThat(value.status).isEqualTo(Status.ERROR)
     }
 
     @Test
@@ -86,7 +102,7 @@ class GetDwellingValueUseCaseTest {
             numberOfZones,
             numberOfUnitZones,
         )
-        assertThat(value).isEqualTo(4580)
+        assertThat(value.data).isEqualTo(4580)
     }
 
     @Test
@@ -101,7 +117,7 @@ class GetDwellingValueUseCaseTest {
             numberOfZones,
             numberOfUnitZones,
         )
-        assertThat(value).isEqualTo(4903)
+        assertThat(value.data).isEqualTo(4903)
     }
 
     @Test
@@ -116,7 +132,7 @@ class GetDwellingValueUseCaseTest {
             numberOfZones,
             numberOfUnitZones,
         )
-        assertThat(value).isEqualTo(5623)
+        assertThat(value.data).isEqualTo(5623)
     }
 
     @Test
@@ -131,7 +147,7 @@ class GetDwellingValueUseCaseTest {
             numberOfZones,
             numberOfUnitZones,
         )
-        assertThat(value).isEqualTo(5809)
+        assertThat(value.data).isEqualTo(5809)
     }
 
 
