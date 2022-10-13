@@ -4,8 +4,8 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.google.common.truth.Truth.assertThat
 import com.valerytimofeev.h3pand.data.local.BoxValueItem
 import com.valerytimofeev.h3pand.repositories.local.FakePandRepository
-import com.valerytimofeev.h3pand.utils.Difficult
-import com.valerytimofeev.h3pand.utils.GuardCharacteristics
+import com.valerytimofeev.h3pand.domain.model.Difficult
+import com.valerytimofeev.h3pand.domain.model.GuardCharacteristics
 import com.valerytimofeev.h3pand.utils.Resource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi

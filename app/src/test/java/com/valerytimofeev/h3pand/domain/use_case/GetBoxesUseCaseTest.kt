@@ -3,7 +3,7 @@ package com.valerytimofeev.h3pand.domain.use_case
 import com.google.common.truth.Truth.assertThat
 import com.valerytimofeev.h3pand.data.local.Guard
 import com.valerytimofeev.h3pand.repositories.local.FakePandRepository
-import com.valerytimofeev.h3pand.utils.BoxWithDropPercent
+import com.valerytimofeev.h3pand.domain.model.BoxWithDropPercent
 import com.valerytimofeev.h3pand.utils.Resource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
