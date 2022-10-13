@@ -2,7 +2,7 @@ package com.valerytimofeev.h3pand.domain.use_case
 
 import com.valerytimofeev.h3pand.data.local.Dwelling
 import com.valerytimofeev.h3pand.utils.Resource
-import com.valerytimofeev.h3pand.utils.SpecialDwellings
+import com.valerytimofeev.h3pand.data.additional_data.SpecialDwellings
 import kotlin.math.roundToInt
 
 /**
@@ -32,7 +32,7 @@ class GetDwellingValueUseCase {
         val unitWeeklyGain = dwelling.weeklyGain
         var result = unitAIValue * (unitWeeklyGain * (1 + numberOfUnitZones / numberOfZones) +
                     (numberOfUnitZones / 2))
-        //Tripple AIValue for some dwellings
+        //Tripple AIValue for some dwellings - maybe make object with them?
         if (dwelling.dwellingName == "Estate" || dwelling.dwellingName == "Hovel") result = result.toInt() * 3.0f
         return Resource.success(result.roundToInt())
     }

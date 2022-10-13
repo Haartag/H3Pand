@@ -1,22 +1,24 @@
 package com.valerytimofeev.h3pand.domain.use_case
 
 import com.valerytimofeev.h3pand.data.local.Guard
-import com.valerytimofeev.h3pand.utils.BoxWithDropPercent
+import com.valerytimofeev.h3pand.domain.model.BoxWithDropPercent
 import com.valerytimofeev.h3pand.utils.Constants.MAX_GENERATED_GUARD
 import com.valerytimofeev.h3pand.utils.Constants.MIN_PAND_VALUE
-import com.valerytimofeev.h3pand.utils.Difficult.Companion.getDifficultForZone
-import com.valerytimofeev.h3pand.utils.GuardRanges
-import com.valerytimofeev.h3pand.utils.MapSettings.Companion.getMapSettings
+import com.valerytimofeev.h3pand.domain.model.Difficult.Companion.getDifficultForZone
+import com.valerytimofeev.h3pand.data.additional_data.GuardRanges
+import com.valerytimofeev.h3pand.data.additional_data.MapSettings.Companion.getMapSettings
 import com.valerytimofeev.h3pand.utils.Resource
 import javax.inject.Inject
 import kotlin.math.roundToInt
 
+/**
+ * Get boxes for current input.
+ */
 class GetBoxesUseCase @Inject constructor(
     private val getGuardCharacteristicsUseCase: GetGuardCharacteristicsUseCase,
     private val getBoxForGuardRangeUseCase: GetBoxForGuardRangeUseCase,
     private val getBoxWithPercentUseCase: GetBoxWithPercentUseCase,
 ) {
-
     suspend operator fun invoke(
         guardUnit: Guard,
         castle: Int,
@@ -50,10 +52,7 @@ class GetBoxesUseCase @Inject constructor(
 
         if (valueRange.first < MIN_PAND_VALUE) valueRange = MIN_PAND_VALUE..valueRange.last
 
-        /**
-         * Get guard range for input data
-         */
-        val guardRange = getGuardCharacteristicsUseCase(
+        val guardRange = getGuardCharacteristicsUseCase( // Guard range for input data
             weekCorrectedMin = weekCorrectedMinGuardValue,
             weekCorrectedMax = weekCorrectedMaxGuardValue,
             minGuardOnMap = ((guardUnit.minOnMap + guardUnit.maxOnMap.toDouble()) / 2.0).toInt(),
@@ -64,10 +63,7 @@ class GetBoxesUseCase @Inject constructor(
                 ?: "An unknown error occurred: error code 01GB", null
         )
 
-        /**
-         * Get all potentially valid boxes for guard range
-         */
-        val boxes = getBoxForGuardRangeUseCase(
+        val boxes = getBoxForGuardRangeUseCase( //All potentially valid boxes for guardRange
             difficult = difficult,
             guardRange = guardRange.data,
             guardValue = guardUnit.AIValue,
@@ -85,10 +81,7 @@ class GetBoxesUseCase @Inject constructor(
 
         val boxesWithPercent = mutableListOf<BoxWithDropPercent>()
 
-        /**
-         * Take boxes that fit the restrictions of the zone and calculate drop chances.
-         */
-        for (index in boxes.data.indices) {
+        for (index in boxes.data.indices) { //Take boxes that fit the restrictions of the zone and calculate drop chances.
             if (boxes.data[index].value + additionalValue in valueRange) {
                 boxesWithPercent.add(
                     getBoxWithPercentUseCase(
@@ -120,7 +113,8 @@ class GetBoxesUseCase @Inject constructor(
     }
 
     /**
-     * Guard is increased by 10% for each week after the first
+     * Guard is increased by 10% for each week after the first.
+     * This function revert it for calculations.
      */
     private fun Int.weekCorrection(
         week: Int
