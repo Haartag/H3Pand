@@ -1,4 +1,4 @@
-package com.valerytimofeev.h3pand.utils
+package com.valerytimofeev.h3pand.domain.model
 
 data class Dialog <DialogSettings> (val status: DialogStatus, val data: DialogSettings?) {
     companion object {

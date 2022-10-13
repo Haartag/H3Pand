@@ -1,4 +1,4 @@
-package com.valerytimofeev.h3pand.utils
+package com.valerytimofeev.h3pand.domain.model
 
 enum class Difficult(
     val minValue1: Int,
