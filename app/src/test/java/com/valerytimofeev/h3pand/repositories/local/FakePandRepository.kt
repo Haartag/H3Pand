@@ -13,7 +13,7 @@ class FakePandRepository : PandRepository {
 
     private val fakeAdditionalValueDatabase = listOf(
         AdditionalValueItem(1, "add name 1", 1400, "Misc.", "Morale/Luck", 0),
-        AdditionalValueItem(2, "add name 2", 2000, "Misc.", "Trade", 0),
+        AdditionalValueItem(2, "add name 2", 2000, "Artifact", "Treasure artifact", 0),
         AdditionalValueItem(3, "add name 3", 5000, "Misc.", "Trade", 0),
     )
 
@@ -87,7 +87,7 @@ class FakePandRepository : PandRepository {
         return if (returnError) {
             Resource.error("Error", null)
         } else {
-            Resource.success(fakeAdditionalValueDatabase.map { it.type })
+            Resource.success(fakeAdditionalValueDatabase.map { it.type }.distinct())
         }
     }
 
