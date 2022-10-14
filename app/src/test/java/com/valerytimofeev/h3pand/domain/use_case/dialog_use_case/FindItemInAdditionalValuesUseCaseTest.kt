@@ -1,7 +1,9 @@
-package com.valerytimofeev.h3pand.domain.use_case
+package com.valerytimofeev.h3pand.domain.use_case.dialog_use_case
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.google.common.truth.Truth
+import com.valerytimofeev.h3pand.domain.model.SearchItem
+import com.valerytimofeev.h3pand.domain.use_case.GetDwellingsListUseCase
 import com.valerytimofeev.h3pand.repositories.local.FakePandRepository
 import com.valerytimofeev.h3pand.utils.Resource
 import kotlinx.coroutines.Dispatchers
@@ -18,6 +20,7 @@ import org.junit.Test
 @ExperimentalCoroutinesApi
 class FindItemInAdditionalValuesUseCaseTest {
 
+
     private val mainThreadSurrogate = newSingleThreadContext("UI thread")
 
     @get:Rule
@@ -25,12 +28,14 @@ class FindItemInAdditionalValuesUseCaseTest {
 
     private lateinit var findItem: FindItemInAdditionalValuesUseCase
     private lateinit var getDwellings: GetDwellingsListUseCase
+    private lateinit var convert: ConvertToSearchListUseCase
 
 
     @Before
     fun setup() {
         getDwellings = GetDwellingsListUseCase(FakePandRepository())
-        findItem = FindItemInAdditionalValuesUseCase(FakePandRepository(), getDwellings)
+        convert = ConvertToSearchListUseCase()
+        findItem = FindItemInAdditionalValuesUseCase(FakePandRepository(), getDwellings, convert)
         Dispatchers.setMain(mainThreadSurrogate)
     }
 
@@ -45,7 +50,22 @@ class FindItemInAdditionalValuesUseCaseTest {
         val result = findItem("1", 1)
 
         Truth.assertThat(result.data).isEqualTo(
-            listOf("add name 1", "test dwelling 1")
+            listOf(                SearchItem(
+                itemName = "add name 1",
+                isDwelling = false,
+                addItemValue = 1400,
+                unitValue = null,
+                weeklyGain = null,
+                castle = null
+            ),
+                SearchItem(
+                    itemName = "test dwelling 1",
+                    isDwelling = true,
+                    addItemValue = null,
+                    unitValue = 80,
+                    weeklyGain = 15,
+                    castle = 1
+                ),)
         )
     }
 
@@ -53,7 +73,7 @@ class FindItemInAdditionalValuesUseCaseTest {
     fun `Find item in AdditionalValue, valid input, result from addValue`() = runTest {
         val result = findItem("name", 1)
 
-        Truth.assertThat(result.data).isEqualTo(
+        Truth.assertThat(result.data!!.map { it.itemName }).isEqualTo(
             listOf("add name 1", "add name 2", "add name 3")
         )
     }
@@ -62,7 +82,7 @@ class FindItemInAdditionalValuesUseCaseTest {
     fun `Find item in AdditionalValue, valid input, result from guard`() = runTest {
         val result = findItem("dwelling", 5)
 
-        Truth.assertThat(result.data).isEqualTo(
+        Truth.assertThat(result.data!!.map { it.itemName }).isEqualTo(
             listOf("test dwelling 3")
         )
     }
@@ -81,8 +101,9 @@ class FindItemInAdditionalValuesUseCaseTest {
         val result = findItem("1", 20)
 
         Truth.assertThat(result).isEqualTo(
-            Resource.error("Search error", null)
+            Resource.error("An unknown database error occurred: database_5.0", null)
         )
     }
+
 
 }
