@@ -6,9 +6,15 @@ import com.valerytimofeev.h3pand.utils.Resource
 class FakePandRepository : PandRepository {
 
     private val fakeGuardDatabase = listOf(
-        UnitItem(1, "test name 1", 80, 20, 50, 15, 80, "test dwelling 1", 1, "img1"),
-        UnitItem(2, "test name 2", 250, 12, 25, 7, 30, "test dwelling 2", 3, "img2"),
-        UnitItem(3, "test name 3", 1068, 8, 12, 3, 15, "test dwelling 3", 5, "img3"),
+        UnitItem(1, "test name 1", 80, 20, 50, 15, 60, "test dwelling 1", 1, "img1"),
+        UnitItem(2, "test name 2", 60, 20, 50, 15, 80, "test dwelling 2", 2, "img1"),
+        UnitItem(3, "test name 3", 240, 16, 25, 8, 30, null, 2, "img1"),
+        UnitItem(4, "test name 4", 160, 16, 25, 8, 45, "test dwelling 3", 3, "img1"),
+        UnitItem(5, "test name 5", 480, 10, 20, 4, 25, "test dwelling 4", 3, "img2"),
+        UnitItem(6, "test name 6", 2400, 5, 10, 2, 8, null, 3, "img4"),
+        UnitItem(7, "test name 7", 530, 10, 16, 5, 20, null, 4, "img2"),
+        UnitItem(8, "test name 8", 1020, 8, 16, 3, 15, "test dwelling 5", 5, "img3"),
+        UnitItem(9, "test name 9", 1210, 5, 12, 2, 15, "test dwelling 6", 0, "img4"),
     )
 
     private val fakeAdditionalValueDatabase = listOf(
@@ -152,7 +158,7 @@ class FakePandRepository : PandRepository {
     override suspend fun getDwellingsByCastle(
         castle: Int
     ): Resource<List<Dwelling>> {
-        val result = fakeGuardDatabase.filter { it.castle == castle }.map {
+        val result = fakeGuardDatabase.filter { it.castle == castle && !it.dwellingName.isNullOrEmpty() }.map {
             Dwelling(
                 it.dwellingName!!,
                 it.name,

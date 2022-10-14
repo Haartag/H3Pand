@@ -50,14 +50,15 @@ class FindItemInAdditionalValuesUseCaseTest {
         val result = findItem("1", 1)
 
         Truth.assertThat(result.data).isEqualTo(
-            listOf(                SearchItem(
-                itemName = "add name 1",
-                isDwelling = false,
-                addItemValue = 1400,
-                unitValue = null,
-                weeklyGain = null,
-                castle = null
-            ),
+            listOf(
+                SearchItem(
+                    itemName = "add name 1",
+                    isDwelling = false,
+                    addItemValue = 1400,
+                    unitValue = null,
+                    weeklyGain = null,
+                    castle = null
+                ),
                 SearchItem(
                     itemName = "test dwelling 1",
                     isDwelling = true,
@@ -65,7 +66,8 @@ class FindItemInAdditionalValuesUseCaseTest {
                     unitValue = 80,
                     weeklyGain = 15,
                     castle = 1
-                ),)
+                ),
+            )
         )
     }
 
@@ -83,7 +85,7 @@ class FindItemInAdditionalValuesUseCaseTest {
         val result = findItem("dwelling", 5)
 
         Truth.assertThat(result.data!!.map { it.itemName }).isEqualTo(
-            listOf("test dwelling 3")
+            listOf("test dwelling 5")
         )
     }
 

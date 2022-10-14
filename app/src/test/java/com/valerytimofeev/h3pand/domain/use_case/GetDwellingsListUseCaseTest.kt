@@ -46,10 +46,17 @@ class GetDwellingsListUseCaseTest {
         Truth.assertThat(result.data).isEqualTo(
             listOf(
                 Dwelling(
-                    dwellingName = "test dwelling 2",
-                    name = "test name 2",
-                    AIValue = 250,
-                    weeklyGain = 7,
+                    dwellingName = "test dwelling 3",
+                    name = "test name 4",
+                    AIValue = 160,
+                    weeklyGain = 8,
+                    castle = 3
+                ),
+                Dwelling(
+                    dwellingName = "test dwelling 4",
+                    name = "test name 5",
+                    AIValue = 480,
+                    weeklyGain = 4,
                     castle = 3
                 ),
             )
