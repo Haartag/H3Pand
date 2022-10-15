@@ -15,6 +15,12 @@ class FakePandRepository : PandRepository {
         UnitItem(7, "test name 7", 530, 10, 16, 5, 20, null, 4, "img2"),
         UnitItem(8, "test name 8", 1020, 8, 16, 3, 15, "test dwelling 5", 5, "img3"),
         UnitItem(9, "test name 9", 1210, 5, 12, 2, 15, "test dwelling 6", 0, "img4"),
+
+        UnitItem(10, "test name 6", 2400, 5, 10, 2, 8, null, 3, "img4"),
+        UnitItem(11, "test name 6", 2400, 5, 10, 2, 8, null, 3, "img4"),
+        UnitItem(12, "test name 6", 2400, 5, 10, 2, 8, null, 3, "img4"),
+        UnitItem(13, "test name 6", 2400, 5, 10, 2, 8, null, 3, "img4"),
+        UnitItem(14, "test name 6", 2400, 5, 10, 2, 8, null, 3, "img4"),
     )
 
     private val fakeAdditionalValueDatabase = listOf(
@@ -90,19 +96,20 @@ class FakePandRepository : PandRepository {
     }
 
     override suspend fun getAdditionalValueTypesList(): Resource<List<String>> {
-        return if (returnError) {
-            Resource.error("Error", null)
-        } else {
-            Resource.success(fakeAdditionalValueDatabase.map { it.type }.distinct())
+        val result = fakeAdditionalValueDatabase.map { it.type }.distinct()
+        return when {
+            (returnError) -> Resource.error("Error", null)
+            result.isEmpty() -> Resource.error("Error", null)
+            else -> Resource.success(result)
         }
     }
 
     override suspend fun getAdditionalValueSubtypesList(type: String): Resource<List<String>> {
-        return if (returnError) {
-            Resource.error("Error", null)
-        } else {
-            Resource.success(fakeAdditionalValueDatabase.filter { it.type == type }
-                .map { it.subtype })
+        val result = fakeAdditionalValueDatabase.filter { it.type == type }.map { it.subtype }
+        return when {
+            (returnError) -> Resource.error("Error", null)
+            result.isEmpty() -> Resource.error("Error", null)
+            else -> Resource.success(result)
         }
     }
 
