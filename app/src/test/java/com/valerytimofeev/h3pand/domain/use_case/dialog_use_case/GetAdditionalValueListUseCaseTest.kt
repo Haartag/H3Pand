@@ -1,8 +1,7 @@
-package com.valerytimofeev.h3pand.domain.use_case
+package com.valerytimofeev.h3pand.domain.use_case.dialog_use_case
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.google.common.truth.Truth
-import com.valerytimofeev.h3pand.data.local.Dwelling
 import com.valerytimofeev.h3pand.repositories.local.FakePandRepository
 import com.valerytimofeev.h3pand.utils.Resource
 import kotlinx.coroutines.Dispatchers
@@ -17,19 +16,20 @@ import org.junit.Rule
 import org.junit.Test
 
 @ExperimentalCoroutinesApi
-class GetDwellingsListUseCaseTest {
+class GetAdditionalValueListUseCaseTest {
 
     private val mainThreadSurrogate = newSingleThreadContext("UI thread")
 
     @get:Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
-    private lateinit var getDwellings: GetDwellingsListUseCase
-
+    private lateinit var getAdditionalValueListUseCase: GetAdditionalValueListUseCase
+    private lateinit var fakePandRepository: FakePandRepository
 
     @Before
     fun setup() {
-        getDwellings = GetDwellingsListUseCase(FakePandRepository())
+        fakePandRepository = FakePandRepository()
+        getAdditionalValueListUseCase = GetAdditionalValueListUseCase(fakePandRepository)
         Dispatchers.setMain(mainThreadSurrogate)
     }
 
@@ -40,35 +40,24 @@ class GetDwellingsListUseCaseTest {
     }
 
     @Test
-    fun `Get dwellings, valid input`() = runTest {
-        val result = getDwellings(3)
+    fun `Get addValue`() = runTest {
+        val result = getAdditionalValueListUseCase()
 
         Truth.assertThat(result.data).isEqualTo(
-            listOf(
-                Dwelling(
-                    dwellingName = "test dwelling 3",
-                    name = "test name 4",
-                    AIValue = 160,
-                    weeklyGain = 8,
-                    castle = 3
-                ),
-                Dwelling(
-                    dwellingName = "test dwelling 4",
-                    name = "test name 5",
-                    AIValue = 480,
-                    weeklyGain = 4,
-                    castle = 3
-                ),
-            )
+            listOf("Custom value", "Misc.", "Artifact", "Dwelling")
         )
     }
 
     @Test
-    fun `Get dwellings, invalid input`() = runTest {
-        val result = getDwellings(20)
-
+    fun `Get addValue, error`() = runTest {
+        fakePandRepository.shouldReturnError(true)
+        val result = getAdditionalValueListUseCase()
         Truth.assertThat(result).isEqualTo(
-            Resource.error("An unknown database error occurred: database_5.0", null)
+            Resource.error(
+                "Error",
+                null
+            )
         )
     }
+
 }

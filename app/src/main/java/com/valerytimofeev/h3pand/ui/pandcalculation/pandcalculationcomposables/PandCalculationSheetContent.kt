@@ -21,10 +21,12 @@ import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import coil.size.Scale
 import com.valerytimofeev.h3pand.R
+import com.valerytimofeev.h3pand.domain.model.DialogState
 import com.valerytimofeev.h3pand.ui.pandcalculation.PandCalculationViewModel
-import com.valerytimofeev.h3pand.utils.CastleSettings
-import com.valerytimofeev.h3pand.utils.GuardRanges
-import com.valerytimofeev.h3pand.utils.MapSettings
+import com.valerytimofeev.h3pand.ui.pandcalculation.dialog.DialogViewModel
+import com.valerytimofeev.h3pand.domain.model.CastleSettings
+import com.valerytimofeev.h3pand.data.additional_data.GuardRanges
+import com.valerytimofeev.h3pand.data.additional_data.MapSettings
 import kotlin.math.roundToInt
 
 /**
@@ -63,7 +65,8 @@ fun SheetContent(
 @Composable
 fun SheetChooseUnit(
     modifier: Modifier = Modifier,
-    viewModel: PandCalculationViewModel = hiltViewModel()
+    viewModel: PandCalculationViewModel = hiltViewModel(),
+    dialogViewModel: DialogViewModel = hiltViewModel(),
 ) {
     Box(
         modifier = modifier
@@ -72,7 +75,7 @@ fun SheetChooseUnit(
     ) {
         val painter = rememberAsyncImagePainter(
             ImageRequest.Builder(LocalContext.current)
-                .data(data = viewModel.currentImg.value)
+                .data(data = viewModel.currentGuardImg.value)
                 .scale(scale = Scale.FILL)
                 .build()
         )
@@ -82,7 +85,8 @@ fun SheetChooseUnit(
                 .padding(horizontal = 24.dp)
                 .clickable {
                     viewModel.closeError()
-                    viewModel.setDialogState("GuardStageOne")
+                    dialogViewModel.getChosenCastleZone(viewModel.chosenCastleZone.value)
+                    dialogViewModel.setDialogState(DialogState.Companion.DialogUiPresets.GUARD_CASTLE.dialogUiState)
                 },
             contentAlignment = Alignment.Center
         ) {
@@ -129,7 +133,8 @@ fun SheetChooseUnit(
 fun SheetAdditionalValue(
     modifier: Modifier = Modifier,
     screenWidth: Dp,
-    viewModel: PandCalculationViewModel = hiltViewModel()
+    viewModel: PandCalculationViewModel = hiltViewModel(),
+    dialogViewModel: DialogViewModel = hiltViewModel()
 ) {
     Box(
         modifier = modifier
@@ -144,7 +149,7 @@ fun SheetAdditionalValue(
                     .width(screenWidth / 4 + 40.dp)
             )
             Text(
-                text = "${viewModel.additionalValueMap.values.sum()}",
+                text = "${ viewModel.getValueSum() }",
                 textAlign = TextAlign.Start,
                 modifier = Modifier
                     .padding(horizontal = 8.dp)
@@ -178,21 +183,18 @@ fun SheetAdditionalValue(
                                             Color.Red
                                         }
                                     )
-
                                     .clickable {
                                         viewModel.closeError()
-                                        if (viewModel.additionalValueMap.getOrDefault(
-                                                row * 4 + column,
-                                                defaultValue = 0
-                                            ) == 0
+                                        if (viewModel.addOrRemoveAddValue(
+                                                row = row,
+                                                column = column
+                                            )
                                         ) {
-                                            viewModel.getAdditionalValueTypesList()
-                                            viewModel.clickedAddValue.value = row * 4 + column
-                                            viewModel.setDialogState("AddValueStageOne")
-                                        } else {
-                                            viewModel.additionalValueMap[row * 4 + column] = 0
-                                            viewModel.dwellingMap.remove(row * 4 + column)
-                                            viewModel.getBoxesList()
+                                            dialogViewModel.getChosenCastleZone(viewModel.chosenCastleZone.value)
+                                            dialogViewModel.getAddValueSlot(row * 4 + column)
+                                            dialogViewModel.setDialogState(
+                                                DialogState.Companion.DialogUiPresets.ADDVALUE_TYPE.dialogUiState
+                                            )
                                         }
                                     }
                             ) {
@@ -262,7 +264,6 @@ fun SheetChooseCastleNumber(
             },
             onValueChangeFinished = {
                 viewModel.closeError()
-                viewModel.updateDwellings()
                 viewModel.getBoxesList()
             }
         )
@@ -303,7 +304,8 @@ fun SheetChooseZone(
 fun SheetChooseZoneCastle(
     halfWidthOfScreen: Dp,
     modifier: Modifier = Modifier,
-    viewModel: PandCalculationViewModel = hiltViewModel()
+    viewModel: PandCalculationViewModel = hiltViewModel(),
+    dialogViewModel: DialogViewModel = hiltViewModel(),
 ) {
     Column() {
         Text(text = "Current zone:")
@@ -334,7 +336,7 @@ fun SheetChooseZoneCastle(
                     .padding(horizontal = 24.dp)
                     .clickable {
                         viewModel.closeError()
-                        viewModel.setDialogState("CastleZoneDialog")
+                        dialogViewModel.setDialogState(DialogState.Companion.DialogUiPresets.ZONE.dialogUiState)
                     }
             )
         }

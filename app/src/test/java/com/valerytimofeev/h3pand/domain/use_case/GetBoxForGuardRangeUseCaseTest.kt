@@ -4,8 +4,8 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.google.common.truth.Truth.assertThat
 import com.valerytimofeev.h3pand.data.local.BoxValueItem
 import com.valerytimofeev.h3pand.repositories.local.FakePandRepository
-import com.valerytimofeev.h3pand.utils.Difficult
-import com.valerytimofeev.h3pand.utils.GuardCharacteristics
+import com.valerytimofeev.h3pand.domain.model.Difficult
+import com.valerytimofeev.h3pand.domain.model.GuardCharacteristics
 import com.valerytimofeev.h3pand.utils.Resource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -54,7 +54,7 @@ class GetBoxForGuardRangeUseCaseTest {
                     BoxValueItem(id = 1, boxContent = "item 1", value = 5000, img = "img"),
                     BoxValueItem(id = 2, boxContent = "item 2", value = 7500, img = "img"),
                     BoxValueItem(id = 3, boxContent = "item 3", value = 10000, img = "img"),
-                    BoxValueItem(id = 0, boxContent = "test name 1 80", value = 7680, img = "img1")
+                    BoxValueItem(id = 0, boxContent = "test name 1 60", value = 5760, img = "img1")
                 )
             )
         )
@@ -74,7 +74,7 @@ class GetBoxForGuardRangeUseCaseTest {
                     BoxValueItem(id = 1, boxContent = "item 1", value = 5000, img = "img"),
                     BoxValueItem(id = 2, boxContent = "item 2", value = 7500, img = "img"),
                     BoxValueItem(id = 3, boxContent = "item 3", value = 10000, img = "img"),
-                    BoxValueItem(id=0, boxContent="test name 2 30", value=9000, img="img2")
+                    BoxValueItem(id=0, boxContent="test name 4 45", value=8640, img="img1")
                 )
             )
         )
@@ -118,7 +118,7 @@ class GetBoxForGuardRangeUseCaseTest {
         assertThat(result).isEqualTo(
             Resource.success(
                 listOf(
-                    BoxValueItem(id = 0, boxContent = "test name 1 80", value = 7680, img = "img1")
+                    BoxValueItem(id = 0, boxContent = "test name 1 60", value = 5760, img = "img1")
                 )
             )
         )
@@ -139,7 +139,7 @@ class GetBoxForGuardRangeUseCaseTest {
     fun `Get box list, valid input, with additional value, empty unit box list`() = runTest {
         val guardRange = GuardCharacteristics(16, 13, 65, 86)
         val difficult = Difficult.THREE
-        val guardValue = 201
+        val guardValue = 150
         val additionalValue = 4000
 
         val result = getBox(guardRange, difficult, guardValue, additionalValue, 1, 5, 1).data
@@ -166,7 +166,8 @@ class GetBoxForGuardRangeUseCaseTest {
 
         assertThat(result).isEqualTo(
             listOf(
-                BoxValueItem(id=0, boxContent="test name 2 30", value=9000, img="img2")
+                BoxValueItem(id=0, boxContent="test name 4 45", value=8640, img="img1"),
+                BoxValueItem(id=0, boxContent="test name 5 25", value=14400, img="img2")
             )
         )
     }
@@ -186,7 +187,7 @@ class GetBoxForGuardRangeUseCaseTest {
         assertThat(result).isEqualTo(
             Resource.success(
                 listOf(
-                    BoxValueItem(id = 0, boxContent = "test name 1 80", value = 8960, img = "img1")
+                    BoxValueItem(id = 0, boxContent = "test name 1 60", value = 6720, img = "img1")
                 )
             )
         )
@@ -207,7 +208,7 @@ class GetBoxForGuardRangeUseCaseTest {
         assertThat(result).isEqualTo(
             Resource.success(
                 listOf(
-                    BoxValueItem(id = 0, boxContent = "test name 1 80", value = 12800, img = "img1")
+                    BoxValueItem(id = 0, boxContent = "test name 1 60", value = 9600, img = "img1")
                 )
             )
         )

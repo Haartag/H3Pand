@@ -13,8 +13,8 @@ android {
         applicationId "com.valerytimofeev.h3pand"
         minSdk 28
         targetSdk 33
-        versionCode 1
-        versionName "1.0"
+        versionCode 3
+        versionName "0.12"
 
         testInstrumentationRunner "com.valerytimofeev.h3pand.HiltTestRunner"
         vectorDrawables {
@@ -22,9 +22,16 @@ android {
         }
     }
 
+    bundle {
+        storeArchive {
+            enable = false
+        }
+    }
+
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -79,6 +86,9 @@ dependencies {
     implementation "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03"
     kapt "androidx.hilt:hilt-compiler:1.0.0"
     implementation 'androidx.hilt:hilt-navigation-compose:1.0.0'
+
+    //DataStore
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
 
     //AboutLibraries
     implementation "com.mikepenz:aboutlibraries-compose:10.3.0"

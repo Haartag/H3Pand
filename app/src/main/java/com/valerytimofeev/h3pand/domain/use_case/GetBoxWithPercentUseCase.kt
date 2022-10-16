@@ -1,12 +1,15 @@
 package com.valerytimofeev.h3pand.domain.use_case
 
 import com.valerytimofeev.h3pand.data.local.BoxValueItem
+import com.valerytimofeev.h3pand.domain.model.BoxWithDropPercent
+import com.valerytimofeev.h3pand.domain.model.Difficult
+import com.valerytimofeev.h3pand.domain.model.GuardCharacteristics
 import com.valerytimofeev.h3pand.utils.*
 import kotlin.math.roundToInt
 
 /**
  * Get drop chances for valid box.
- * Box obtained from GetBoxForGuardRangeUseCase
+ * Box obtained from [GetBoxForGuardRangeUseCase]
  */
 class GetBoxWithPercentUseCase {
     operator fun invoke(
@@ -38,20 +41,16 @@ class GetBoxWithPercentUseCase {
 
         val numbersList = (lowGuardNumber..hiGuardNumber).map { it }
 
-        /**
-         * Exp. drop rate twice as much as the rest, but probably need some additional correction.
-         */
         val numbersWithPercentsMap = numbersList.getPercents(
-            if (boxValueItem.boxContent.contains("exp.")) 2 else 1
+            if (boxValueItem.boxContent.contains("exp.")) 2 else 1 //Exp. drop rate twice as much as the rest, but probably need some additional correction.
         )
 
         val guards = mutableListOf<Int>()
         var summaryPercent = 0.0
         var mostLikelyGuardNumber = 0 to 0.0
 
-        /**
-         * Adding all valid boxes to list and summing up their percentages
-         */
+
+        //Adding all valid boxes to list and summing up their percentages
         run breaking@{
             numbersWithPercentsMap.forEach {
                 if (
@@ -94,16 +93,15 @@ class GetBoxWithPercentUseCase {
             )
         )
     }
-
+    /**
+     * Calculate drop chance. Each 2 additional values gives +1 to previous item chance
+     * and + item count to divider.
+     *  - ex. 1/1 -> 1/4 - 2/4 - 1/4 -> 1/9 - 2/9 - 3/9 - 2/9 - 1/9 e.t.c.
+     */
     private fun List<Int>.getPercents(multiplier: Int): Map<Int, Double> {
 
         var divider = 1
 
-        /**
-         * Calculate drop chance. Each 2 additional values gives +1 to previous item chance
-         * and + item count to divider.
-         * ex. 1/1 -> 1/4 - 2/4 - 1/4 -> 1/9 - 2/9 - 3/9 - 2/9 - 1/9 e.t.c.
-         */
         for (index in 1 until this.size step 2) {
             divider += (2 + index)
         }
@@ -116,7 +114,6 @@ class GetBoxWithPercentUseCase {
         for (number in this.size / 2 downTo 1) {
             percentList.add(((number.toDouble() / divider) * 100) * multiplier)
         }
-
         return this.zip(percentList).toMap()
     }
 

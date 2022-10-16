@@ -1,4 +1,4 @@
-package com.valerytimofeev.h3pand.utils
+package com.valerytimofeev.h3pand.data.additional_data
 
 data class ZoneSettings(
     val zoneName: String,

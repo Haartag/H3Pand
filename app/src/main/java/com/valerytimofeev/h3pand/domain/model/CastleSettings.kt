@@ -1,4 +1,4 @@
-package com.valerytimofeev.h3pand.utils
+package com.valerytimofeev.h3pand.domain.model
 
 import androidx.compose.ui.graphics.Color
 import com.valerytimofeev.h3pand.R

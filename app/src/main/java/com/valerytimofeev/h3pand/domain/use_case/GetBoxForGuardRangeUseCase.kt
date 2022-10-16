@@ -3,8 +3,8 @@ package com.valerytimofeev.h3pand.domain.use_case
 import com.valerytimofeev.h3pand.data.local.BoxValueItem
 import com.valerytimofeev.h3pand.data.local.UnitBox
 import com.valerytimofeev.h3pand.repositories.local.PandRepository
-import com.valerytimofeev.h3pand.utils.Difficult
-import com.valerytimofeev.h3pand.utils.GuardCharacteristics
+import com.valerytimofeev.h3pand.domain.model.Difficult
+import com.valerytimofeev.h3pand.domain.model.GuardCharacteristics
 import com.valerytimofeev.h3pand.utils.Resource
 import com.valerytimofeev.h3pand.utils.Status
 import javax.inject.Inject
@@ -12,7 +12,8 @@ import kotlin.math.roundToInt
 
 
 /**
- * Get possible boxes and their values for guard value range
+ * Get possible boxes and their values for guard value range.
+ * @see [GetGuardCharacteristicsUseCase]
  */
 class GetBoxForGuardRangeUseCase @Inject constructor(
     private val repository: PandRepository
@@ -31,12 +32,17 @@ class GetBoxForGuardRangeUseCase @Inject constructor(
         val maxBoxRoll = (guardRange.maxAverage * guardValue).valueOfBox(difficult) - additionalValue
 
         /**
-         * Get boxes with units and boxes without units separately.
-         * unitCoefficient reflects AI value cost of unit boxes depending on number of zones.
+         * Coefficient for AI value cost of unit boxes. Depends on number of zones.
          */
         val unitCoefficient = ((1.0 + (castleZones / zones.toDouble())) * 10).roundToInt() / 10.0
 
+        /**
+         * Boxes without units: gold, spells, exp.
+         */
         val nonUnitBoxes = repository.getNonUnitBoxesInRange(minBoxRoll, maxBoxRoll)
+        /**
+         * Boxes with units
+         */
         val unitBoxes = repository.getUnitBoxesInRange(
             (minBoxRoll / unitCoefficient).roundToInt(),
             (maxBoxRoll / unitCoefficient).roundToInt(),
@@ -69,7 +75,8 @@ class GetBoxForGuardRangeUseCase @Inject constructor(
     }
 
     /**
-     * Calculate value of box from guard
+     * Calculate value of box.
+     * @param difficult is 1 of 5 sets of constants from [Difficult]
      */
     private fun Int.valueOfBox(
         difficult: Difficult

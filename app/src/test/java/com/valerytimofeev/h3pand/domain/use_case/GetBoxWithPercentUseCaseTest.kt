@@ -2,6 +2,9 @@ package com.valerytimofeev.h3pand.domain.use_case
 
 import com.google.common.truth.Truth.assertThat
 import com.valerytimofeev.h3pand.data.local.BoxValueItem
+import com.valerytimofeev.h3pand.domain.model.BoxWithDropPercent
+import com.valerytimofeev.h3pand.domain.model.Difficult
+import com.valerytimofeev.h3pand.domain.model.GuardCharacteristics
 import com.valerytimofeev.h3pand.utils.*
 import org.junit.Before
 import org.junit.Test
@@ -34,7 +37,6 @@ class GetBoxWithPercentUseCaseTest() {
     @Test
     fun `Get BoxWithDropPercent, valid input, some guards not in range`() {
         val boxValueItem = BoxValueItem(1, "5000exp", 6000, "exp")
-        //val guardValue = GuardCharacteristics(25, 4020, 65, 13065)
         val guardValue = GuardCharacteristics(30, 24, 65, 86)
         val difficult = Difficult.THREE
         val unitValue = 201

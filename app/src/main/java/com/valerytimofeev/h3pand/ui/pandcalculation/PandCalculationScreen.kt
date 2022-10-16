@@ -15,12 +15,12 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.valerytimofeev.h3pand.ui.pandcalculation.pandcalculationcomposables.DialogScreen
+import com.valerytimofeev.h3pand.ui.pandcalculation.dialog.DialogScreen
+import com.valerytimofeev.h3pand.ui.pandcalculation.dialog.DialogViewModel
 import com.valerytimofeev.h3pand.ui.pandcalculation.pandcalculationcomposables.ErrorBlock
 import com.valerytimofeev.h3pand.ui.pandcalculation.pandcalculationcomposables.ItemsList
 import com.valerytimofeev.h3pand.ui.pandcalculation.pandcalculationcomposables.SheetContent
-import com.valerytimofeev.h3pand.utils.CastleSettings
-import com.valerytimofeev.h3pand.utils.DialogStatus
+import com.valerytimofeev.h3pand.domain.model.CastleSettings
 
 
 @ExperimentalMaterialApi
@@ -28,17 +28,18 @@ import com.valerytimofeev.h3pand.utils.DialogStatus
 fun PandCalculationScreen(
     navController: NavController,
     mapName: String,
-    viewModel: PandCalculationViewModel = hiltViewModel()
+    viewModel: PandCalculationViewModel = hiltViewModel(),
+    dialogViewModel: DialogViewModel = hiltViewModel()
 ) {
     val configuration = LocalConfiguration.current
     val screenHeight = configuration.screenHeightDp.dp
     val screenWidth = configuration.screenWidthDp.dp
 
 
-    if (viewModel.dialogState.value.status == DialogStatus.OPENED) {
+    if (dialogViewModel.isDialogOpen()) {
         DialogScreen(
-            header = { viewModel.getDialogHeader()() },
-            text = { viewModel.getDialogBody()() }
+            header = { dialogViewModel.getDialogHeader()() },
+            body = { dialogViewModel.getDialogBody()() }
         )
     }
 

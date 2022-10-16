@@ -3,7 +3,7 @@ package com.valerytimofeev.h3pand.domain.use_case
 import com.google.common.truth.Truth.assertThat
 import com.valerytimofeev.h3pand.data.local.Guard
 import com.valerytimofeev.h3pand.repositories.local.FakePandRepository
-import com.valerytimofeev.h3pand.utils.BoxWithDropPercent
+import com.valerytimofeev.h3pand.domain.model.BoxWithDropPercent
 import com.valerytimofeev.h3pand.utils.Resource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -48,8 +48,8 @@ class GetBoxesUseCaseTest {
     @Test
     fun `Get Boxes, valid input, returns success`() = runTest {
 
-        val guardUnit = Guard("testUnit", 201, 20, 30, "img")
-        val result = getBox.invoke(
+        val guardUnit = Guard("testUnit", 190, 20, 30, "img")
+        val result = getBox(
             guardUnit = guardUnit,
             castle = 1,
             castleZones = 1,
@@ -62,9 +62,9 @@ class GetBoxesUseCaseTest {
 
         assertThat(result).isEqualTo(
             Resource.success(listOf<BoxWithDropPercent>(
-                BoxWithDropPercent(name="item 2", dropChance=47.1, mostLikelyGuard = 32, range=24..40, img="img"),
-                BoxWithDropPercent(name="test name 1 80", dropChance=47.1, mostLikelyGuard = 34, range=26..42, img="img1"),
-                BoxWithDropPercent(name="item 3", dropChance=5.9, mostLikelyGuard = 49, range=43..49, img="img")
+                BoxWithDropPercent(name="item 2", dropChance=49.5, mostLikelyGuard = 34, range=26..42, img="img"),
+                BoxWithDropPercent(name="test name 1 60", dropChance=48.5, mostLikelyGuard = 25, range=20..31, img="img1"),
+                BoxWithDropPercent(name="item 3", dropChance=1.9, mostLikelyGuard = 49, range=46..49, img="img")
             ))
         )
     }
@@ -73,7 +73,7 @@ class GetBoxesUseCaseTest {
     fun `Get Boxes, valid input, 1-4 guard range, returns success`() = runTest {
 
         val guardUnit = Guard("testUnit", 6000, 3, 8, "img")
-        val result = getBox.invoke(
+        val result = getBox(
             guardUnit = guardUnit,
             castle = 5,
             castleZones = 1,
@@ -94,8 +94,8 @@ class GetBoxesUseCaseTest {
     @Test
     fun `Get Boxes, valid input, week correction, returns success`() = runTest {
 
-        val guardUnit = Guard("testUnit", 201, 20, 30, "img")
-        val result = getBox.invoke(
+        val guardUnit = Guard("testUnit", 190, 20, 30, "img")
+        val result = getBox(
             guardUnit = guardUnit,
             castle = 1,
             castleZones = 1,
@@ -108,8 +108,8 @@ class GetBoxesUseCaseTest {
 
         assertThat(result).isEqualTo(
             Resource.success(listOf<BoxWithDropPercent>(
-                BoxWithDropPercent(name="item 2", dropChance=50.9, mostLikelyGuard = 39, range=30..49, img="img"),
-                BoxWithDropPercent(name="test name 1 80", dropChance=49.1, mostLikelyGuard = 42, range=32..49, img="img1")
+                BoxWithDropPercent(name="test name 1 60", dropChance=50.4, mostLikelyGuard = 31, range=25..38, img="img1"),
+                BoxWithDropPercent(name="item 2", dropChance=49.6, mostLikelyGuard = 42, range=32..49, img="img")
             ))
         )
     }
@@ -118,7 +118,7 @@ class GetBoxesUseCaseTest {
     fun `Get Boxes, valid input, too big week correction, returns error`() = runTest {
 
         val guardUnit = Guard("testUnit", 201, 20, 30, "img")
-        val result = getBox.invoke(
+        val result = getBox(
             guardUnit = guardUnit,
             castle = 1,
             castleZones = 1,
@@ -135,8 +135,8 @@ class GetBoxesUseCaseTest {
     @Test
     fun `Get Boxes, additional value, returns success`() = runTest {
 
-        val guardUnit = Guard("testUnit", 201, 20, 30, "img")
-        val result = getBox.invoke(
+        val guardUnit = Guard("testUnit", 190, 20, 30, "img")
+        val result = getBox(
             guardUnit = guardUnit,
             castle = 1,
             castleZones = 1,
@@ -149,7 +149,7 @@ class GetBoxesUseCaseTest {
 
         assertThat(result).isEqualTo(
             Resource.success(listOf<BoxWithDropPercent>(
-                BoxWithDropPercent(name="item 1", dropChance=100.0, mostLikelyGuard = 49, range=43..49, img="img"),
+                BoxWithDropPercent(name="item 1", dropChance=100.0, mostLikelyGuard = 49, range=46..49, img="img"),
             ))
         )
     }
@@ -157,8 +157,8 @@ class GetBoxesUseCaseTest {
     @Test
     fun `Get Boxes, too big additional value, returns error`() = runTest {
 
-        val guardUnit = Guard("testUnit", 201, 20, 30, "img")
-        val result = getBox.invoke(
+        val guardUnit = Guard("testUnit", 190, 20, 30, "img")
+        val result = getBox(
             guardUnit = guardUnit,
             castle = 1,
             castleZones = 1,
@@ -174,20 +174,20 @@ class GetBoxesUseCaseTest {
     @Test
     fun `Get Boxes, additional value and week correction, returns success`() = runTest {
 
-        val guardUnit = Guard("testUnit", 201, 20, 30, "img")
-        val result = getBox.invoke(
+        val guardUnit = Guard("testUnit", 190, 20, 30, "img")
+        val result = getBox(
             guardUnit = guardUnit,
             castle = 1,
             castleZones = 1,
             guardRangeIndex = 4,
             zoneType = 0,
-            additionalValue = 3000,
+            additionalValue = 4000,
             week = 3,
             mapName = "JC"
         )
         assertThat(result).isEqualTo(
             Resource.success(listOf<BoxWithDropPercent>(
-                BoxWithDropPercent(name="item 1", dropChance=100.0, mostLikelyGuard = 45, range=34..49, img="img"),
+                BoxWithDropPercent(name="item 1", dropChance=100.0, mostLikelyGuard = 49, range=46..49, img="img"),
             ))
         )
     }
@@ -196,7 +196,7 @@ class GetBoxesUseCaseTest {
     fun `Get Boxes, too big additional value and week correction, returns success`() = runTest {
 
         val guardUnit = Guard("testUnit", 201, 20, 30, "img")
-        val result = getBox.invoke(
+        val result = getBox(
             guardUnit = guardUnit,
             castle = 1,
             castleZones = 1,
@@ -208,5 +208,4 @@ class GetBoxesUseCaseTest {
         )
         assertThat(result).isEqualTo(Resource.error(msg = "Too weak unit", data = null))
     }
-
 }
