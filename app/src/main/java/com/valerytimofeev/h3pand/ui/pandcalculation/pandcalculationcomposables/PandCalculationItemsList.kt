@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -81,10 +82,24 @@ fun ItemEntry(
             ) {
                 Text(text = viewModel.boxesWithPercents[itemIndex].name)
                 Text(
-                    text = viewModel.boxesWithPercents[itemIndex].range.toString()
+                    text = "${viewModel.boxesWithPercents[itemIndex].dropChance} %",
+                    style = MaterialTheme.typography.subtitle1
                 )
             }
-            Text(text = viewModel.boxesWithPercents[itemIndex].dropChance.toString())
+            Column(
+                verticalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier
+                    .fillMaxHeight()
+            ) {
+                Text(
+                    text = "guard: ${viewModel.boxesWithPercents[itemIndex].range},",
+                    style = MaterialTheme.typography.body2
+                )
+                Text(
+                    text = "most likely ${viewModel.boxesWithPercents[itemIndex].mostLikelyGuard}",
+                    style = MaterialTheme.typography.body2
+                )
+            }
         }
     }
     Spacer(modifier = Modifier.height(12.dp))
