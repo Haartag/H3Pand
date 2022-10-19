@@ -8,6 +8,7 @@ import androidx.room.PrimaryKey
 data class BoxValueItem(
     @PrimaryKey val id: Int,
     @ColumnInfo val boxContent: String,
+    @ColumnInfo val boxContentRu: String,
     @ColumnInfo val value: Int,
     @ColumnInfo val img: String,
 )
