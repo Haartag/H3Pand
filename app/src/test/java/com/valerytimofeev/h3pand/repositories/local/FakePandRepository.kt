@@ -30,7 +30,7 @@ class FakePandRepository(
             15,
             80,
             "test dwelling 2",
-            "тестовое жилище 1",
+            "тестовое жилище 2",
             2,
             "img1"
         ),
@@ -58,7 +58,7 @@ class FakePandRepository(
             8,
             45,
             "test dwelling 3",
-            "тестовое жилище 1",
+            "тестовое жилище 3",
             3,
             "img1"
         ),
@@ -72,7 +72,7 @@ class FakePandRepository(
             4,
             25,
             "test dwelling 4",
-            "тестовое жилище 1",
+            "тестовое жилище 4",
             3,
             "img2"
         ),
@@ -114,7 +114,7 @@ class FakePandRepository(
             3,
             15,
             "test dwelling 5",
-            "тестовое жилище 1",
+            "тестовое жилище 5",
             5,
             "img3"
         ),
@@ -128,7 +128,7 @@ class FakePandRepository(
             2,
             15,
             "test dwelling 6",
-            "тестовое жилище 1",
+            "тестовое жилище 6",
             0,
             "img4"
         ),
