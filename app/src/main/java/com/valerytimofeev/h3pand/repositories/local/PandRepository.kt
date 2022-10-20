@@ -1,6 +1,7 @@
 package com.valerytimofeev.h3pand.repositories.local
 
 import com.valerytimofeev.h3pand.data.local.*
+import com.valerytimofeev.h3pand.data.additional_data.TextWithLocalization
 import com.valerytimofeev.h3pand.utils.Resource
 
 
@@ -12,9 +13,9 @@ interface PandRepository {
 
     suspend fun getFullAdditionalValueList(): Resource<List<AdditionalValueItem>>
 
-    suspend fun getAdditionalValueTypesList(): Resource<List<String>>
+    suspend fun getAdditionalValueTypesList(): Resource<List<TextWithLocalization>>
 
-    suspend fun getAdditionalValueSubtypesList(type: String): Resource<List<String>>
+    suspend fun getAdditionalValueSubtypesList(type: String): Resource<List<TextWithLocalization>>
 
     suspend fun getAdditionalValuesList(type: String, subtype: String): Resource<List<AdditionalValueItem>>
 
