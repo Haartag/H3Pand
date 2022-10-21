@@ -1,5 +1,6 @@
 package com.valerytimofeev.h3pand.domain.model
 
+import com.valerytimofeev.h3pand.data.additional_data.TextWithLocalization
 import com.valerytimofeev.h3pand.data.local.AdditionalValueItem
 import com.valerytimofeev.h3pand.data.local.Dwelling
 import com.valerytimofeev.h3pand.data.local.Guard
@@ -9,6 +10,7 @@ import com.valerytimofeev.h3pand.data.local.Guard
  */
 data class SearchItem(
     val itemName: String,
+    val itemNameRu: String,
     val isDwelling: Boolean,
     val addItemValue: Int? = null,
     val unitValue: Int? = null,
@@ -24,7 +26,7 @@ data class GuardAndNumber(
 data class AddValueTypeButtonData(
     val destination: DialogState,
     val dwellingList: List<Dwelling>?,
-    val addValueSubtypeList: List<String>?
+    val addValueSubtypeList: List<TextWithLocalization>?
 )
 
 data class AddValueAndSlot(
