@@ -14,6 +14,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.valerytimofeev.h3pand.ui.theme.MapItemBackground
 import com.valerytimofeev.h3pand.ui.theme.MapItemGradient
@@ -21,27 +22,32 @@ import com.valerytimofeev.h3pand.ui.theme.MapItemGradient
 @Composable
 fun MapSelectionScreen(
     navController: NavController,
+    viewModel: MapSelectionViewModel = hiltViewModel()
 ) {
-    Column(
-        modifier = Modifier.padding(8.dp)
-    ) {
-        Text(
-            text = "Choose map",
-            textAlign = TextAlign.Center,
-            fontSize = 22.sp,
+    Column() {
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentHeight(),
-        )
-        MapList(navController)
-
+                .padding(8.dp)
+                .weight(1f)
+        ) {
+            Text(
+                text = viewModel.mapTitle,
+                textAlign = TextAlign.Center,
+                fontSize = 22.sp,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight(),
+            )
+            MapList(navController)
+        }
+        BottomButtonRow(navController)
     }
 }
 
 @Composable
 fun MapList(
     navController: NavController,
-    viewModel: MapSelectionViewModel = MapSelectionViewModel()
+    viewModel: MapSelectionViewModel = hiltViewModel()
 ) {
     LazyColumn(
         contentPadding = PaddingValues(8.dp)
