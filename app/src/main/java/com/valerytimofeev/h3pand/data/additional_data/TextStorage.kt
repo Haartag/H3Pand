@@ -20,6 +20,19 @@ enum class TextStorage(
     SettingsLanguageEng(TextWithLocalization("English", "Английский")),
     SettingsLanguageRus(TextWithLocalization("Russian", "Русский")),
 
+    SettingsLanguageSandboxText(
+        TextWithLocalization(
+            "To change the language, you need to restart the application.",
+            "Чтобы изменить язык, необходимо перезапустить приложение."
+        )
+    ),
+    SettingsLanguageSandboxButton(
+        TextWithLocalization(
+            "Apply and restart",
+            "Применить и перезапустить"
+        )
+    ),
+
     SheetTotalValue(TextWithLocalization("Total value:", "Общая ценность:")),
     SheetWeekAndMonth(TextWithLocalization("month: %s, week: %s", "месяц: %s, неделя: %s")),
     SheetNumberOfTownZones(
