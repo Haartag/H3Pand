@@ -7,6 +7,7 @@ import com.valerytimofeev.h3pand.data.local.AdditionalValueItem
 import com.valerytimofeev.h3pand.data.local.Dwelling
 import com.valerytimofeev.h3pand.data.local.Guard
 import com.valerytimofeev.h3pand.domain.model.CurrentLocal
+import com.valerytimofeev.h3pand.domain.model.SearchItem
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
@@ -266,6 +267,66 @@ class GetLocalizedTextUseCaseTest() {
             "Trade",
             "Торговля",
             0
+        )
+
+        val mock = mockk<CurrentLocal>()
+        every { mock.local } returns (localization)
+
+        val result = getLocalizedText(text)
+        assertThat(result).isEmpty()
+    }
+
+    @Test
+    fun `Get localized text, SearchItem input, en localization`() = runTest {
+        val localization = 0
+        val text = SearchItem(
+            itemName = "add name 1",
+            itemNameRu = "доп. имя 1",
+            isDwelling = false,
+            addItemValue = 1400,
+            unitValue = null,
+            weeklyGain = null,
+            castle = null
+        )
+
+        val mock = mockk<CurrentLocal>()
+        every { mock.local } returns (localization)
+
+        val result = getLocalizedText(text)
+        assertThat(result).isEqualTo("add name 1")
+    }
+
+    @Test
+    fun `Get localized text, SearchItem input, ru localization`() = runTest {
+        val localization = 1
+        val text = SearchItem(
+            itemName = "add name 1",
+            itemNameRu = "доп. имя 1",
+            isDwelling = false,
+            addItemValue = 1400,
+            unitValue = null,
+            weeklyGain = null,
+            castle = null
+        )
+
+        val mock = mockk<CurrentLocal>()
+        every { mock.local } returns (localization)
+
+        val result = getLocalizedText(text)
+        assertThat(result).isEqualTo("доп. имя 1")
+    }
+
+    @Test
+    fun `Get localized text, SearchItem input, wrong localization`() = runTest {
+        val localization = 10
+        val text = SearchItem(
+            itemName = "add name 1",
+            itemNameRu = "доп. имя 1",
+            isDwelling = false,
+            addItemValue = 1400,
+            unitValue = null,
+            weeklyGain = null,
+            castle = null
         )
 
         val mock = mockk<CurrentLocal>()

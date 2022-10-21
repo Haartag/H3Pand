@@ -5,6 +5,7 @@ import com.valerytimofeev.h3pand.data.local.Dwelling
 import com.valerytimofeev.h3pand.data.local.Guard
 import com.valerytimofeev.h3pand.domain.model.CurrentLocal
 import com.valerytimofeev.h3pand.data.additional_data.TextWithLocalization
+import com.valerytimofeev.h3pand.domain.model.SearchItem
 
 class GetLocalizedTextUseCase {
     operator fun invoke(
@@ -48,6 +49,18 @@ class GetLocalizedTextUseCase {
         return when (currentLocal) {
             0 -> text.name
             1 -> text.nameRu
+            else -> ""
+        }
+
+    }
+
+    operator fun invoke(
+        text: SearchItem
+    ): String {
+        val currentLocal = CurrentLocal.local
+        return when (currentLocal) {
+            0 -> text.itemName
+            1 -> text.itemNameRu
             else -> ""
         }
 
