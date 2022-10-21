@@ -18,6 +18,7 @@ class ConvertToSearchListUseCase {
         resultList.addAll(addValueList.map {
             SearchItem(
                 itemName = it.name,
+                itemNameRu = it.nameRu,
                 isDwelling = false,
                 addItemValue = it.value
             )
@@ -25,6 +26,7 @@ class ConvertToSearchListUseCase {
         resultList.addAll(dwellingList.map {
             SearchItem(
                 itemName = it.dwellingName,
+                itemNameRu = it.dwellingNameRu,
                 isDwelling = true,
                 unitValue = it.AIValue,
                 weeklyGain = it.weeklyGain,
