@@ -1,9 +1,7 @@
 package com.valerytimofeev.h3pand.data.additional_data
 
 data class ZoneSettings(
-    val zoneName: String,
-    val difficult: Int,
-    val valueRange: IntRange
+    val zoneName: TextWithLocalization, val difficult: Int, val valueRange: IntRange
 )
 
 enum class MapSettings(
@@ -22,12 +20,20 @@ enum class MapSettings(
      */
     JC(
         "Jebus Cross", 5, listOf(
-            ZoneSettings("respawn", 3, 2000..22000),
-            ZoneSettings("mid", 5, 10000..55000),
+            ZoneSettings(
+                TextWithLocalization("Start", "Стартовая"),
+                3,
+                2000..22000
+            ),
+            ZoneSettings(
+                TextWithLocalization("Central", "Центр"),
+                5,
+                10000..55000
+            ),
         )
     );
 
     companion object {
-        fun getMapSettings(mapName: String) = values().find { it.name == mapName.uppercase() }
+        fun getMapSettings(mapName: String) = values().find { it.name == mapName.uppercase() }!!
     }
 }
