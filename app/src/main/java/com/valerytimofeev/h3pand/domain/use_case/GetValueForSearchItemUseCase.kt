@@ -29,6 +29,8 @@ class GetValueForSearchItemUseCase @Inject constructor(
             else -> {
                 val dwelling = Dwelling(
                     item.itemName,
+                    item.itemNameRu,
+                    "",
                     "",
                     item.unitValue,
                     item.weeklyGain,
