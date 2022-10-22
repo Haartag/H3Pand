@@ -8,8 +8,11 @@ import androidx.room.PrimaryKey
 data class AdditionalValueItem(
     @PrimaryKey val id: Int,
     @ColumnInfo val name: String,
+    @ColumnInfo val nameRu: String,
     @ColumnInfo val value: Int,
     @ColumnInfo val type: String,
+    @ColumnInfo val typeRu: String,
     @ColumnInfo val subtype: String,
+    @ColumnInfo val subtypeRu: String,
     @ColumnInfo val castle: Int
 )

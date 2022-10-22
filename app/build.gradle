@@ -110,4 +110,7 @@ dependencies {
     testImplementation 'androidx.test:core:1.4.0'
     androidTestImplementation 'androidx.test:core:1.4.0'
 
+    //Mock
+    testImplementation "io.mockk:mockk:1.13.2"
+
 }

@@ -3,6 +3,7 @@ package com.valerytimofeev.h3pand.data.local
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.RewriteQueriesToDropUnusedColumns
+import com.valerytimofeev.h3pand.data.additional_data.TextWithLocalization
 
 @Dao
 interface PandDao {
@@ -17,11 +18,11 @@ interface PandDao {
     @Query("SELECT * FROM AdditionalDB")
     suspend fun getFullAdditionalValueList(): List<AdditionalValueItem>
 
-    @Query("SELECT DISTINCT type FROM AdditionalDB")
-    suspend fun getAdditionalValueTypesList(): List<String>
+    @Query("SELECT DISTINCT type AS enText, typeRu AS ruText FROM AdditionalDB")
+    suspend fun getAdditionalValueTypesList(): List<TextWithLocalization>
 
-    @Query("SELECT DISTINCT subtype FROM AdditionalDB WHERE type = :type")
-    suspend fun getAdditionalValueSubtypesList(type: String): List<String>
+    @Query("SELECT DISTINCT subtype AS enText, subtypeRu AS ruText FROM AdditionalDB WHERE type = :type")
+    suspend fun getAdditionalValueSubtypesList(type: String): List<TextWithLocalization>
 
     @Query("SELECT * FROM AdditionalDB WHERE type = :type AND subtype = :subtype")
     suspend fun getAdditionalValuesList(type: String, subtype: String): List<AdditionalValueItem>

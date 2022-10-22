@@ -16,6 +16,8 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.valerytimofeev.h3pand.ui.mapselection.MapSelectionScreen
 import com.valerytimofeev.h3pand.ui.pandcalculation.PandCalculationScreen
+import com.valerytimofeev.h3pand.ui.settings.SettingsScreen
+import com.valerytimofeev.h3pand.ui.splashscreen.SplashScreen
 import com.valerytimofeev.h3pand.ui.theme.H3PandTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -36,10 +38,16 @@ class MainActivity : ComponentActivity() {
 
                     NavHost(
                         navController = navController,
-                        startDestination = "map_selection_screen"
+                        startDestination = "splash_screen"
                     ) {
+                        composable("splash_screen") {
+                            SplashScreen(navController = navController)
+                        }
                         composable("map_selection_screen") {
                             MapSelectionScreen(navController = navController)
+                        }
+                        composable("settings_screen") {
+                            SettingsScreen(navController = navController)
                         }
                         composable("pand_calculation_screen/{mapName}", arguments = listOf(
                             navArgument("mapName") {

@@ -23,6 +23,7 @@ class GetValueForSearchItemUseCaseTest() {
 
         val item = SearchItem(
             itemName = "add name 1",
+            itemNameRu = "доп. имя 1",
             isDwelling = false,
             addItemValue = 1400,
             unitValue = null,
@@ -46,6 +47,7 @@ class GetValueForSearchItemUseCaseTest() {
 
         val item = SearchItem(
             itemName = "add name 1",
+            itemNameRu = "доп. имя 1",
             isDwelling = false,
             addItemValue = 1400,
             unitValue = null,
@@ -69,6 +71,7 @@ class GetValueForSearchItemUseCaseTest() {
 
         val item = SearchItem(
             itemName = "test dwelling 2",
+            itemNameRu = "тестовое жилище 2",
             isDwelling = true,
             addItemValue = null,
             unitValue = 250,
@@ -92,6 +95,7 @@ class GetValueForSearchItemUseCaseTest() {
 
         val item = SearchItem(
             itemName = "test dwelling 2",
+            itemNameRu = "тестовое жилище 2",
             isDwelling = true,
             addItemValue = null,
             unitValue = 250,
@@ -115,6 +119,7 @@ class GetValueForSearchItemUseCaseTest() {
 
         val item = SearchItem(
             itemName = "test dwelling 2",
+            itemNameRu = "тестовое жилище 2",
             isDwelling = true,
             addItemValue = null,
             unitValue = null,
@@ -138,6 +143,7 @@ class GetValueForSearchItemUseCaseTest() {
 
         val item = SearchItem(
             itemName = "add name 1",
+            itemNameRu = "доп. имя 1",
             isDwelling = false,
             addItemValue = null,
             unitValue = null,

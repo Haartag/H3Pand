@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.valerytimofeev.h3pand.data.local.PandDao
 import com.valerytimofeev.h3pand.data.local.PandDatabase
+import com.valerytimofeev.h3pand.domain.model.SettingsDataStorage
 import com.valerytimofeev.h3pand.domain.use_case.*
 import com.valerytimofeev.h3pand.domain.use_case.dialog_use_case.ConvertToSearchListUseCase
 import com.valerytimofeev.h3pand.repositories.local.DefaultPandRepository
@@ -71,5 +72,17 @@ object AppModule {
     @Provides
     fun provideConvertToSearchListUseCase(): ConvertToSearchListUseCase {
         return ConvertToSearchListUseCase()
+    }
+
+    @Singleton
+    @Provides
+    fun provideSettingsDataStorage(@ApplicationContext appContext: Context): SettingsDataStorage {
+        return SettingsDataStorage(appContext)
+    }
+
+    @Singleton
+    @Provides
+    fun provideGetLocalizedTextUseCase(): GetLocalizedTextUseCase {
+        return GetLocalizedTextUseCase()
     }
 }

@@ -2,6 +2,7 @@ package com.valerytimofeev.h3pand.domain.use_case.dialog_use_case
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.google.common.truth.Truth
+import com.valerytimofeev.h3pand.data.additional_data.TextWithLocalization
 import com.valerytimofeev.h3pand.data.local.AdditionalValueItem
 import com.valerytimofeev.h3pand.data.local.Dwelling
 import com.valerytimofeev.h3pand.data.local.Guard
@@ -52,6 +53,7 @@ class DialogButtonHandleUseCaseTest() {
                 listOf(
                     Guard(
                         name = "test name 1",
+                        nameRu = "тестовое имя 1",
                         AIValue = 80,
                         minOnMap = 20,
                         maxOnMap = 50,
@@ -71,7 +73,7 @@ class DialogButtonHandleUseCaseTest() {
                 9
             )
             Truth.assertThat(result.data!![7]).isEqualTo(
-                Guard(name = "", AIValue = 0, minOnMap = 0, maxOnMap = 0, img = "")
+                Guard(name = "", nameRu = "", AIValue = 0, minOnMap = 0, maxOnMap = 0, img = "")
             )
         }
 
@@ -84,6 +86,7 @@ class DialogButtonHandleUseCaseTest() {
                 listOf(
                     Guard(
                         name = "test name 9",
+                        nameRu = "тестовое имя 9",
                         AIValue = 1210,
                         minOnMap = 5,
                         maxOnMap = 12,
@@ -101,6 +104,7 @@ class DialogButtonHandleUseCaseTest() {
             listOf(
                 Guard(
                     name = "test name 1",
+                    nameRu = "тестовое имя 1",
                     AIValue = 80,
                     minOnMap = 20,
                     maxOnMap = 50,
@@ -111,6 +115,7 @@ class DialogButtonHandleUseCaseTest() {
         Truth.assertThat(result).isEqualTo(
             Guard(
                 name = "test name 1",
+                nameRu = "тестовое имя 1",
                 AIValue = 80,
                 minOnMap = 20,
                 maxOnMap = 50,
@@ -125,6 +130,7 @@ class DialogButtonHandleUseCaseTest() {
             0,
             Guard(
                 name = "test name 1",
+                nameRu = "тестовое имя 1",
                 AIValue = 80,
                 minOnMap = 20,
                 maxOnMap = 50,
@@ -135,6 +141,7 @@ class DialogButtonHandleUseCaseTest() {
             GuardAndNumber(
                 guard = Guard(
                     name = "test name 1",
+                    nameRu = "тестовое имя 1",
                     AIValue = 80,
                     minOnMap = 20,
                     maxOnMap = 50,
@@ -160,7 +167,10 @@ class DialogButtonHandleUseCaseTest() {
                         searchType = SearchType.NONE
                     ),
                     dwellingList = null,
-                    addValueSubtypeList = listOf("Morale/Luck", "Trade")
+                    addValueSubtypeList = listOf(
+                        TextWithLocalization("Morale/Luck", "Мораль/Удача"),
+                        TextWithLocalization("Trade", "Торговля"),
+                    )
                 )
             )
         )
@@ -180,7 +190,7 @@ class DialogButtonHandleUseCaseTest() {
     @Test
     fun `addValueDialogTypeButton, dwelling item, return success`() = runTest {
         val result = buttonHandleUseCase.addValueDialogTypeButton(
-            "Dwelling",
+            "Dwellings",
             1
         )
         Truth.assertThat(result).isEqualTo(
@@ -195,7 +205,9 @@ class DialogButtonHandleUseCaseTest() {
                     dwellingList = listOf(
                         Dwelling(
                             dwellingName = "test dwelling 1",
+                            dwellingNameRu = "тестовое жилище 1",
                             name = "test name 1",
+                            nameRu = "тестовое имя 1",
                             AIValue = 80,
                             weeklyGain = 15,
                             castle = 1
@@ -211,7 +223,7 @@ class DialogButtonHandleUseCaseTest() {
     fun `addValueDialogTypeButton, dwelling item, castle zone 2 (additional item), return success`() =
         runTest {
             val result = buttonHandleUseCase.addValueDialogTypeButton(
-                "Dwelling",
+                "Dwellings",
                 2
             )
             Truth.assertThat(result).isEqualTo(
@@ -226,14 +238,18 @@ class DialogButtonHandleUseCaseTest() {
                         dwellingList = listOf(
                             Dwelling(
                                 dwellingName = "test dwelling 2",
+                                dwellingNameRu = "тестовое жилище 2",
                                 name = "test name 2",
+                                nameRu = "тестовое имя 2",
                                 AIValue = 60,
                                 weeklyGain = 15,
                                 castle = 2
                             ),
                             Dwelling(
                                 "Elemental conflux",
+                                "Сопряжение стихий",
                                 "various",
+                                "различное",
                                 0,
                                 0,
                                 2
@@ -249,7 +265,7 @@ class DialogButtonHandleUseCaseTest() {
     fun `addValueDialogTypeButton, dwelling item, castle zone 0 (additional item), return success`() =
         runTest {
             val result = buttonHandleUseCase.addValueDialogTypeButton(
-                "Dwelling",
+                "Dwellings",
                 0
             )
             Truth.assertThat(result).isEqualTo(
@@ -264,14 +280,18 @@ class DialogButtonHandleUseCaseTest() {
                         dwellingList = listOf(
                             Dwelling(
                                 dwellingName = "test dwelling 6",
+                                dwellingNameRu = "тестовое жилище 6",
                                 name = "test name 9",
+                                nameRu = "тестовое имя 9",
                                 AIValue = 1210,
                                 weeklyGain = 2,
                                 castle = 0
                             ),
                             Dwelling(
                                 "Golem factory",
+                                "Фабрика големов",
                                 "various",
+                                "различное",
                                 0,
                                 0,
                                 10
@@ -286,7 +306,7 @@ class DialogButtonHandleUseCaseTest() {
     @Test
     fun `addValueDialogTypeButton, custom value item, return success`() = runTest {
         val result = buttonHandleUseCase.addValueDialogTypeButton(
-            "Custom value",
+            "Choose a value",
             1
         )
         Truth.assertThat(result).isEqualTo(
@@ -315,13 +335,16 @@ class DialogButtonHandleUseCaseTest() {
             Resource.success(
                 listOf(
                     AdditionalValueItem(
-                        id = 3,
-                        name = "add name 3",
-                        value = 5000,
-                        type = "Misc.",
-                        subtype = "Trade",
-                        castle = 0
-                    )
+                        3,
+                        "add name 3",
+                        "доп. имя 3",
+                        5000,
+                        "Misc.",
+                        "Разное",
+                        "Trade",
+                        "Торговля",
+                        0
+                    ),
                 )
             )
         )
@@ -346,12 +369,15 @@ class DialogButtonHandleUseCaseTest() {
         val result = buttonHandleUseCase.addValueDialogItemButton(
             addValueAndSlot = AddValueAndSlot(
                 addValue = AdditionalValueItem(
-                    id = 3,
-                    name = "add name 3",
-                    value = 5000,
-                    type = "Misc.",
-                    subtype = "Trade",
-                    castle = 0
+                    3,
+                    "add name 3",
+                    "доп. имя 3",
+                    5000,
+                    "Misc.",
+                    "Разное",
+                    "Trade",
+                    "Торговля",
+                    0
                 ),
                 slot = 1
             )
@@ -359,12 +385,15 @@ class DialogButtonHandleUseCaseTest() {
         Truth.assertThat(result).isEqualTo(
             AddValueAndSlot(
                 addValue = AdditionalValueItem(
-                    id = 3,
-                    name = "add name 3",
-                    value = 5000,
-                    type = "Misc.",
-                    subtype = "Trade",
-                    castle = 0
+                    3,
+                    "add name 3",
+                    "доп. имя 3",
+                    5000,
+                    "Misc.",
+                    "Разное",
+                    "Trade",
+                    "Торговля",
+                    0
                 ),
                 slot = 1
             )
@@ -377,7 +406,9 @@ class DialogButtonHandleUseCaseTest() {
             dwellingAndSlot = DwellingAndSlot(
                 dwelling = Dwelling(
                     dwellingName = "test dwelling 1",
+                    dwellingNameRu = "тестовое жилище 1",
                     name = "test name 1",
+                    nameRu = "тестовое имя 1",
                     AIValue = 80,
                     weeklyGain = 15,
                     castle = 1
@@ -389,7 +420,9 @@ class DialogButtonHandleUseCaseTest() {
             DwellingAndSlot(
                 dwelling = Dwelling(
                     dwellingName = "test dwelling 1",
+                    dwellingNameRu = "тестовое жилище 1",
                     name = "test name 1",
+                    nameRu = "тестовое имя 1",
                     AIValue = 80,
                     weeklyGain = 15,
                     castle = 1
@@ -405,6 +438,7 @@ class DialogButtonHandleUseCaseTest() {
             searchItemAndSlot = SearchItemAndSlot(
                 searchItem = SearchItem(
                     itemName = "add name 1",
+                    itemNameRu = "доп. имя 1",
                     isDwelling = false,
                     addItemValue = 1400,
                     unitValue = null,
@@ -418,6 +452,7 @@ class DialogButtonHandleUseCaseTest() {
             SearchItemAndSlot(
                 searchItem = SearchItem(
                     itemName = "add name 1",
+                    itemNameRu = "доп. имя 1",
                     isDwelling = false,
                     addItemValue = 1400,
                     unitValue = null,

@@ -4,6 +4,7 @@ import com.valerytimofeev.h3pand.data.local.BoxValueItem
 import com.valerytimofeev.h3pand.domain.model.BoxWithDropPercent
 import com.valerytimofeev.h3pand.domain.model.Difficult
 import com.valerytimofeev.h3pand.domain.model.GuardCharacteristics
+import com.valerytimofeev.h3pand.data.additional_data.TextWithLocalization
 import com.valerytimofeev.h3pand.utils.*
 import kotlin.math.roundToInt
 
@@ -85,7 +86,7 @@ class GetBoxWithPercentUseCase {
 
         return Resource.success(
             BoxWithDropPercent(
-                boxValueItem.boxContent,
+                TextWithLocalization(boxValueItem.boxContent, boxValueItem.boxContentRu),
                 summaryPercent,
                 mostLikelyGuardNumber.first,
                 guards.first()..guards.last(),

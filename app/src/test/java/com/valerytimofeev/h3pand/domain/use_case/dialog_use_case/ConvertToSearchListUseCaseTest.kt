@@ -20,13 +20,35 @@ class ConvertToSearchListUseCaseTest() {
     @Test
     fun `Merge addValue List and dwelling List to searchItem List, both input lists`() {
         val addValueList = listOf(
-            AdditionalValueItem(1, "add name 1", 1400, "Misc.", "Morale/Luck", 0),
-            AdditionalValueItem(2, "add name 2", 2000, "Artifact", "Treasure artifact", 0),
+            AdditionalValueItem(
+                1,
+                "add name 1",
+                "доп. имя 1",
+                1400,
+                "Misc.",
+                "Разное",
+                "Morale/Luck",
+                "Мораль/Удача",
+                0
+            ),
+            AdditionalValueItem(
+                2,
+                "add name 2",
+                "доп. имя 2",
+                2000,
+                "Artifact",
+                "Артефакты",
+                "Treasure artifact",
+                "Артефакты-сокровища",
+                0
+            )
         )
         val dwellingList = listOf(
             Dwelling(
                 dwellingName = "test dwelling 2",
+                dwellingNameRu = "тестовое жилище 2",
                 name = "test name 2",
+                nameRu = "тестовое имя 2",
                 AIValue = 250,
                 weeklyGain = 7,
                 castle = 3
@@ -41,6 +63,7 @@ class ConvertToSearchListUseCaseTest() {
             listOf(
                 SearchItem(
                     itemName = "add name 1",
+                    itemNameRu = "доп. имя 1",
                     isDwelling = false,
                     addItemValue = 1400,
                     unitValue = null,
@@ -49,6 +72,7 @@ class ConvertToSearchListUseCaseTest() {
                 ),
                 SearchItem(
                     itemName = "add name 2",
+                    itemNameRu = "доп. имя 2",
                     isDwelling = false,
                     addItemValue = 2000,
                     unitValue = null,
@@ -57,6 +81,7 @@ class ConvertToSearchListUseCaseTest() {
                 ),
                 SearchItem(
                     itemName = "test dwelling 2",
+                    itemNameRu = "тестовое жилище 2",
                     isDwelling = true,
                     addItemValue = null,
                     unitValue = 250,
@@ -70,8 +95,28 @@ class ConvertToSearchListUseCaseTest() {
     @Test
     fun `Convert addValue List to searchItem List, empty dwelling list`() {
         val addValueList = listOf(
-            AdditionalValueItem(1, "add name 1", 1400, "Misc.", "Morale/Luck", 0),
-            AdditionalValueItem(2, "add name 2", 2000, "Artifact", "Treasure artifact", 0),
+            AdditionalValueItem(
+                1,
+                "add name 1",
+                "доп. имя 1",
+                1400,
+                "Misc.",
+                "Разное",
+                "Morale/Luck",
+                "Мораль/Удача",
+                0
+            ),
+            AdditionalValueItem(
+                2,
+                "add name 2",
+                "доп. имя 2",
+                2000,
+                "Artifact",
+                "Артефакты",
+                "Treasure artifact",
+                "Артефакты-сокровища",
+                0
+            )
         )
         val dwellingList = emptyList<Dwelling>()
 
@@ -83,6 +128,7 @@ class ConvertToSearchListUseCaseTest() {
             listOf(
                 SearchItem(
                     itemName = "add name 1",
+                    itemNameRu = "доп. имя 1",
                     isDwelling = false,
                     addItemValue = 1400,
                     unitValue = null,
@@ -91,6 +137,7 @@ class ConvertToSearchListUseCaseTest() {
                 ),
                 SearchItem(
                     itemName = "add name 2",
+                    itemNameRu = "доп. имя 2",
                     isDwelling = false,
                     addItemValue = 2000,
                     unitValue = null,
@@ -107,7 +154,9 @@ class ConvertToSearchListUseCaseTest() {
         val dwellingList = listOf(
             Dwelling(
                 dwellingName = "test dwelling 2",
+                dwellingNameRu = "тестовое жилище 2",
                 name = "test name 2",
+                nameRu = "тестовое имя 2",
                 AIValue = 250,
                 weeklyGain = 7,
                 castle = 3
@@ -122,6 +171,7 @@ class ConvertToSearchListUseCaseTest() {
             listOf(
                 SearchItem(
                     itemName = "test dwelling 2",
+                    itemNameRu = "тестовое жилище 2",
                     isDwelling = true,
                     addItemValue = null,
                     unitValue = 250,

@@ -3,6 +3,7 @@ package com.valerytimofeev.h3pand.data.local
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.filters.SmallTest
 import com.google.common.truth.Truth.assertThat
+import com.valerytimofeev.h3pand.data.additional_data.TextWithLocalization
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -45,16 +46,23 @@ class PandDaoTest {
 
     @Test
     fun getAllGuardList_returnCorrectGuardAndListSize() = runTest {
-        val result = dao.getAllGuardsList(5)
+        val result = dao.getGuardsByCastle(5)
         assertThat(result[0]).isEqualTo(
-            Guard(name = "Gnoll", AIValue = 56, minOnMap = 20, maxOnMap = 50, img = "Pawn")
+            Guard(
+                name = "Gnoll",
+                "Гноллы",
+                AIValue = 56,
+                minOnMap = 20,
+                maxOnMap = 50,
+                img = "Pawn"
+            )
         )
         assertThat(result.size).isEqualTo(14)
     }
 
     @Test
     fun getAllGuardList_invalidCastle_returnEmptyList() = runTest {
-        val result = dao.getAllGuardsList(20)
+        val result = dao.getGuardsByCastle(20)
         assertThat(result).isEmpty()
     }
 
@@ -62,16 +70,31 @@ class PandDaoTest {
     fun getFullAdditionalValueList_returnCorrectAddValueAndListSize() = runTest {
         val result = dao.getFullAdditionalValueList()
         assertThat(result[0]).isEqualTo(
-            AdditionalValueItem(1, "Altar of sacrifice", 100, "Misc.", "Expirience", 0)
+            AdditionalValueItem(
+                1,
+                "Altar of sacrifice",
+                "Жертвенный алтарь",
+                100,
+                "Misc.",
+                "Разное",
+                "Expirience",
+                "Опыт",
+                0
+            )
         )
-        assertThat(result.size).isEqualTo(231)
+        assertThat(result.size).isEqualTo(232)
     }
 
     @Test
     fun getAdditionalValueTypesList_returnCorrectTypes() = runTest {
         val result = dao.getAdditionalValueTypesList()
         assertThat(result).isEqualTo(
-            listOf("Misc.", "Resource", "Bank", "Artifact")
+            listOf(
+                TextWithLocalization(enText = "Misc.", ruText = "Разное"),
+                TextWithLocalization(enText = "Resource", ruText = "Ресурсы"),
+                TextWithLocalization(enText = "Bank", ruText = "Банк"),
+                TextWithLocalization(enText = "Artifact", ruText = "Артефакт")
+            )
         )
     }
 
@@ -79,7 +102,12 @@ class PandDaoTest {
     fun getAdditionalValueSubtypesList_returnCorrectSubtypes() = runTest {
         val result = dao.getAdditionalValueSubtypesList("Artifact")
         assertThat(result).isEqualTo(
-            listOf("Treasure artifact", "Minor artifact", "Major artifact", "Relic artifact")
+            listOf(
+                TextWithLocalization(enText = "Treasure artifact", ruText = "Артефакты-сокровища"),
+                TextWithLocalization(enText = "Minor artifact", ruText = "Малые артефакты"),
+                TextWithLocalization(enText = "Major artifact", ruText = "Великие артефакты"),
+                TextWithLocalization(enText = "Relic artifact", ruText = "Реликты")
+            )
         )
     }
 
@@ -98,9 +126,12 @@ class PandDaoTest {
             AdditionalValueItem(
                 id = 31,
                 name = "Crypt",
+                nameRu = "Склеп",
                 value = 1000,
                 type = "Bank",
+                typeRu = "Банк",
                 subtype = "Artifact bank",
+                subtypeRu = "Банки артефактов",
                 castle = 0
             )
         )
@@ -133,10 +164,34 @@ class PandDaoTest {
 
         assertThat(result).isEqualTo(
             listOf(
-                BoxValueItem(id = 1, boxContent = "5000 gold", value = 5000, img = "gold"),
-                BoxValueItem(id = 5, boxContent = "5000 exp.", value = 6000, img = "exp"),
-                BoxValueItem(id = 13, boxContent = "1 lvl. spells", value = 5000, img = "spells1"),
-                BoxValueItem(id = 14, boxContent = "2 lvl. spells", value = 7500, img = "spells1")
+                BoxValueItem(
+                    id = 1,
+                    boxContent = "5000 gold",
+                    boxContentRu = "5000 золото",
+                    value = 5000,
+                    img = "gold"
+                ),
+                BoxValueItem(
+                    id = 5,
+                    boxContent = "5000 exp.",
+                    boxContentRu = "5000 опыт",
+                    value = 6000,
+                    img = "exp"
+                ),
+                BoxValueItem(
+                    id = 13,
+                    boxContent = "1 lvl. spells",
+                    boxContentRu = "Заклинания 1 уровня",
+                    value = 5000,
+                    img = "spells1"
+                ),
+                BoxValueItem(
+                    id = 14,
+                    boxContent = "2 lvl. spells",
+                    boxContentRu = "Заклинания 2 уровня",
+                    value = 7500,
+                    img = "spells1"
+                )
             )
         )
     }
@@ -168,9 +223,30 @@ class PandDaoTest {
 
         assertThat(result).isEqualTo(
             listOf(
-                UnitBox(name = "Infernal troglodyte", AIValue = 84, numberInBox = 60, castle = 4, img = "Pawn"),
-                UnitBox(name = "Harpy", AIValue = 154, numberInBox = 45, castle = 4, img = "Pawn"),
-                UnitBox(name = "Harpy hag", AIValue = 238, numberInBox = 30, castle = 4, img = "Pawn"),
+                UnitBox(
+                    name = "Infernal troglodyte",
+                    nameRu = "Троглодиты-охотники",
+                    AIValue = 84,
+                    numberInBox = 60,
+                    castle = 4,
+                    img = "Pawn"
+                ),
+                UnitBox(
+                    name = "Harpy",
+                    nameRu = "Гарпии",
+                    AIValue = 154,
+                    numberInBox = 45,
+                    castle = 4,
+                    img = "Pawn"
+                ),
+                UnitBox(
+                    name = "Harpy hag",
+                    nameRu = "Гарпии-ведьмы",
+                    AIValue = 238,
+                    numberInBox = 30,
+                    castle = 4,
+                    img = "Pawn"
+                ),
             )
         )
     }
@@ -208,7 +284,17 @@ class PandDaoTest {
     @Test
     fun getDwellings_validInput() = runTest {
         val result = dao.getDwellingsByCastle(1)
-        assertThat(result[0]).isEqualTo(Dwelling("Guardhouse", "Pikeman", 80, 14, 1))
+        assertThat(result[0]).isEqualTo(
+            Dwelling(
+                "Guardhouse",
+                "Сторожевой пост",
+                "Pikeman",
+                "Копейщики",
+                80,
+                14,
+                1
+            )
+        )
     }
 
     @Test

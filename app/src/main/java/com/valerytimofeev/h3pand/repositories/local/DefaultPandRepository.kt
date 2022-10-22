@@ -1,6 +1,7 @@
 package com.valerytimofeev.h3pand.repositories.local
 
 import com.valerytimofeev.h3pand.data.local.*
+import com.valerytimofeev.h3pand.data.additional_data.TextWithLocalization
 import com.valerytimofeev.h3pand.utils.Resource
 import javax.inject.Inject
 
@@ -53,7 +54,7 @@ class DefaultPandRepository @Inject constructor(
         }
     }
 
-    override suspend fun getAdditionalValueTypesList(): Resource<List<String>> {
+    override suspend fun getAdditionalValueTypesList(): Resource<List<TextWithLocalization>> {
         return try {
             val addValueTypesList = pandDao.getAdditionalValueTypesList()
             if (addValueTypesList.isEmpty()) return Resource.error(
@@ -68,7 +69,7 @@ class DefaultPandRepository @Inject constructor(
         }
     }
 
-    override suspend fun getAdditionalValueSubtypesList(type: String): Resource<List<String>> {
+    override suspend fun getAdditionalValueSubtypesList(type: String): Resource<List<TextWithLocalization>> {
         return try {
             val addValueSubtypesList = pandDao.getAdditionalValueSubtypesList(type)
             if (addValueSubtypesList.isEmpty()) return Resource.error(

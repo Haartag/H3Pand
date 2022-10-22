@@ -53,6 +53,7 @@ class FindItemInAdditionalValuesUseCaseTest {
             listOf(
                 SearchItem(
                     itemName = "add name 1",
+                    itemNameRu = "доп. имя 1",
                     isDwelling = false,
                     addItemValue = 1400,
                     unitValue = null,
@@ -61,6 +62,7 @@ class FindItemInAdditionalValuesUseCaseTest {
                 ),
                 SearchItem(
                     itemName = "test dwelling 1",
+                    itemNameRu = "тестовое жилище 1",
                     isDwelling = true,
                     addItemValue = null,
                     unitValue = 80,
