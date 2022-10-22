@@ -2,6 +2,7 @@ package com.valerytimofeev.h3pand.domain.use_case.dialog_use_case
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.google.common.truth.Truth
+import com.valerytimofeev.h3pand.data.additional_data.TextWithLocalization
 import com.valerytimofeev.h3pand.repositories.local.FakePandRepository
 import com.valerytimofeev.h3pand.utils.Resource
 import kotlinx.coroutines.Dispatchers
@@ -44,7 +45,12 @@ class GetAdditionalValueListUseCaseTest {
         val result = getAdditionalValueListUseCase()
 
         Truth.assertThat(result.data).isEqualTo(
-            listOf("Custom value", "Misc.", "Artifact", "Dwelling")
+            listOf(
+                TextWithLocalization(enText = "Choose a value", ruText = "Выберите ценность"),
+                TextWithLocalization(enText = "Misc.", ruText = "Разное"),
+                TextWithLocalization(enText = "Artifact", ruText = "Артефакты"),
+                TextWithLocalization(enText = "Dwellings", ruText = "Жилища")
+            )
         )
     }
 

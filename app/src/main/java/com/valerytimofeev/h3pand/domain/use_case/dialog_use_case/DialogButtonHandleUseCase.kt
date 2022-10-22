@@ -24,29 +24,25 @@ class DialogButtonHandleUseCase @Inject constructor(
 
         return when {
             guardResource.status == Status.ERROR -> Resource.error(
-                guardResource.message!!,
-                null
+                guardResource.message!!, null
             )
             castle == 3 -> Resource.success( //If castle is cove - add empty guard to align rows after Sea dogs
                 guardResource.data!!.toMutableList().also {
-                    it.add(7, Guard("", 0, 0, 0, ""))
-                }
-            )
+                    it.add(7, Guard("", "", 0, 0, 0, ""))
+                })
             else -> guardResource
         }
     }
 
     fun guardDialogUnitButton(
-        index: Int,
-        guardList: List<Guard>
+        index: Int, guardList: List<Guard>
     ): Guard {
         return guardList[index]
     }
 
 
     fun guardDialogNumberButton(
-        index: Int,
-        chosenGuard: Guard
+        index: Int, chosenGuard: Guard
     ): GuardAndNumber {
         return GuardAndNumber(
             chosenGuard, index
@@ -54,11 +50,10 @@ class DialogButtonHandleUseCase @Inject constructor(
     }
 
     suspend fun addValueDialogTypeButton(
-        item: String,
-        chosenCastleZone: Int
+        item: String, chosenCastleZone: Int
     ): Resource<AddValueTypeButtonData> {
         when (item) {
-            "Dwelling" -> {
+            "Dwellings" -> {
                 val dwellingList = mutableListOf<Dwelling>()
                 dwellingList.addAll(
                     repository.getDwellingsByCastle(
@@ -66,10 +61,26 @@ class DialogButtonHandleUseCase @Inject constructor(
                     ).data ?: emptyList()
                 )
                 if (chosenCastleZone == 2) dwellingList.add(
-                    Dwelling("Elemental conflux", "various", 0, 0, 2)
+                    Dwelling(
+                        "Elemental conflux",
+                        "Сопряжение стихий",
+                        "various",
+                        "различное",
+                        0,
+                        0,
+                        2
+                    )
                 )
                 if (chosenCastleZone == 10 || chosenCastleZone == 0) dwellingList.add(
-                    Dwelling("Golem factory", "various", 0, 0, 10)
+                    Dwelling(
+                        "Golem factory",
+                        "Фабрика големов",
+                        "various",
+                        "различное",
+                        0,
+                        0,
+                        10
+                    )
                 )
                 return Resource.success(
                     AddValueTypeButtonData(
@@ -79,7 +90,7 @@ class DialogButtonHandleUseCase @Inject constructor(
                     )
                 )
             }
-            "Custom value" -> {
+            "Choose a value" -> {
                 return Resource.success(
                     AddValueTypeButtonData(
                         DialogState.Companion.DialogUiPresets.ADDVALUE_CUSTOMVALUE.dialogUiState,
@@ -89,12 +100,10 @@ class DialogButtonHandleUseCase @Inject constructor(
                 )
             }
             else -> {
-                val addValueSubtypesResource =
-                    repository.getAdditionalValueSubtypesList(item)
+                val addValueSubtypesResource = repository.getAdditionalValueSubtypesList(item)
                 if (addValueSubtypesResource.data.isNullOrEmpty()) {
                     return Resource.error(
-                        addValueSubtypesResource.message ?: "An unknown error occurred",
-                        null
+                        addValueSubtypesResource.message ?: "An unknown error occurred", null
                     )
                 }
                 return Resource.success(
@@ -109,17 +118,14 @@ class DialogButtonHandleUseCase @Inject constructor(
     }
 
     suspend fun addValueDialogSubtypeButton(
-        addValueSubtype: String,
-        addValueType: String
+        addValueSubtype: String, addValueType: String
     ): Resource<List<AdditionalValueItem>> {
         val result = repository.getAdditionalValuesList(
-            addValueType,
-            addValueSubtype
+            addValueType, addValueSubtype
         )
         return if (result.data.isNullOrEmpty()) {
             Resource.error(
-                result.message ?: "An unknown error occurred",
-                null
+                result.message ?: "An unknown error occurred", null
             )
         } else {
             result

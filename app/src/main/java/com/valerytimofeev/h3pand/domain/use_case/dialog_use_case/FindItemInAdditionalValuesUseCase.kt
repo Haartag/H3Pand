@@ -5,6 +5,7 @@ import com.valerytimofeev.h3pand.domain.use_case.GetDwellingsListUseCase
 import com.valerytimofeev.h3pand.repositories.local.PandRepository
 import com.valerytimofeev.h3pand.utils.Resource
 import com.valerytimofeev.h3pand.data.local.*
+import com.valerytimofeev.h3pand.domain.model.CurrentLocal
 import javax.inject.Inject
 
 /**
@@ -19,6 +20,7 @@ class FindItemInAdditionalValuesUseCase @Inject constructor(
         input: String,
         castle: Int,
     ): Resource<List<SearchItem>> {
+        val localization = CurrentLocal.local
         val additionalValueResource = repository.getFullAdditionalValueList()
         val dwellingsResource = getDwellingsListUseCase(castle)
 
@@ -40,6 +42,14 @@ class FindItemInAdditionalValuesUseCase @Inject constructor(
 
         val searchList =  convertToSearchListUseCase(additionalValueList, dwellingsList)
 
-        return Resource.success(searchList.filter { it.itemName.lowercase().contains(input.lowercase()) })
+        return when(localization) {
+            0 -> Resource.success(searchList.filter {
+                it.itemName.lowercase().contains(input.lowercase())
+            })
+            1 -> Resource.success(searchList.filter {
+                it.itemNameRu.lowercase().contains(input.lowercase())
+            })
+            else -> Resource.error("Search error", null)
+        }
     }
 }

@@ -45,9 +45,9 @@ class FindItemInGuardsUseCaseTest() {
     fun `Find item in Guard, valid input`() = runTest {
         val result = findItem("name")
 
-        Truth.assertThat(result.data!!.size).isEqualTo(9)
+        Truth.assertThat(result.data!!.size).isEqualTo(14)
         Truth.assertThat(result.data!![0]).isEqualTo(
-            Guard(name = "test name 1", AIValue = 80, minOnMap = 20, maxOnMap = 50, img = "img1")
+            Guard(name = "test name 1", nameRu = "тестовое имя 1", AIValue = 80, minOnMap = 20, maxOnMap = 50, img = "img1")
             )
     }
 
@@ -57,7 +57,7 @@ class FindItemInGuardsUseCaseTest() {
 
         Truth.assertThat(result.data).isEqualTo(
             listOf(
-                Guard(name = "test name 2", AIValue = 60, minOnMap = 20, maxOnMap = 50, img = "img1"),
+                Guard(name = "test name 2", nameRu = "тестовое имя 2", AIValue = 60, minOnMap = 20, maxOnMap = 50, img = "img1"),
             )
         )
     }
