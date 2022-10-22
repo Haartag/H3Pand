@@ -63,7 +63,7 @@ fun ItemEntry(
         ) {
             Image(
                 painter = painter,
-                contentDescription = viewModel.boxesWithPercents[itemIndex].name,
+                contentDescription = viewModel.boxesWithPercents[itemIndex].name.enText,
                 contentScale = ContentScale.FillHeight,
                 alpha = 0.6f
             )
@@ -80,7 +80,7 @@ fun ItemEntry(
                 modifier = Modifier
                     .fillMaxHeight()
             ) {
-                Text(text = viewModel.boxesWithPercents[itemIndex].name)
+                Text(text = viewModel.itemNameText(itemIndex))
                 Text(
                     text = "${viewModel.boxesWithPercents[itemIndex].dropChance} %",
                     style = MaterialTheme.typography.subtitle1
@@ -92,11 +92,11 @@ fun ItemEntry(
                     .fillMaxHeight()
             ) {
                 Text(
-                    text = "guard: ${viewModel.boxesWithPercents[itemIndex].range},",
+                    text = viewModel.itemGuardRangeText(itemIndex),
                     style = MaterialTheme.typography.body2
                 )
                 Text(
-                    text = "most likely ${viewModel.boxesWithPercents[itemIndex].mostLikelyGuard}",
+                    text = viewModel.itemMostLikelyText(itemIndex),
                     style = MaterialTheme.typography.body2
                 )
             }

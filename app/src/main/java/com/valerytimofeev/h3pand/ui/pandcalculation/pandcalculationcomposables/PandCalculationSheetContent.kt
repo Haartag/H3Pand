@@ -26,7 +26,6 @@ import com.valerytimofeev.h3pand.ui.pandcalculation.PandCalculationViewModel
 import com.valerytimofeev.h3pand.ui.pandcalculation.dialog.DialogViewModel
 import com.valerytimofeev.h3pand.domain.model.CastleSettings
 import com.valerytimofeev.h3pand.data.additional_data.GuardRanges
-import com.valerytimofeev.h3pand.data.additional_data.MapSettings
 import kotlin.math.roundToInt
 
 /**
@@ -112,7 +111,7 @@ fun SheetChooseUnit(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(
-                        text = viewModel.chosenGuard.value?.name ?: "",
+                        text = viewModel.getLocalizedTextUseCase(viewModel.chosenGuard.value),
                         modifier = Modifier.fillMaxWidth(),
                         textAlign = TextAlign.Center
                     )
@@ -142,7 +141,7 @@ fun SheetAdditionalValue(
     ) {
         Column(modifier = Modifier.padding(8.dp)) {
             Text(
-                text = "Total value:",
+                text = viewModel.totalValueText,
                 textAlign = TextAlign.Start,
                 modifier = Modifier
                     .padding(horizontal = 8.dp)
@@ -228,10 +227,7 @@ fun SheetChooseWeek(
     viewModel: PandCalculationViewModel = hiltViewModel()
 ) {
     Column() {
-        Text(
-            text = "month: ${(viewModel.weekSliderPosition.value / 4 + 1).toInt()}, " +
-                    "week: ${(viewModel.weekSliderPosition.value % 4 + 1).toInt()}"
-        )
+        Text(text = viewModel.weekAndMonthText)
         Slider(
             value = viewModel.weekSliderPosition.value,
             valueRange = 0f..8f,
@@ -254,7 +250,7 @@ fun SheetChooseCastleNumber(
     viewModel: PandCalculationViewModel = hiltViewModel()
 ) {
     Column(modifier = modifier) {
-        Text(text = "castle number: ${viewModel.castlesSliderPosition.value.roundToInt()}")
+        Text(text = viewModel.townZoneNumberText)
         Slider(
             value = viewModel.castlesSliderPosition.value,
             valueRange = 1f..viewModel.maxCastleNumber,
@@ -278,9 +274,7 @@ fun SheetChooseZone(
 ) {
     Column(modifier = modifier) {
         Text(
-            text = "current zone: ${
-                MapSettings.getMapSettings("JC")!!.valueRanges[viewModel.zoneSliderPosition.value.toInt()].zoneName
-            }"
+            text = viewModel.typeOfZoneText
         )
         Slider(
             value = viewModel.zoneSliderPosition.value,
@@ -308,11 +302,7 @@ fun SheetChooseZoneCastle(
     dialogViewModel: DialogViewModel = hiltViewModel(),
 ) {
     Column() {
-        Text(text = "Current zone:")
-        Text(
-            text = CastleSettings.values()
-                .find { it.id == viewModel.chosenCastleZone.value }?.castleName ?: ""
-        )
+        Text(text = viewModel.mainTownText)
         Box(
             modifier = modifier
                 .size(halfWidthOfScreen)
