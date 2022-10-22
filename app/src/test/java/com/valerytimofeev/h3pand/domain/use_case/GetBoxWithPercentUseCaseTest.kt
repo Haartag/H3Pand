@@ -1,6 +1,7 @@
 package com.valerytimofeev.h3pand.domain.use_case
 
 import com.google.common.truth.Truth.assertThat
+import com.valerytimofeev.h3pand.data.additional_data.TextWithLocalization
 import com.valerytimofeev.h3pand.data.local.BoxValueItem
 import com.valerytimofeev.h3pand.domain.model.BoxWithDropPercent
 import com.valerytimofeev.h3pand.domain.model.Difficult
@@ -20,7 +21,7 @@ class GetBoxWithPercentUseCaseTest() {
 
     @Test
     fun `Get BoxWithDropPercent, valid input, all guards in range`() {
-        val boxValueItem = BoxValueItem(1, "5000exp", 6000, "exp")
+        val boxValueItem = BoxValueItem(1, "5000exp", "5000 опыт", 6000, "exp")
         val guardValue = GuardCharacteristics(16, 13, 65, 86)
         val difficult = Difficult.THREE
         val unitValue = 190
@@ -31,12 +32,20 @@ class GetBoxWithPercentUseCaseTest() {
         val value = getBoxWithPercentUseCase(
             boxValueItem, guardValue, difficult, unitValue, week, chosenGuardRange, additionalValue
         )
-        assertThat(value.data).isEqualTo(BoxWithDropPercent(name="5000exp", dropChance=100.0, mostLikelyGuard = 26, range = 20..32, img="exp"))
+        assertThat(value.data).isEqualTo(
+            BoxWithDropPercent(
+                name =  TextWithLocalization("5000exp", "5000 опыт"),
+                dropChance = 100.0,
+                mostLikelyGuard = 26,
+                range = 20..32,
+                img = "exp"
+            )
+        )
     }
 
     @Test
     fun `Get BoxWithDropPercent, valid input, some guards not in range`() {
-        val boxValueItem = BoxValueItem(1, "5000exp", 6000, "exp")
+        val boxValueItem = BoxValueItem(1, "5000exp", "5000 опыт", 6000, "exp")
         val guardValue = GuardCharacteristics(30, 24, 65, 86)
         val difficult = Difficult.THREE
         val unitValue = 201
@@ -54,7 +63,7 @@ class GetBoxWithPercentUseCaseTest() {
 
     @Test
     fun `Get BoxWithDropPercent, too high value, returns error`() {
-        val boxValueItem = BoxValueItem(1, "1LvlSpells", 5000, "1LvlSpells")
+        val boxValueItem = BoxValueItem(1, "1LvlSpells", "Заклинания 1 уровня", 5000, "1LvlSpells")
         val guardValue = GuardCharacteristics(16, 13, 65, 86)
         val difficult = Difficult.THREE
         val unitValue = 1350
@@ -71,7 +80,7 @@ class GetBoxWithPercentUseCaseTest() {
 
     @Test
     fun `Get BoxWithDropPercent, valid input, week after 1`() {
-        val boxValueItem = BoxValueItem(1, "5000exp", 6000, "exp")
+        val boxValueItem = BoxValueItem(1, "5000exp", "5000 опыт", 6000, "exp")
         val guardValue = GuardCharacteristics(16, 13, 65, 86)
         val difficult = Difficult.THREE
         val unitValue = 190
@@ -82,12 +91,20 @@ class GetBoxWithPercentUseCaseTest() {
         val value = getBoxWithPercentUseCase(
             boxValueItem, guardValue, difficult, unitValue, week, chosenGuardRange, additionalValue
         )
-        assertThat(value.data).isEqualTo(BoxWithDropPercent(name="5000exp", dropChance=100.0, mostLikelyGuard = 32, range = 25..39, img="exp"))
+        assertThat(value.data).isEqualTo(
+            BoxWithDropPercent(
+                name =  TextWithLocalization("5000exp", "5000 опыт"),
+                dropChance = 100.0,
+                mostLikelyGuard = 32,
+                range = 25..39,
+                img = "exp"
+            )
+        )
     }
 
     @Test
     fun `!! Get BoxWithDropPercent, valid input, part of week-modified range above guard range`() {
-        val boxValueItem = BoxValueItem(1, "5000exp", 6000, "exp")
+        val boxValueItem = BoxValueItem(1, "5000exp", "5000 опыт", 6000, "exp")
         val guardValue = GuardCharacteristics(16, 13, 65, 86)
         val difficult = Difficult.THREE
         val unitValue = 190
@@ -105,7 +122,7 @@ class GetBoxWithPercentUseCaseTest() {
 
     @Test
     fun `!! Get BoxWithDropPercent, valid input, all week-modified range above guard range`() {
-        val boxValueItem = BoxValueItem(1, "5000exp", 6000, "exp")
+        val boxValueItem = BoxValueItem(1, "5000exp", "5000 опыт", 6000, "exp")
         val guardValue = GuardCharacteristics(16, 13, 65, 86)
         val difficult = Difficult.THREE
         val unitValue = 190
