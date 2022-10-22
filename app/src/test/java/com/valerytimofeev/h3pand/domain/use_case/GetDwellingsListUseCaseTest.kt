@@ -47,14 +47,18 @@ class GetDwellingsListUseCaseTest {
             listOf(
                 Dwelling(
                     dwellingName = "test dwelling 3",
+                    dwellingNameRu = "тестовое жилище 3",
                     name = "test name 4",
+                    nameRu = "тестовое имя 4",
                     AIValue = 160,
                     weeklyGain = 8,
                     castle = 3
                 ),
                 Dwelling(
                     dwellingName = "test dwelling 4",
+                    dwellingNameRu = "тестовое жилище 4",
                     name = "test name 5",
+                    nameRu = "тестовое имя 5",
                     AIValue = 480,
                     weeklyGain = 4,
                     castle = 3
