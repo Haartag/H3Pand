@@ -45,7 +45,7 @@ fun SearchButtonHeader(
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = "Search",
+                    text = dialogViewModel.searchText,
                     style = MaterialTheme.typography.h6,
                     textAlign = TextAlign.Center,
                 )

@@ -1,5 +1,6 @@
 package com.valerytimofeev.h3pand.ui.pandcalculation.dialog
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -46,7 +47,11 @@ fun ChooseGuardStage2(
         repeat(dialogViewModel.getRowCount(dialogViewModel.guardList.size)) { index ->
             DialogTextRow(
                 rowIndex = index,
-                textList = dialogViewModel.guardList.map { it.name },
+                textList = dialogViewModel.guardList.map {
+                    dialogViewModel.getLocalizedTextUseCase(
+                        it
+                    )
+                },
                 onClick = { clickedItem ->
                     dialogViewModel.guardDialogUnitButton(clickedItem, dialogViewModel.guardList)
                 })
@@ -89,7 +94,7 @@ fun SearchGuardDialog(
     ) {
         items(dialogViewModel.searchGuardResult.size) { index ->
             Text(
-                text = dialogViewModel.searchGuardResult[index].name,
+                text = dialogViewModel.searchGuardResultText[index],
                 modifier = Modifier.clickable {
                     dialogViewModel.guardDialogUnitButton(index, dialogViewModel.searchGuardResult)
                     dialogViewModel.setDialogState(DialogState.Companion.DialogUiPresets.GUARD_NUMBER.dialogUiState)
@@ -110,12 +115,17 @@ fun AddValueDialogStage1(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         viewModel.additionalValueTypesList.forEach {
+            val string = dialogViewModel.getLocalizedTextUseCase(it)
             Text(
-                text = it,
+                text = string,
                 modifier = Modifier
                     .padding(8.dp)
                     .clickable {
-                        dialogViewModel.addValueTypeButton(it, viewModel.chosenCastleZone.value)
+                        Log.d("TestTag", "AddValueDialogStage1: ${it.enText}")
+                        dialogViewModel.addValueTypeButton(
+                            it.enText,
+                            viewModel.chosenCastleZone.value
+                        )
                     }
             )
         }
@@ -131,8 +141,9 @@ fun AddValueDialogStage2(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         dialogViewModel.addValueSubtypeList.forEach {
+            val string = dialogViewModel.getLocalizedTextUseCase(it)
             Text(
-                text = it,
+                text = string,
                 modifier = Modifier
                     .padding(8.dp)
                     .clickable {
@@ -153,8 +164,9 @@ fun AddValueDialogStage3(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         items(dialogViewModel.additionalValueList.size) {
+            val string = dialogViewModel.getLocalizedTextUseCase(dialogViewModel.additionalValueList[it])
             Text(
-                text = dialogViewModel.additionalValueList[it].name,
+                text = string,
                 modifier = Modifier.clickable {
                     viewModel.getAddValueData(
                         dialogViewModel.addValueItemButton(dialogViewModel.additionalValueList[it])
@@ -177,7 +189,9 @@ fun DwellingDialog(
         repeat(dialogViewModel.getRowCount(dialogViewModel.dwellingList.size)) { index ->
             DialogTextRow(
                 rowIndex = index,
-                textList = dialogViewModel.dwellingList.map { it.dwellingName },
+                textList = dialogViewModel.dwellingList.map {
+                    dialogViewModel.getLocalizedTextUseCase(it)
+                },
                 onClick = { clickedItem ->
                     viewModel.getDwellingData(
                         dialogViewModel.dwellingItemButton(dialogViewModel.dwellingList[clickedItem])
@@ -206,7 +220,10 @@ fun CustomValueDialog(
                             AdditionalValueItem(
                                 0,
                                 Values.valueList.map { it.toString() }[clickedItem],
+                                Values.valueList.map { it.toString() }[clickedItem],
                                 Values.valueList[clickedItem],
+                                "custom",
+                                "custom",
                                 "custom",
                                 "custom",
                                 -1
@@ -229,7 +246,7 @@ fun SearchAddValueDialog(
     ) {
         items(dialogViewModel.searchAddValueResult.size) {
             Text(
-                text = dialogViewModel.searchAddValueResult[it].itemName,
+                text = dialogViewModel.searchAddValueResultText[it],
                 modifier = Modifier.clickable {
                     viewModel.getSearchItemData(
                         dialogViewModel.addValueSearchItemButton(it)
