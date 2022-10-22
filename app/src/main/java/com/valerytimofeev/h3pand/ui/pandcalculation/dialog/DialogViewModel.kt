@@ -5,6 +5,8 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.valerytimofeev.h3pand.data.additional_data.TextStorage
+import com.valerytimofeev.h3pand.data.additional_data.TextWithLocalization
 import com.valerytimofeev.h3pand.data.local.AdditionalValueItem
 import com.valerytimofeev.h3pand.data.local.Dwelling
 import com.valerytimofeev.h3pand.data.local.Guard
@@ -13,6 +15,7 @@ import com.valerytimofeev.h3pand.domain.use_case.dialog_use_case.DialogButtonHan
 import com.valerytimofeev.h3pand.domain.use_case.dialog_use_case.FindItemInAdditionalValuesUseCase
 import com.valerytimofeev.h3pand.domain.use_case.dialog_use_case.FindItemInGuardsUseCase
 import com.valerytimofeev.h3pand.domain.model.DialogStatus
+import com.valerytimofeev.h3pand.domain.use_case.GetLocalizedTextUseCase
 import com.valerytimofeev.h3pand.utils.Status
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -23,6 +26,7 @@ class DialogViewModel @Inject constructor(
     private val findItemInAdditionalValuesUseCase: FindItemInAdditionalValuesUseCase,
     private val findItemInGuardsUseCase: FindItemInGuardsUseCase,
     private val dialogButtonHandleUseCase: DialogButtonHandleUseCase,
+    val getLocalizedTextUseCase: GetLocalizedTextUseCase
 ) : ViewModel() {
 
     private val dialogState = mutableStateOf(DialogState(DialogStatus.CLOSED))
@@ -34,6 +38,15 @@ class DialogViewModel @Inject constructor(
 
     val isDialogError = mutableStateOf(false)
     val dialogErrorText = mutableStateOf("")
+
+
+    //Texts
+    val searchText = getLocalizedTextUseCase(TextStorage.DialogSearch.text)
+    val searchGuardResultText: List<String>
+        get() = searchGuardResult.map { getLocalizedTextUseCase(it) }
+    val searchAddValueResultText: List<String>
+        get() = searchAddValueResult.map { getLocalizedTextUseCase(it) }
+
 
     var guardList = listOf<Guard>()
     lateinit var chosenGuard: Guard
@@ -93,7 +106,7 @@ class DialogViewModel @Inject constructor(
 
     var currentAddValueSlot = 0
     var dwellingList = listOf<Dwelling>()
-    var addValueSubtypeList = listOf<String>()
+    var addValueSubtypeList = listOf<TextWithLocalization>()
     var chosenCastleZone = 1
     var additionalValueList = listOf<AdditionalValueItem>()
     var addValueType = ""
@@ -126,10 +139,10 @@ class DialogViewModel @Inject constructor(
         }
     }
 
-    fun addValueSubtypeButton(addValueSubtype: String) { // Additional value dialog stage 2
+    fun addValueSubtypeButton(addValueSubtype: TextWithLocalization) { // Additional value dialog stage 2
         viewModelScope.launch {
             val addValueResource = dialogButtonHandleUseCase.addValueDialogSubtypeButton(
-                addValueSubtype,
+                addValueSubtype.enText,
                 addValueType
             )
             if (addValueResource.data == null) {

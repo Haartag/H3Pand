@@ -9,6 +9,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.valerytimofeev.h3pand.R
 import com.valerytimofeev.h3pand.data.additional_data.MapSettings.Companion.getMapSettings
+import com.valerytimofeev.h3pand.data.additional_data.TextStorage
+import com.valerytimofeev.h3pand.data.additional_data.TextWithLocalization
 import com.valerytimofeev.h3pand.data.local.Guard
 import com.valerytimofeev.h3pand.domain.model.*
 import com.valerytimofeev.h3pand.domain.use_case.*
@@ -20,6 +22,7 @@ import com.valerytimofeev.h3pand.utils.Constants.MIN_PERCENT
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.math.roundToInt
 
 /**
  * Main ViewModel for PandCalculation screens: Screen, Error, ItemList, BottomSheet.
@@ -30,20 +33,22 @@ class PandCalculationViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val getBoxesUseCase: GetBoxesUseCase,
     private val getValueForSearchItemUseCase: GetValueForSearchItemUseCase,
-    private val getAdditionalValueListUseCase: GetAdditionalValueListUseCase
+    private val getAdditionalValueListUseCase: GetAdditionalValueListUseCase,
+    val getLocalizedTextUseCase: GetLocalizedTextUseCase
 ) : ViewModel() {
 
     //savedStateHandle to take nav argument
     private val currentMap: String = checkNotNull(savedStateHandle["mapName"])
-    val maxCastleNumber = getMapSettings(currentMap)?.numberOfZones?.toFloat() ?: 5.0f
-    val castleNamesList = CastleSettings.values().map { it.castleName }
-    var additionalValueTypesList = listOf<String>()
+    val maxCastleNumber = getMapSettings(currentMap).numberOfZones.toFloat()
+    val castleNamesList = CastleSettings.values().map { getLocalizedTextUseCase(it.castleName) }
+    var additionalValueTypesList = listOf<TextWithLocalization>()
 
     init {
         viewModelScope.launch {
             val additionalValueTypesResource = getAdditionalValueListUseCase()
             if (additionalValueTypesResource.status == Status.ERROR) {
-                errorText.value = additionalValueTypesResource.message ?: "An unknown error occurred"
+                errorText.value =
+                    additionalValueTypesResource.message ?: "An unknown error occurred"
             } else {
                 additionalValueTypesList = additionalValueTypesResource.data!!
             }
@@ -68,6 +73,56 @@ class PandCalculationViewModel @Inject constructor(
     val errorText = mutableStateOf("")
 
     var boxesWithPercents = mutableStateListOf<BoxWithDropPercent>()
+
+    //Texts
+    val totalValueText = getLocalizedTextUseCase(TextStorage.SheetTotalValue.text)
+
+    val weekAndMonthText: String //Custom getter to update variables when they change
+        get() = String.format(
+            getLocalizedTextUseCase(TextStorage.SheetWeekAndMonth.text),
+            (weekSliderPosition.value / 4 + 1).toInt().toString(),
+            (weekSliderPosition.value % 4 + 1).toInt().toString()
+        )
+
+    val townZoneNumberText: String
+        get() = String.format(
+            getLocalizedTextUseCase(TextStorage.SheetNumberOfTownZones.text),
+            castlesSliderPosition.value.roundToInt()
+        )
+
+    val typeOfZoneText: String
+        get() = String.format(
+            getLocalizedTextUseCase(TextStorage.SheetZoneName.text),
+            getLocalizedTextUseCase(
+                getMapSettings(currentMap).valueRanges[zoneSliderPosition.value.toInt()].zoneName
+            )
+        )
+
+    val mainTownText: String
+        get() = String.format(
+            getLocalizedTextUseCase(TextStorage.SheetZoneTownName.text),
+            getLocalizedTextUseCase(CastleSettings.values()
+                .find { it.id == chosenCastleZone.value }?.castleName!!
+            )
+        )
+
+    fun itemNameText(index: Int): String {
+        return getLocalizedTextUseCase(boxesWithPercents[index].name)
+    }
+
+    fun itemGuardRangeText(index: Int): String {
+        return String.format(
+            getLocalizedTextUseCase(TextStorage.ItemGuard.text),
+            boxesWithPercents[index].range
+        )
+    }
+
+    fun itemMostLikelyText(index: Int): String {
+        return String.format(
+            getLocalizedTextUseCase(TextStorage.ItemMostLikely.text),
+            boxesWithPercents[index].mostLikelyGuard
+        )
+    }
 
     /**
      * Close error and wipe error text
@@ -107,23 +162,27 @@ class PandCalculationViewModel @Inject constructor(
         chosenGuardRange.value = guardAndNumber.numberRangeIndex
         getBoxesList()
     }
+
     /**
      * Get addValue data from [DialogViewModel]
      */
     fun getAddValueData(data: AddValueAndSlot) {
         additionalValueMap[data.slot] = SearchItem(
             data.addValue.name,
+            data.addValue.nameRu,
             false,
             data.addValue.value
         )
         getBoxesList()
     }
+
     /**
      * Get Dwelling data from [DialogViewModel]
      */
     fun getDwellingData(data: DwellingAndSlot) {
         additionalValueMap[data.slot] = SearchItem(
             data.dwelling.dwellingName,
+            data.dwelling.dwellingNameRu,
             true,
             null,
             data.dwelling.AIValue,
@@ -132,6 +191,7 @@ class PandCalculationViewModel @Inject constructor(
         )
         getBoxesList()
     }
+
     /**
      * Get Search addValue data from [DialogViewModel]
      */
