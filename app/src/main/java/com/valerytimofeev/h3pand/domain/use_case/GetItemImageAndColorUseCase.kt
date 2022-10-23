@@ -48,5 +48,17 @@ class GetItemImageAndColorUseCase (
             else -> Color.White
         }
     }
+
+    fun getAddValueImage(): Int{
+        return when (itemImage) {
+            "Custom" -> R.drawable.av_custom
+            "Misc." -> R.drawable.av_misc
+            "Resource" -> R.drawable.av_resource
+            "Bank" -> R.drawable.av_bank
+            "Artifact" -> R.drawable.av_artifact
+            "Dwelling" -> R.drawable.av_dwelling
+            else -> R.drawable.ic_question
+        }
+    }
 }
 
