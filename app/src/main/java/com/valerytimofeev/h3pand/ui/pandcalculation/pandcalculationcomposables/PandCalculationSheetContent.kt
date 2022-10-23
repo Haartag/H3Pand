@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Slider
+import androidx.compose.material.SliderDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -20,12 +21,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import coil.size.Scale
-import com.valerytimofeev.h3pand.R
+import com.valerytimofeev.h3pand.data.additional_data.GuardRanges
+import com.valerytimofeev.h3pand.domain.model.CastleSettings
 import com.valerytimofeev.h3pand.domain.model.DialogState
 import com.valerytimofeev.h3pand.ui.pandcalculation.PandCalculationViewModel
 import com.valerytimofeev.h3pand.ui.pandcalculation.dialog.DialogViewModel
-import com.valerytimofeev.h3pand.domain.model.CastleSettings
-import com.valerytimofeev.h3pand.data.additional_data.GuardRanges
+import com.valerytimofeev.h3pand.ui.theme.SliderColor
+import com.valerytimofeev.h3pand.ui.theme.SliderColorSecondary
 import kotlin.math.roundToInt
 
 /**
@@ -239,7 +241,14 @@ fun SheetChooseWeek(
             onValueChangeFinished = {
                 viewModel.closeError()
                 viewModel.getBoxesList()
-            }
+            },
+            colors = SliderDefaults.colors(
+                thumbColor = SliderColor,
+                activeTrackColor = SliderColor,
+                inactiveTrackColor = SliderColorSecondary,
+                activeTickColor = SliderColorSecondary,
+                inactiveTickColor = SliderColor
+            )
         )
     }
 }
@@ -262,7 +271,14 @@ fun SheetChooseCastleNumber(
             onValueChangeFinished = {
                 viewModel.closeError()
                 viewModel.getBoxesList()
-            }
+            },
+            colors = SliderDefaults.colors(
+                thumbColor = SliderColor,
+                activeTrackColor = SliderColor,
+                inactiveTrackColor = SliderColorSecondary,
+                activeTickColor = SliderColorSecondary,
+                inactiveTickColor = SliderColor
+            )
         )
     }
 }
@@ -289,7 +305,14 @@ fun SheetChooseZone(
                 viewModel.zoneSliderPosition.value =
                     viewModel.zoneSliderPosition.value.roundToInt().toFloat()
                 viewModel.getBoxesList()
-            }
+            },
+            colors = SliderDefaults.colors(
+                thumbColor = SliderColor,
+                activeTrackColor = SliderColor,
+                inactiveTrackColor = SliderColorSecondary,
+                activeTickColor = SliderColorSecondary,
+                inactiveTickColor = SliderColor
+            )
         )
     }
 }

@@ -11,6 +11,8 @@ val Secondary = Color(0xFFeddaca)
 
 val ErrorBoxColor = Color(0x99E2BCC4)
 val SandboxButtonColor = Color(0xFFA3CFFF)
+val SliderColor = Color(0xFFAF731B)
+val SliderColorSecondary = Color(0xFFE2AF63)
 
 val CastleColor = Color(0xFFE6E1DE)
 val ConfluxColor = Color(0xFFF5D7FD)
