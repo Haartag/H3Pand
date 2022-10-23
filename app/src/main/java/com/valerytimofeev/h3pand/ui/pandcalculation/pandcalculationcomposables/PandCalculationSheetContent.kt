@@ -11,7 +11,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
@@ -26,6 +25,8 @@ import com.valerytimofeev.h3pand.domain.model.CastleSettings
 import com.valerytimofeev.h3pand.domain.model.DialogState
 import com.valerytimofeev.h3pand.ui.pandcalculation.PandCalculationViewModel
 import com.valerytimofeev.h3pand.ui.pandcalculation.dialog.DialogViewModel
+import com.valerytimofeev.h3pand.ui.theme.AddValueBackground1Color
+import com.valerytimofeev.h3pand.ui.theme.AddValueBackground2Color
 import com.valerytimofeev.h3pand.ui.theme.SliderColor
 import com.valerytimofeev.h3pand.ui.theme.SliderColorSecondary
 import kotlin.math.roundToInt
@@ -179,9 +180,9 @@ fun SheetAdditionalValue(
                                                 defaultValue = 0
                                             ) == 0
                                         ) {
-                                            Color.Gray
+                                            AddValueBackground1Color
                                         } else {
-                                            Color.Red
+                                            AddValueBackground2Color
                                         }
                                     )
                                     .clickable {
