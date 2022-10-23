@@ -12,6 +12,7 @@ data class SearchItem(
     val itemName: String,
     val itemNameRu: String,
     val isDwelling: Boolean,
+    val type: String? = null,
     val addItemValue: Int? = null,
     val unitValue: Int? = null,
     val weeklyGain: Int? = null,
