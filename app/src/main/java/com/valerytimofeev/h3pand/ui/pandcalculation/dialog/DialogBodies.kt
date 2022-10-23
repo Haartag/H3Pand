@@ -222,10 +222,11 @@ fun CustomValueDialog(
                                 Values.valueList.map { it.toString() }[clickedItem],
                                 Values.valueList.map { it.toString() }[clickedItem],
                                 Values.valueList[clickedItem],
-                                "custom",
-                                "custom",
-                                "custom",
-                                "custom",
+                                0,
+                                "Custom",
+                                "Custom",
+                                "Custom",
+                                "Custom",
                                 -1
                             )
                         )

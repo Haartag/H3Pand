@@ -1,5 +1,6 @@
 package com.valerytimofeev.h3pand.ui.pandcalculation
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
@@ -171,6 +172,7 @@ class PandCalculationViewModel @Inject constructor(
             data.addValue.name,
             data.addValue.nameRu,
             false,
+            data.addValue.type,
             data.addValue.value
         )
         getBoxesList()
@@ -184,6 +186,7 @@ class PandCalculationViewModel @Inject constructor(
             data.dwelling.dwellingName,
             data.dwelling.dwellingNameRu,
             true,
+            "Dwelling",
             null,
             data.dwelling.AIValue,
             data.dwelling.weeklyGain,
@@ -225,6 +228,11 @@ class PandCalculationViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    fun getAddValueImage(index: Int): Int {
+        val item = additionalValueMap[index]?.type ?: "null"
+        return GetItemImageAndColorUseCase(item).getAddValueImage()
     }
 
     fun getItemImage(itemNumber: Int?, itemName: String? = null): Int {

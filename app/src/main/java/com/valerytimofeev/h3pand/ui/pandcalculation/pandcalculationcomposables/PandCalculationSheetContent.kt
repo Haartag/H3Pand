@@ -203,7 +203,8 @@ fun SheetAdditionalValue(
                                             data = CastleSettings.values()
                                                 .find { it.id == viewModel.chosenCastleZone.value }?.img
                                         )*/
-                                        .data(R.drawable.ic_question)
+                                        //.data(R.drawable.ic_question)
+                                        .data(viewModel.getAddValueImage(row * 4 + column))
                                         .scale(scale = Scale.FILL)
                                         .build()
                                 )
