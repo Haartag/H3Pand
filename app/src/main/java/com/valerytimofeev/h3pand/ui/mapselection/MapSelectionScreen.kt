@@ -1,5 +1,6 @@
 package com.valerytimofeev.h3pand.ui.mapselection
 
+import android.app.Activity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -11,11 +12,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.valerytimofeev.h3pand.ui.pandcalculation.util_composables.BackPressHandler
 import com.valerytimofeev.h3pand.ui.theme.MapItemBackground
 import com.valerytimofeev.h3pand.ui.theme.MapItemGradient
 
@@ -24,6 +27,13 @@ fun MapSelectionScreen(
     navController: NavController,
     viewModel: MapSelectionViewModel = hiltViewModel()
 ) {
+    //Close app to prevent navigation to splashscreen
+    val activity = (LocalContext.current as? Activity)
+    BackPressHandler(
+       onBackPressed = {
+           activity?.finish()
+       }
+    )
     Column() {
         Column(
             modifier = Modifier
@@ -98,4 +108,3 @@ fun MapItem(
     }
     Spacer(modifier = Modifier.height(8.dp))
 }
-
