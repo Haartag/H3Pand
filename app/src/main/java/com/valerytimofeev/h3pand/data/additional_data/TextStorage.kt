@@ -33,7 +33,8 @@ enum class TextStorage(
         )
     ),
 
-    SheetTotalValue(TextWithLocalization("Total value:", "Общая ценность:")),
+    SheetChooseGuard(TextWithLocalization("Choose a guard\n", "Выбрать охрану\n")),
+    SheetTotalValue(TextWithLocalization("Total value:", "Ценность:")),
     SheetWeekAndMonth(TextWithLocalization("month: %s, week: %s", "месяц: %s, неделя: %s")),
     SheetNumberOfTownZones(
         TextWithLocalization(
@@ -42,11 +43,11 @@ enum class TextStorage(
         )
     ),
     SheetZoneName(TextWithLocalization("Type of zone: %s", "Тип зоны: %s")),
-    SheetZoneTownName(TextWithLocalization("Town of zone: %s", "Город зоны: %s")),
+    SheetZoneTownName(TextWithLocalization("Town of zone:\n %s", "Город зоны:\n %s")),
 
     DialogSearch(TextWithLocalization("Search", "Поиск")),
 
     ItemGuard(TextWithLocalization("Guard: %s,", "Охрана: %s,")),
-    ItemMostLikely(TextWithLocalization("most likely %s", "вероятнее всего %s"))
+    ItemMostLikely(TextWithLocalization("most likely %s", "скорее всего %s"))
 
 }
