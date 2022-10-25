@@ -1,14 +1,16 @@
 package com.valerytimofeev.h3pand.ui.pandcalculation
 
-import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.valerytimofeev.h3pand.R
+import com.valerytimofeev.h3pand.data.additional_data.GuardRanges
 import com.valerytimofeev.h3pand.data.additional_data.MapSettings.Companion.getMapSettings
 import com.valerytimofeev.h3pand.data.additional_data.TextStorage
 import com.valerytimofeev.h3pand.data.additional_data.TextWithLocalization
@@ -102,10 +104,20 @@ class PandCalculationViewModel @Inject constructor(
     val mainTownText: String
         get() = String.format(
             getLocalizedTextUseCase(TextStorage.SheetZoneTownName.text),
-            getLocalizedTextUseCase(CastleSettings.values()
-                .find { it.id == chosenCastleZone.value }?.castleName!!
+            getLocalizedTextUseCase(
+                CastleSettings.values()
+                    .find { it.id == chosenCastleZone.value }?.castleName!!
             )
         )
+
+    val unitButtonText: String
+        get() = if (chosenGuard.value == null || chosenGuardRange.value !in 0..10) {
+            getLocalizedTextUseCase(TextStorage.SheetChooseGuard.text)
+        } else {
+                getLocalizedTextUseCase(chosenGuard.value) +
+                "\n" +
+                GuardRanges.range.getOrDefault(chosenGuardRange.value, "").toString()
+        }
 
     fun itemNameText(index: Int): String {
         return getLocalizedTextUseCase(boxesWithPercents[index].name)
@@ -247,6 +259,12 @@ class PandCalculationViewModel @Inject constructor(
     fun getItemColor(itemNumber: Int): Color {
         val itemImage = boxesWithPercents[itemNumber].img
         return GetItemImageAndColorUseCase(itemImage).getItemColor()
+    }
+
+    fun getSheetHeight(screenWidth: Dp): Dp {
+        val handle = 45.dp
+        val addValueHeight = (screenWidth / 4 + 16.dp)
+        return handle + addValueHeight
     }
 
     fun addOrRemoveAddValue(

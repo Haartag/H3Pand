@@ -25,9 +25,10 @@ import com.valerytimofeev.h3pand.ui.pandcalculation.PandCalculationViewModel
 @Composable
 fun ItemsList(
     screenHeight: Dp,
+    bottomSheetHeight: Dp,
     viewModel: PandCalculationViewModel = hiltViewModel()
 ) {
-    Box(modifier = Modifier.height(screenHeight - 133.dp)) {
+    Box(modifier = Modifier.height(screenHeight - bottomSheetHeight + 16.dp)) {
         LazyColumn(contentPadding = PaddingValues(12.dp)) {
             items(count = viewModel.boxesWithPercents.size) {
                 ItemEntry(
@@ -49,7 +50,7 @@ fun ItemEntry(
             .clip(RoundedCornerShape(4.dp))
             .background(color = viewModel.getItemColor(itemIndex))
             .fillMaxWidth()
-            .height(78.dp)
+            .height(88.dp)
             .padding(8.dp),
     ) {
         val painter = rememberAsyncImagePainter(
@@ -79,6 +80,7 @@ fun ItemEntry(
                 verticalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier
                     .fillMaxHeight()
+                    .weight(1f)
             ) {
                 Text(text = viewModel.itemNameText(itemIndex))
                 Text(
@@ -86,10 +88,12 @@ fun ItemEntry(
                     style = MaterialTheme.typography.subtitle1
                 )
             }
+            Spacer(modifier = Modifier.weight(0.8f))
             Column(
                 verticalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier
                     .fillMaxHeight()
+                    .weight(1f)
             ) {
                 Text(
                     text = viewModel.itemGuardRangeText(itemIndex),

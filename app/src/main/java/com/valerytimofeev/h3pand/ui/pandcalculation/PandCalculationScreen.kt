@@ -51,7 +51,7 @@ fun PandCalculationScreen(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(450.dp),
+                    .height(500.dp),
             ) {
                 Column(
                     modifier = Modifier.fillMaxSize(),
@@ -77,14 +77,15 @@ fun PandCalculationScreen(
             ?: MaterialTheme.colors.secondary,
         sheetElevation = 16.dp,
         sheetShape = RoundedCornerShape(topEnd = 36.dp, topStart = 36.dp),
-        sheetPeekHeight = 150.dp
+        sheetPeekHeight = viewModel.getSheetHeight(screenWidth)
     ) {
 
         //Screen content
 
         Box(modifier = Modifier.fillMaxSize()) {
             ItemsList(
-                screenHeight = screenHeight
+                screenHeight = screenHeight,
+                bottomSheetHeight = viewModel.getSheetHeight(screenWidth)
             )
             if (viewModel.isErrorShowed.value) {
                 ErrorBlock()

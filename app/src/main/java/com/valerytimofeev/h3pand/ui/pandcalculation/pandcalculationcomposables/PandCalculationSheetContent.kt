@@ -20,7 +20,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import coil.size.Scale
-import com.valerytimofeev.h3pand.data.additional_data.GuardRanges
 import com.valerytimofeev.h3pand.domain.model.CastleSettings
 import com.valerytimofeev.h3pand.domain.model.DialogState
 import com.valerytimofeev.h3pand.ui.pandcalculation.PandCalculationViewModel
@@ -37,67 +36,58 @@ import kotlin.math.roundToInt
 
 @Composable
 fun SheetContent(
-    screenWidth: Dp
+    screenWidth: Dp,
+    viewModel: PandCalculationViewModel = hiltViewModel(),
 ) {
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
-        Row {
-            SheetChooseUnit(modifier = Modifier.weight(2f))
-            SheetAdditionalValue(
-                modifier = Modifier.weight(3f),
-                screenWidth = screenWidth / 2
-            )
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 12.dp),
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
+            SheetChooseUnit(screenWidth)
+            SheetAdditionalValue(screenWidth)
         }
+        Spacer(modifier = Modifier.height(24.dp))
         SheetChooseWeek()
-        Row {
-            SheetChooseZoneCastle(
-                modifier = Modifier.weight(1f),
-                halfWidthOfScreen = screenWidth / 2
-            )
-            Column(modifier = Modifier.weight(1f)) {
-                SheetChooseCastleNumber()
-                SheetChooseZone()
-            }
-        }
+        Spacer(modifier = Modifier.height(16.dp))
+        SheetChooseZoneCastle(screenWidth)
+        Spacer(modifier = Modifier.height(16.dp))
+        BottomSliderBlock()
     }
 }
 
-//Button with img to open dialog for selecting guard
 @Composable
 fun SheetChooseUnit(
-    modifier: Modifier = Modifier,
+    screenWidth: Dp,
     viewModel: PandCalculationViewModel = hiltViewModel(),
     dialogViewModel: DialogViewModel = hiltViewModel(),
 ) {
     Box(
-        modifier = modifier
-            .height(100.dp)
-            .fillMaxWidth()
+        modifier = Modifier
+            .size((screenWidth - 48.dp) / 3)
+            .clickable {
+                viewModel.closeError()
+                dialogViewModel.getChosenCastleZone(viewModel.chosenCastleZone.value)
+                dialogViewModel.setDialogState(DialogState.Companion.DialogUiPresets.GUARD_CASTLE.dialogUiState)
+            }
     ) {
         val painter = rememberAsyncImagePainter(
             ImageRequest.Builder(LocalContext.current)
                 .data(data = viewModel.currentGuardImg.value)
-                .scale(scale = Scale.FILL)
+                .scale(scale = Scale.FIT)
                 .build()
         )
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 24.dp)
-                .clickable {
-                    viewModel.closeError()
-                    dialogViewModel.getChosenCastleZone(viewModel.chosenCastleZone.value)
-                    dialogViewModel.setDialogState(DialogState.Companion.DialogUiPresets.GUARD_CASTLE.dialogUiState)
-                },
-            contentAlignment = Alignment.Center
-        ) {
-            Image(
-                painter = painter,
-                contentDescription = "placeholder",
-                contentScale = ContentScale.Fit,
-                modifier = Modifier,
-            )
+        Image(
+            painter = painter,
+            contentDescription = "placeholder",
+        )
+        Column() {
+
+            Spacer(modifier = Modifier.weight(1f))
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -110,70 +100,67 @@ fun SheetChooseUnit(
                             ?: MaterialTheme.colors.secondary,
                     )
             ) {
-                Column(
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text(
-                        text = viewModel.getLocalizedTextUseCase(viewModel.chosenGuard.value),
-                        modifier = Modifier.fillMaxWidth(),
-                        textAlign = TextAlign.Center
-                    )
-                    Text(
-                        text = GuardRanges.range.getOrDefault(viewModel.chosenGuardRange.value, "")
-                            .toString(),
-                        modifier = Modifier.fillMaxWidth(),
-                        textAlign = TextAlign.Center
-                    )
-                }
+                Text(
+                    text = viewModel.unitButtonText,
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.Center
+                )
             }
         }
+
     }
 }
 
-//Field with buttons to open dialog for selecting additional value
 @Composable
 fun SheetAdditionalValue(
-    modifier: Modifier = Modifier,
     screenWidth: Dp,
     viewModel: PandCalculationViewModel = hiltViewModel(),
     dialogViewModel: DialogViewModel = hiltViewModel()
 ) {
+    val itemSize = (screenWidth - 48.dp) / 3
     Box(
-        modifier = modifier
-            .fillMaxWidth()
+        modifier = Modifier
+            .width((itemSize.value * 1.75).dp)
+            .height(itemSize)
     ) {
-        Column(modifier = Modifier.padding(8.dp)) {
+        Column(
+            modifier = Modifier.padding(top = 8.dp)
+        ) {
             Text(
                 text = viewModel.totalValueText,
                 textAlign = TextAlign.Start,
                 modifier = Modifier
                     .padding(horizontal = 8.dp)
-                    .width(screenWidth / 4 + 40.dp)
+                    .width(itemSize - 24.dp)
             )
             Text(
-                text = "${ viewModel.getValueSum() }",
+                text = "${viewModel.getValueSum()}",
                 textAlign = TextAlign.Start,
                 modifier = Modifier
                     .padding(horizontal = 8.dp)
-                    .width(screenWidth / 4 + 40.dp)
+                    .width(itemSize - 12.dp)
             )
         }
-        Column() {
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.SpaceEvenly
+        ) {
             repeat(2) { row ->
-                Row() {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
                     repeat(4) { column ->
                         //Skip first 2 buttons for text place
                         if (row == 0 && column < 2) {
                             Spacer(
                                 modifier = Modifier
-                                    .padding(8.dp)
-                                    .width(screenWidth / 8 + 16.dp)
+                                    .width((itemSize.value / 2.5).dp)
                             )
                         } else {
                             Box(
                                 modifier = Modifier
-                                    .padding(8.dp)
-                                    .size(screenWidth / 8 + 16.dp)
+                                    .width((itemSize.value / 2.5).dp)
                                     .background(
                                         color = if (viewModel.additionalValueMap.getOrDefault(
                                                 row * 4 + column,
@@ -202,11 +189,10 @@ fun SheetAdditionalValue(
                             ) {
                                 val painter = rememberAsyncImagePainter(
                                     ImageRequest.Builder(LocalContext.current)
-                                        /*.data(
+                                        .data(
                                             data = CastleSettings.values()
                                                 .find { it.id == viewModel.chosenCastleZone.value }?.img
-                                        )*/
-                                        //.data(R.drawable.ic_question)
+                                        )
                                         .data(viewModel.getAddValueImage(row * 4 + column))
                                         .scale(scale = Scale.FILL)
                                         .build()
@@ -230,8 +216,15 @@ fun SheetAdditionalValue(
 fun SheetChooseWeek(
     viewModel: PandCalculationViewModel = hiltViewModel()
 ) {
-    Column() {
-        Text(text = viewModel.weekAndMonthText)
+    Column(
+        modifier = Modifier.padding(horizontal = 24.dp)
+    ) {
+        Text(
+            text = viewModel.weekAndMonthText,
+            modifier = Modifier.fillMaxWidth(),
+            textAlign = TextAlign.Center,
+            style = MaterialTheme.typography.subtitle1
+        )
         Slider(
             value = viewModel.weekSliderPosition.value,
             valueRange = 0f..8f,
@@ -252,6 +245,66 @@ fun SheetChooseWeek(
             )
         )
     }
+}
+
+//Button to select main castle of the current zone
+@Composable
+fun SheetChooseZoneCastle(
+    screenWidth: Dp,
+    modifier: Modifier = Modifier,
+    viewModel: PandCalculationViewModel = hiltViewModel(),
+    dialogViewModel: DialogViewModel = hiltViewModel(),
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = viewModel.mainTownText,
+            modifier = Modifier.fillMaxWidth(),
+            textAlign = TextAlign.Center,
+            style = MaterialTheme.typography.subtitle1
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        Box(
+            modifier = modifier
+                .size((screenWidth - 48.dp) / 3)
+                .clickable {
+                    viewModel.closeError()
+                    dialogViewModel.setDialogState(DialogState.Companion.DialogUiPresets.ZONE.dialogUiState)
+                }
+        ) {
+            val painter = rememberAsyncImagePainter(
+                ImageRequest.Builder(LocalContext.current)
+                    .data(
+                        data = CastleSettings.values()
+                            .find { it.id == viewModel.chosenCastleZone.value }?.img
+                    )
+                    .scale(scale = Scale.FIT)
+                    .build()
+            )
+            Image(
+                painter = painter,
+                contentDescription = "placeholder",
+            )
+        }
+    }
+}
+
+
+@Composable
+fun BottomSliderBlock() {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+    ) {
+        Row(modifier = Modifier.padding(horizontal = 20.dp)) {
+            SheetChooseCastleNumber(modifier = Modifier.weight(1f))
+            SheetChooseZone(modifier = Modifier.weight(1f))
+        }
+    }
+
 }
 
 //Slider to select the number of zones with a castle identical to the current zone
@@ -318,42 +371,3 @@ fun SheetChooseZone(
     }
 }
 
-//Button to select main castle of the current zone
-@Composable
-fun SheetChooseZoneCastle(
-    halfWidthOfScreen: Dp,
-    modifier: Modifier = Modifier,
-    viewModel: PandCalculationViewModel = hiltViewModel(),
-    dialogViewModel: DialogViewModel = hiltViewModel(),
-) {
-    Column() {
-        Text(text = viewModel.mainTownText)
-        Box(
-            modifier = modifier
-                .size(halfWidthOfScreen)
-                .padding(12.dp)
-                .padding(end = 12.dp)
-        ) {
-            val painter = rememberAsyncImagePainter(
-                ImageRequest.Builder(LocalContext.current)
-                    .data(
-                        data = CastleSettings.values()
-                            .find { it.id == viewModel.chosenCastleZone.value }?.img
-                    )
-                    .scale(scale = Scale.FILL)
-                    .build()
-            )
-            Image(
-                painter = painter,
-                contentDescription = "placeholder",
-                contentScale = ContentScale.Fit,
-                modifier = Modifier
-                    .padding(horizontal = 24.dp)
-                    .clickable {
-                        viewModel.closeError()
-                        dialogViewModel.setDialogState(DialogState.Companion.DialogUiPresets.ZONE.dialogUiState)
-                    }
-            )
-        }
-    }
-}
