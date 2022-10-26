@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
@@ -50,6 +51,31 @@ fun DialogScreen(
 }
 
 /**
+ * 1-column row for dialog body.
+ */
+@Composable
+fun DialogTextItem(
+    text: String,
+    horizontalPadding: Dp,
+    onClick: () -> Unit,
+    height: Dp = 40.dp
+) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = horizontalPadding, vertical = 4.dp)
+            .height(height)
+            .clickable { onClick() },
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = text,
+            textAlign = TextAlign.Center,
+        )
+    }
+}
+
+/**
  * 2-column row for dialog body.
  * Row number must be halved.
  */
@@ -64,7 +90,7 @@ fun DialogTextRow(
             .fillMaxWidth()
             .height(40.dp)
             .padding(horizontal = 24.dp)
-        ) {
+    ) {
         Box(
             modifier = Modifier
                 .fillMaxSize()

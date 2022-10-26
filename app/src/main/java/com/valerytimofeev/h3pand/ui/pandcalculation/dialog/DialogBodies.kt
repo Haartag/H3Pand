@@ -1,20 +1,18 @@
 package com.valerytimofeev.h3pand.ui.pandcalculation.dialog
 
-import android.util.Log
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.valerytimofeev.h3pand.data.additional_data.GuardRanges
+import com.valerytimofeev.h3pand.data.additional_data.Values
 import com.valerytimofeev.h3pand.data.local.AdditionalValueItem
 import com.valerytimofeev.h3pand.domain.model.DialogState
 import com.valerytimofeev.h3pand.ui.pandcalculation.PandCalculationViewModel
-import com.valerytimofeev.h3pand.data.additional_data.GuardRanges
-import com.valerytimofeev.h3pand.data.additional_data.Values
 
 
 @Composable
@@ -69,16 +67,14 @@ fun ChooseGuardStage3(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         GuardRanges.range.forEach {
-            Text(
-                text = it.value.toString(),
-                modifier = Modifier
-                    .padding(8.dp)
-                    .clickable {
-                        dialogViewModel.guardDialogNumberButton(it.key)
-                        viewModel.getGuardData( //Main viewmodel get data
-                            dialogViewModel.guardAndNumberOutput
-                        )
-                    }
+            DialogTextItem(
+                text = it.value.toString().replace("..", "–"),
+                horizontalPadding = 100.dp,
+                onClick = {
+                    dialogViewModel.guardDialogNumberButton(it.key)
+                    //Main viewmodel get data
+                    viewModel.getGuardData(dialogViewModel.guardAndNumberOutput)
+                }
             )
         }
     }
@@ -93,14 +89,19 @@ fun SearchGuardDialog(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         items(dialogViewModel.searchGuardResult.size) { index ->
-            Text(
+            DialogTextItem(
                 text = dialogViewModel.searchGuardResultText[index],
-                modifier = Modifier.clickable {
-                    dialogViewModel.guardDialogUnitButton(index, dialogViewModel.searchGuardResult)
-                    dialogViewModel.setDialogState(DialogState.Companion.DialogUiPresets.GUARD_NUMBER.dialogUiState)
+                horizontalPadding = 48.dp,
+                onClick = {
+                    dialogViewModel.guardDialogUnitButton(
+                        index,
+                        dialogViewModel.searchGuardResult
+                    )
+                    dialogViewModel.setDialogState(
+                        DialogState.Companion.DialogUiPresets.GUARD_NUMBER.dialogUiState
+                    )
                 }
             )
-            Spacer(modifier = Modifier.height(12.dp))
         }
     }
 }
@@ -115,18 +116,15 @@ fun AddValueDialogStage1(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         viewModel.additionalValueTypesList.forEach {
-            val string = dialogViewModel.getLocalizedTextUseCase(it)
-            Text(
-                text = string,
-                modifier = Modifier
-                    .padding(8.dp)
-                    .clickable {
-                        Log.d("TestTag", "AddValueDialogStage1: ${it.enText}")
-                        dialogViewModel.addValueTypeButton(
-                            it.enText,
-                            viewModel.chosenCastleZone.value
-                        )
-                    }
+            DialogTextItem(
+                text = dialogViewModel.getLocalizedTextUseCase(it),
+                horizontalPadding = 48.dp,
+                onClick = {
+                    dialogViewModel.addValueTypeButton(
+                        it.enText,
+                        viewModel.chosenCastleZone.value
+                    )
+                }
             )
         }
     }
@@ -141,14 +139,13 @@ fun AddValueDialogStage2(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         dialogViewModel.addValueSubtypeList.forEach {
-            val string = dialogViewModel.getLocalizedTextUseCase(it)
-            Text(
-                text = string,
-                modifier = Modifier
-                    .padding(8.dp)
-                    .clickable {
-                        dialogViewModel.addValueSubtypeButton(it)
-                    }
+            DialogTextItem(
+                text = dialogViewModel.getLocalizedTextUseCase(it),
+                horizontalPadding = 24.dp,
+                onClick = {
+                    dialogViewModel.addValueSubtypeButton(it)
+                },
+                height = 36.dp
             )
         }
     }
@@ -164,16 +161,17 @@ fun AddValueDialogStage3(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         items(dialogViewModel.additionalValueList.size) {
-            val string = dialogViewModel.getLocalizedTextUseCase(dialogViewModel.additionalValueList[it])
-            Text(
-                text = string,
-                modifier = Modifier.clickable {
+            DialogTextItem(
+                text = dialogViewModel.getLocalizedTextUseCase(
+                    dialogViewModel.additionalValueList[it]
+                ),
+                horizontalPadding = 24.dp,
+                onClick = {
                     viewModel.getAddValueData(
                         dialogViewModel.addValueItemButton(dialogViewModel.additionalValueList[it])
                     )
                 }
             )
-            Spacer(modifier = Modifier.height(12.dp))
         }
     }
 }
@@ -246,16 +244,19 @@ fun SearchAddValueDialog(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         items(dialogViewModel.searchAddValueResult.size) {
-            Text(
+
+            DialogTextItem(
                 text = dialogViewModel.searchAddValueResultText[it],
-                modifier = Modifier.clickable {
+                horizontalPadding = 48.dp,
+                onClick = {
                     viewModel.getSearchItemData(
                         dialogViewModel.addValueSearchItemButton(it)
                     )
-                    dialogViewModel.setDialogState(DialogState.Companion.DialogUiPresets.CLOSED.dialogUiState)
+                    dialogViewModel.setDialogState(
+                        DialogState.Companion.DialogUiPresets.CLOSED.dialogUiState
+                    )
                 }
             )
-            Spacer(modifier = Modifier.height(12.dp))
         }
     }
 }
