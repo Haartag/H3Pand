@@ -45,7 +45,7 @@ fun DialogScreen(
         onDismissRequest = {
             dialogViewModel.closeDialogAndWipeData()
         },
-        modifier = Modifier.height(392.dp)
+        modifier = Modifier.height(432.dp)
     )
 }
 
@@ -62,7 +62,7 @@ fun DialogTextRow(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .height(48.dp)
+            .height(40.dp)
             .padding(horizontal = 24.dp)
         ) {
         Box(
