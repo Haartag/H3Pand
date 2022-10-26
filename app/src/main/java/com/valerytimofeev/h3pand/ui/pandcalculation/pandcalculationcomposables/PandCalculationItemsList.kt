@@ -14,12 +14,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.valerytimofeev.h3pand.ui.pandcalculation.PandCalculationViewModel
+import com.valerytimofeev.h3pand.ui.theme.TypographyCondenced
 
 
 @Composable
@@ -82,10 +84,13 @@ fun ItemEntry(
                     .fillMaxHeight()
                     .weight(1f)
             ) {
-                Text(text = viewModel.itemNameText(itemIndex))
+                Text(
+                    text = viewModel.itemNameText(itemIndex),
+                    style = TypographyCondenced.body1
+                )
                 Text(
                     text = "${viewModel.boxesWithPercents[itemIndex].dropChance} %",
-                    style = MaterialTheme.typography.subtitle1
+                    style = MaterialTheme.typography.body1
                 )
             }
             Spacer(modifier = Modifier.weight(0.8f))
@@ -93,15 +98,18 @@ fun ItemEntry(
                 verticalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier
                     .fillMaxHeight()
-                    .weight(1f)
+                    .weight(1f),
+                horizontalAlignment = Alignment.End
             ) {
                 Text(
                     text = viewModel.itemGuardRangeText(itemIndex),
-                    style = MaterialTheme.typography.body2
+                    style = TypographyCondenced.body1,
+                    textAlign = TextAlign.End
                 )
                 Text(
                     text = viewModel.itemMostLikelyText(itemIndex),
-                    style = MaterialTheme.typography.body2
+                    style = TypographyCondenced.body1,
+                    textAlign = TextAlign.End
                 )
             }
         }
