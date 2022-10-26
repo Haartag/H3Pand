@@ -187,10 +187,6 @@ fun SheetAdditionalValue(
                             ) {
                                 val painter = rememberAsyncImagePainter(
                                     ImageRequest.Builder(LocalContext.current)
-                                        .data(
-                                            data = CastleSettings.values()
-                                                .find { it.id == viewModel.chosenCastleZone.value }?.img
-                                        )
                                         .data(viewModel.getAddValueImage(row * 4 + column))
                                         .scale(scale = Scale.FILL)
                                         .build()
