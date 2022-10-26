@@ -10,9 +10,12 @@ import com.valerytimofeev.h3pand.R
 
 val Ubuntu = FontFamily(
     Font(R.font.ubuntu_light, FontWeight.Light),
-    Font(R.font.ubuntu_condensed, FontWeight.Normal),
+    Font(R.font.ubuntu_regular, FontWeight.Normal),
     Font(R.font.ubuntu_medium, FontWeight.Medium),
     Font(R.font.ubuntu_bold, FontWeight.Bold),
+)
+val UbuntuCondenced = FontFamily(
+    Font(R.font.ubuntu_condensed, FontWeight.Normal),
 )
 
 val Typography = Typography(
@@ -63,4 +66,31 @@ val Typography = Typography(
         fontSize = 12.sp,
         letterSpacing = 0.4.sp
     ),
+)
+
+val TypographyCondenced = Typography(
+    body1 = TextStyle(
+        fontFamily = UbuntuCondenced,
+        fontWeight = FontWeight.Normal,
+        fontSize = 16.sp,
+        letterSpacing = 0.5.sp
+    ),
+    body2 = TextStyle(
+        fontFamily = UbuntuCondenced,
+        fontWeight = FontWeight.Normal,
+        fontSize = 14.sp,
+        letterSpacing = 0.25.sp
+    ),
+    subtitle1 = TextStyle(
+        fontFamily = UbuntuCondenced,
+        fontWeight = FontWeight.Medium,
+        fontSize = 16.sp,
+        letterSpacing = 0.15.sp
+    ),
+    subtitle2 = TextStyle(
+        fontFamily = UbuntuCondenced,
+        fontWeight = FontWeight.Medium,
+        fontSize = 14.sp,
+        letterSpacing = 0.1.sp
+    )
 )
