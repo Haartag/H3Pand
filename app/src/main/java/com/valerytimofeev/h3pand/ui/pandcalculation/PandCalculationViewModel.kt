@@ -126,7 +126,7 @@ class PandCalculationViewModel @Inject constructor(
     fun itemGuardRangeText(index: Int): String {
         return String.format(
             getLocalizedTextUseCase(TextStorage.ItemGuard.text),
-            boxesWithPercents[index].range
+            boxesWithPercents[index].range.toString().replace("..", "–")
         )
     }
 
