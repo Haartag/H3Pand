@@ -15,6 +15,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.valerytimofeev.h3pand.ui.theme.Typography
+import com.valerytimofeev.h3pand.ui.theme.TypographyCondenced
 
 
 /**
@@ -44,7 +45,7 @@ fun DialogScreen(
         onDismissRequest = {
             dialogViewModel.closeDialogAndWipeData()
         },
-        modifier = Modifier.height(384.dp)
+        modifier = Modifier.height(392.dp)
     )
 }
 
@@ -58,33 +59,41 @@ fun DialogTextRow(
     textList: List<String>,
     onClick: (Int) -> Unit
 ) {
-    Column() {
-        Row(
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(48.dp)
+            .padding(horizontal = 24.dp)
+        ) {
+        Box(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 24.dp),
+                .fillMaxSize()
+                .weight(1f)
+                .clickable { onClick(rowIndex * 2) },
+            contentAlignment = Alignment.Center
         ) {
             Text(
-                modifier = Modifier
-                    .weight(1f)
-                    .clickable { onClick(rowIndex * 2) },
                 text = textList[rowIndex * 2],
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
             )
-            Spacer(modifier = Modifier.width(2.dp))
-            if (textList.size >= rowIndex * 2 + 2) {
-                Text(
-                    modifier = Modifier
-                        .weight(1f)
-                        .clickable { onClick(rowIndex * 2 + 1) },
-                    text = textList[rowIndex * 2 + 1],
-                    textAlign = TextAlign.Center
-                )
-            } else {
-                Spacer(modifier = Modifier.weight(1f))
-            }
         }
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(modifier = Modifier.width(2.dp))
+        if (textList.size >= rowIndex * 2 + 2) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .weight(1f)
+                    .clickable { onClick(rowIndex * 2 + 1) },
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = textList[rowIndex * 2 + 1],
+                    textAlign = TextAlign.Center,
+                )
+            }
+        } else {
+            Spacer(modifier = Modifier.weight(1f))
+        }
     }
 }
 
@@ -124,7 +133,7 @@ fun NoPaddingAlertDialog(
                 }
                 text?.let {
                     CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.high) {
-                        val textStyle = Typography.body1
+                        val textStyle = TypographyCondenced.body1
                         ProvideTextStyle(textStyle, it)
                     }
                 }
