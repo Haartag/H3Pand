@@ -24,10 +24,7 @@ import com.valerytimofeev.h3pand.domain.model.CastleSettings
 import com.valerytimofeev.h3pand.domain.model.DialogState
 import com.valerytimofeev.h3pand.ui.pandcalculation.PandCalculationViewModel
 import com.valerytimofeev.h3pand.ui.pandcalculation.dialog.DialogViewModel
-import com.valerytimofeev.h3pand.ui.theme.AddValueBackground1Color
-import com.valerytimofeev.h3pand.ui.theme.AddValueBackground2Color
-import com.valerytimofeev.h3pand.ui.theme.SliderColor
-import com.valerytimofeev.h3pand.ui.theme.SliderColorSecondary
+import com.valerytimofeev.h3pand.ui.theme.*
 import kotlin.math.roundToInt
 
 /**
@@ -37,7 +34,6 @@ import kotlin.math.roundToInt
 @Composable
 fun SheetContent(
     screenWidth: Dp,
-    viewModel: PandCalculationViewModel = hiltViewModel(),
 ) {
     Column(
         modifier = Modifier.fillMaxSize()
@@ -51,9 +47,8 @@ fun SheetContent(
             SheetChooseUnit(screenWidth)
             SheetAdditionalValue(screenWidth)
         }
-        Spacer(modifier = Modifier.height(24.dp))
-        SheetChooseWeek()
         Spacer(modifier = Modifier.height(16.dp))
+        SheetChooseWeek()
         SheetChooseZoneCastle(screenWidth)
         Spacer(modifier = Modifier.height(16.dp))
         BottomSliderBlock()
@@ -103,7 +98,8 @@ fun SheetChooseUnit(
                 Text(
                     text = viewModel.unitButtonText,
                     modifier = Modifier.fillMaxWidth(),
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center,
+                    style = TypographyCondenced.body1
                 )
             }
         }
@@ -131,14 +127,16 @@ fun SheetAdditionalValue(
                 textAlign = TextAlign.Start,
                 modifier = Modifier
                     .padding(horizontal = 8.dp)
-                    .width(itemSize - 24.dp)
+                    .width(itemSize - 24.dp),
+                style = TypographyCondenced.body1
             )
             Text(
                 text = "${viewModel.getValueSum()}",
                 textAlign = TextAlign.Start,
                 modifier = Modifier
                     .padding(horizontal = 8.dp)
-                    .width(itemSize - 12.dp)
+                    .width(itemSize - 12.dp),
+                style = TypographyCondenced.body1
             )
         }
         Column(
@@ -301,6 +299,7 @@ fun BottomSliderBlock() {
     ) {
         Row(modifier = Modifier.padding(horizontal = 20.dp)) {
             SheetChooseCastleNumber(modifier = Modifier.weight(1f))
+            Spacer(modifier = Modifier.width(16.dp))
             SheetChooseZone(modifier = Modifier.weight(1f))
         }
     }
@@ -314,7 +313,10 @@ fun SheetChooseCastleNumber(
     viewModel: PandCalculationViewModel = hiltViewModel()
 ) {
     Column(modifier = modifier) {
-        Text(text = viewModel.townZoneNumberText)
+        Text(
+            text = viewModel.townZoneNumberText,
+            style = TypographyCondenced.body1
+        )
         Slider(
             value = viewModel.castlesSliderPosition.value,
             valueRange = 1f..viewModel.maxCastleNumber,
@@ -345,7 +347,8 @@ fun SheetChooseZone(
 ) {
     Column(modifier = modifier) {
         Text(
-            text = viewModel.typeOfZoneText
+            text = viewModel.typeOfZoneText,
+            style = TypographyCondenced.body1
         )
         Slider(
             value = viewModel.zoneSliderPosition.value,
