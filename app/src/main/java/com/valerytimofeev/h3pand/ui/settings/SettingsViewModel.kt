@@ -45,7 +45,7 @@ class SettingsViewModel @Inject constructor(
     /**
      * Save chosen localization in DataStorage.
      */
-    fun setLocale() = runBlocking {
+    fun setLocal() = runBlocking {
         settingsDataStorage.setLanguage(newLocaleNumber.value)
     }
 }
