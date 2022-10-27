@@ -94,3 +94,15 @@ val TypographyCondenced = Typography(
         letterSpacing = 0.1.sp
     )
 )
+
+val MapJc = FontFamily(
+    Font(R.font.rye_regular, FontWeight.Normal),
+)
+val TypoJc = Typography(
+    h4 = TextStyle(
+        fontFamily = MapJc,
+        fontWeight = FontWeight.Normal,
+        fontSize = 28.sp,
+        letterSpacing = 0.25.sp
+    )
+)
