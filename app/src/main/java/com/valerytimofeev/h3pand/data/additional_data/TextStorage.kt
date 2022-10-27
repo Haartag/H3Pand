@@ -38,12 +38,12 @@ enum class TextStorage(
     SheetWeekAndMonth(TextWithLocalization("month: %s, week: %s", "месяц: %s, неделя: %s")),
     SheetNumberOfTownZones(
         TextWithLocalization(
-            "Number of town's zones: %s",
-            "Количество зон города: %s"
+            "Same zones: %s",
+            "Одинаковые зоны: %s"
         )
     ),
     SheetZoneName(TextWithLocalization("Type of zone: %s", "Тип зоны: %s")),
-    SheetZoneTownName(TextWithLocalization("Town of zone:\n %s", "Город зоны:\n %s")),
+    SheetZoneTownName(TextWithLocalization("Town of zone:", "Город зоны:")),
 
     DialogSearch(TextWithLocalization("Search", "Поиск")),
 

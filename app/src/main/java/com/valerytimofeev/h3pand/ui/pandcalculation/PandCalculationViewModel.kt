@@ -104,22 +104,22 @@ class PandCalculationViewModel @Inject constructor(
         )
 
     val mainTownText: String
-        get() = String.format(
-            getLocalizedTextUseCase(TextStorage.SheetZoneTownName.text),
-            getLocalizedTextUseCase(
-                CastleSettings.values()
-                    .find { it.id == chosenCastleZone.value }?.castleName!!
-            )
+        get() = getLocalizedTextUseCase(TextStorage.SheetZoneTownName.text)
+
+    val townName: String
+        get() = getLocalizedTextUseCase(
+            CastleSettings.values()
+                .find { it.id == chosenCastleZone.value }?.castleName!!
         )
 
     val unitButtonText: String
         get() = if (chosenGuard.value == null || chosenGuardRange.value !in 0..10) {
             getLocalizedTextUseCase(TextStorage.SheetChooseGuard.text)
         } else {
-                getLocalizedTextUseCase(chosenGuard.value) +
-                "\n" +
-                GuardRanges.range.getOrDefault(chosenGuardRange.value, "").toString()
-                    .replace("..", "–")
+            getLocalizedTextUseCase(chosenGuard.value) +
+                    "\n" +
+                    GuardRanges.range.getOrDefault(chosenGuardRange.value, "").toString()
+                        .replace("..", "–")
         }
 
     fun itemNameText(index: Int): String {

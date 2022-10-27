@@ -258,9 +258,15 @@ fun SheetChooseZoneCastle(
             text = viewModel.mainTownText,
             modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.subtitle1
+            style = TypographyCondenced.body1
         )
         Spacer(modifier = Modifier.height(8.dp))
+        Text(
+            text = viewModel.townName,
+            modifier = Modifier.fillMaxWidth(),
+            textAlign = TextAlign.Center,
+            style = MaterialTheme.typography.subtitle1
+        )
         Box(
             modifier = modifier
                 .size((screenWidth - 48.dp) / 3)
