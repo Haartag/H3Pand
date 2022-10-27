@@ -5,7 +5,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -90,7 +89,7 @@ fun ItemEntry(
                 )
                 Text(
                     text = "${viewModel.boxesWithPercents[itemIndex].dropChance} %",
-                    style = MaterialTheme.typography.body1
+                    style = TypographyCondenced.body1
                 )
             }
             Spacer(modifier = Modifier.weight(0.8f))
