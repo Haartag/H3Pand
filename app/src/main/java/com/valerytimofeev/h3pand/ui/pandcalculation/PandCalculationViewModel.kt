@@ -42,6 +42,8 @@ class PandCalculationViewModel @Inject constructor(
 
     //savedStateHandle to take nav argument
     private val currentMap: String = checkNotNull(savedStateHandle["mapName"])
+    val fullMapName = getMapSettings(currentMap).mapName
+    val mapNameTypo = getMapSettings(currentMap).tileTypo
     val maxCastleNumber = getMapSettings(currentMap).numberOfZones.toFloat()
     val castleNamesList = CastleSettings.values().map { getLocalizedTextUseCase(it.castleName) }
     var additionalValueTypesList = listOf<TextWithLocalization>()
