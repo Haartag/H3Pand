@@ -34,6 +34,5 @@ val UnitColor = Color(0xFFB5BDBB)
 val AddValueBackground1Color = Color(0xFF6F6F6F)
 val AddValueBackground2Color = Color(0xFF009771)
 
-val MapItemBackground = Color(0xFFD3DBD9)
-val MapItemGradient = Color(0xFFBC9469)
+val SplashScreenGradient = Color(0xFF2C2C2C)
 

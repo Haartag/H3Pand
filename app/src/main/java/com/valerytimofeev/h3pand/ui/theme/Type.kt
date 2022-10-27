@@ -95,6 +95,18 @@ val TypographyCondenced = Typography(
     )
 )
 
+val Title = FontFamily(
+    Font(R.font.quintessential, FontWeight.Normal),
+)
+val TitleTypo = Typography(
+    h1 = TextStyle(
+        fontFamily = Title,
+        fontWeight = FontWeight.Normal,
+        fontSize = 40.sp,
+        letterSpacing = 0.3.sp
+    )
+)
+
 val MapJc = FontFamily(
     Font(R.font.rye_regular, FontWeight.Normal),
 )
