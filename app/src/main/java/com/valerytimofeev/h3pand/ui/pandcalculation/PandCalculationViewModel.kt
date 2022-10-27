@@ -117,6 +117,7 @@ class PandCalculationViewModel @Inject constructor(
                 getLocalizedTextUseCase(chosenGuard.value) +
                 "\n" +
                 GuardRanges.range.getOrDefault(chosenGuardRange.value, "").toString()
+                    .replace("..", "–")
         }
 
     fun itemNameText(index: Int): String {
