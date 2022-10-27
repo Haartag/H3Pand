@@ -101,14 +101,14 @@ fun PandCalculationScreen(
                 ) {
                     Icon(painterResource(id = R.drawable.ic_icon), contentDescription = "")
                 }
+
+                if (viewModel.isErrorShowed.value) {
+                    ErrorBlock()
+                }
                 ItemsList(
                     screenHeight = screenHeight,
                     bottomSheetHeight = viewModel.getSheetHeight(screenWidth)
                 )
-            }
-
-            if (viewModel.isErrorShowed.value) {
-                ErrorBlock()
             }
         }
     }
