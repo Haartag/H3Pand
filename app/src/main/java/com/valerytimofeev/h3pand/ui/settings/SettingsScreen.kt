@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.valerytimofeev.h3pand.ui.theme.SandboxButtonColor
+import com.valerytimofeev.h3pand.ui.theme.TypographyCondenced
 
 @Composable
 fun SettingsScreen(
@@ -46,7 +47,10 @@ fun LanguageSettings(
             .padding(16.dp),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Text(text = settingsViewModel.languageText)
+        Text(
+            text = settingsViewModel.languageText,
+            style = TypographyCondenced.body1
+        )
 
         Row(
             modifier = Modifier.clickable {
@@ -54,7 +58,8 @@ fun LanguageSettings(
             }
         ) {
             Text(
-                text = settingsViewModel.currentLanguage.value
+                text = settingsViewModel.currentLanguage.value,
+                style = TypographyCondenced.body1
             )
             Box {
                 Icon(
@@ -74,7 +79,10 @@ fun LanguageSettings(
                                 settingsViewModel.languageDropDownState.value = false
                             }
                         ) {
-                            Text(text = item)
+                            Text(
+                                text = item,
+                                style = TypographyCondenced.body1
+                            )
                         }
                     }
                 }
@@ -116,25 +124,26 @@ fun LanguageConfirmBox(
     settingsViewModel: SettingsViewModel = hiltViewModel()
 ) {
     Snackbar(
-        modifier = Modifier.padding(12.dp),
+        //modifier = Modifier.padding(12.dp),
         action = {
             Text(
                 text = settingsViewModel.sandboxButtonText,
-                style = androidx.compose.ui.text.TextStyle(textDecoration = TextDecoration.Underline),
+                style = TypographyCondenced.body2.copy(textDecoration = TextDecoration.Underline),
                 textAlign = TextAlign.Center,
                 color = SandboxButtonColor,
                 modifier = Modifier
-                    .fillMaxWidth(0.2f)
+                    .fillMaxWidth(0.25f)
                     .clickable {
-                        settingsViewModel.setLocale()
+                        settingsViewModel.setLocal()
                         navController.navigate("splash_screen")
                     }
             )
         }
     ) {
-        Text(
+            Text(
             text = settingsViewModel.sandboxText,
-            modifier = Modifier.fillMaxWidth(0.8f)
+            style = TypographyCondenced.body2,
+            modifier = Modifier.fillMaxWidth(0.75f)
         )
     }
 }
