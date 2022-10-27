@@ -91,7 +91,12 @@ fun PandCalculationScreen(
         Box(modifier = Modifier.fillMaxSize()) {
             Column {
                 MainTopBar(
-                    buttonIcon = Icons.Default.ArrowBack,
+                    buttonIcon = {
+                        Icon(
+                            Icons.Default.ArrowBack,
+                            contentDescription = "Back button",
+                        )
+                    },
                     onButtonClicked = { navController.popBackStack() },
                     title = viewModel.fullMapName,
                     titleStyle = viewModel.mapNameTypo,
@@ -99,7 +104,11 @@ fun PandCalculationScreen(
                         .find { it.id == viewModel.chosenCastleZone.value }?.sheetColor
                         ?: MaterialTheme.colors.secondary
                 ) {
-                    Icon(painterResource(id = R.drawable.ic_icon), contentDescription = "")
+                    Icon(
+                        painterResource(id = R.drawable.ic_icon),
+                        contentDescription = "",
+                        tint = Color.DarkGray
+                    )
                 }
 
                 if (viewModel.isErrorShowed.value) {

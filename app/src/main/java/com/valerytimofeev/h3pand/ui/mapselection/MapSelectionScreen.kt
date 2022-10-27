@@ -14,20 +14,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
+import com.valerytimofeev.h3pand.R
 import com.valerytimofeev.h3pand.ui.theme.UnitColor
 import com.valerytimofeev.h3pand.ui.topbar.MainTopBar
 import com.valerytimofeev.h3pand.ui.util_composables.BackPressHandler
-import com.valerytimofeev.h3pand.R
 
 @Composable
 fun MapSelectionScreen(
@@ -45,10 +44,19 @@ fun MapSelectionScreen(
     Column() {
         MainTopBar(
             title = viewModel.mapTitle,
-            buttonIcon = ImageVector.vectorResource(id = R.drawable.ic_icon),
-            onButtonClicked = {}
+            buttonIcon = {
+                Icon(
+                    painterResource(id = R.drawable.ic_icon),
+                    contentDescription = "App icon",
+                    tint = Color.DarkGray
+                )
+            }
         ) {
-            Icon(painterResource(id = R.drawable.ic_icon), contentDescription = "")
+            Icon(
+                painterResource(id = R.drawable.ic_icon),
+                contentDescription = "",
+                tint = Color.DarkGray
+            )
         }
         MapList(
             modifier = Modifier.weight(1f),

@@ -1,14 +1,12 @@
 package com.valerytimofeev.h3pand.ui.topbar
 
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import com.valerytimofeev.h3pand.ui.theme.Typography
@@ -17,8 +15,8 @@ import com.valerytimofeev.h3pand.ui.theme.Typography
 fun MainTopBar(
     title: String = "",
     titleStyle: TextStyle = Typography.h5,
-    buttonIcon: ImageVector,
-    onButtonClicked: () -> Unit,
+    buttonIcon: @Composable () -> Unit = {},
+    onButtonClicked: (() -> Unit)? = null,
     backgroundColor: Color = Color.LightGray,
     additionalInfo: @Composable () -> Unit = {}
 ) {
@@ -32,8 +30,12 @@ fun MainTopBar(
             )
         },
         navigationIcon = {
-            IconButton(onClick = { onButtonClicked() }) {
-                Icon(buttonIcon, contentDescription = "")
+            if (onButtonClicked != null) {
+                IconButton(onClick = { onButtonClicked() }) {
+                    buttonIcon()
+                }
+            } else {
+                buttonIcon()
             }
         },
         actions = {
