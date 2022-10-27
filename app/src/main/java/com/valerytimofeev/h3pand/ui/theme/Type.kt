@@ -104,5 +104,11 @@ val TypoJc = Typography(
         fontWeight = FontWeight.Normal,
         fontSize = 28.sp,
         letterSpacing = 0.25.sp
+    ),
+    h5 = TextStyle(
+        fontFamily = MapJc,
+        fontWeight = FontWeight.Normal,
+        fontSize = 20.sp,
+        letterSpacing = 0.2.sp
     )
 )
