@@ -19,6 +19,8 @@ class SettingsViewModel @Inject constructor(
     private val localeNumber = CurrentLocal.local
     private val newLocaleNumber = mutableStateOf(localeNumber)
 
+    val topBarText = getLocalizedTextUseCase(TextStorage.SettingsTitle.text)
+
     var languages = listOf(
         getLocalizedTextUseCase(TextStorage.SettingsLanguageEng.text),
         getLocalizedTextUseCase(TextStorage.SettingsLanguageRus.text)

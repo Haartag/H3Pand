@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -18,6 +19,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.valerytimofeev.h3pand.ui.theme.SandboxButtonColor
 import com.valerytimofeev.h3pand.ui.theme.TypographyCondenced
+import com.valerytimofeev.h3pand.ui.topbar.MainTopBar
 
 @Composable
 fun SettingsScreen(
@@ -26,6 +28,16 @@ fun SettingsScreen(
 ) {
     Surface(modifier = Modifier.fillMaxSize()) {
         Column(Modifier.fillMaxSize()) {
+            MainTopBar(
+                title = settingsViewModel.topBarText,
+                buttonIcon = {
+                    Icon(
+                        Icons.Default.ArrowBack,
+                        contentDescription = "Back button",
+                    )
+                },
+                onButtonClicked = { navController.popBackStack() }
+            )
             SettingsListItem { LanguageSettings() }
         }
         Column(modifier = Modifier.fillMaxSize()) {
