@@ -1,4 +1,4 @@
-package com.valerytimofeev.h3pand.ui.pandcalculation.util_composables
+package com.valerytimofeev.h3pand.ui.util_composables
 
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.OnBackPressedDispatcher
