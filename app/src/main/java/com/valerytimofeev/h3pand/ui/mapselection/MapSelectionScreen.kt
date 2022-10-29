@@ -7,7 +7,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -16,14 +15,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
-import com.valerytimofeev.h3pand.R
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.valerytimofeev.h3pand.ui.theme.UnitColor
 import com.valerytimofeev.h3pand.ui.topbar.MainTopBar
 import com.valerytimofeev.h3pand.ui.util_composables.BackPressHandler
@@ -33,6 +31,13 @@ fun MapSelectionScreen(
     navController: NavController,
     viewModel: MapSelectionViewModel = hiltViewModel()
 ) {
+    val systemUiController = rememberSystemUiController()
+    systemUiController.setNavigationBarColor(
+        color = Color.Black
+    )
+    systemUiController.setStatusBarColor(
+        color = Color.White
+    )
     //Close app to prevent navigation to splashscreen
     val activity = (LocalContext.current as? Activity)
     BackPressHandler(
@@ -44,20 +49,8 @@ fun MapSelectionScreen(
     Column() {
         MainTopBar(
             title = viewModel.mapTitle,
-            buttonIcon = {
-                Icon(
-                    painterResource(id = R.drawable.ic_icon),
-                    contentDescription = "App icon",
-                    tint = Color.DarkGray
-                )
-            }
-        ) {
-            Icon(
-                painterResource(id = R.drawable.ic_icon),
-                contentDescription = "",
-                tint = Color.DarkGray
-            )
-        }
+            backgroundColor = Color.White
+        )
         MapList(
             modifier = Modifier.weight(1f),
             navController

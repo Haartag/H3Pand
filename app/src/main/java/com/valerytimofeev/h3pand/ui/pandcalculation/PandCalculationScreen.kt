@@ -15,17 +15,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.valerytimofeev.h3pand.R
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.valerytimofeev.h3pand.domain.model.CastleSettings
 import com.valerytimofeev.h3pand.ui.pandcalculation.dialog.DialogScreen
 import com.valerytimofeev.h3pand.ui.pandcalculation.dialog.DialogViewModel
 import com.valerytimofeev.h3pand.ui.pandcalculation.pandcalculationcomposables.ErrorBlock
 import com.valerytimofeev.h3pand.ui.pandcalculation.pandcalculationcomposables.ItemsList
 import com.valerytimofeev.h3pand.ui.pandcalculation.pandcalculationcomposables.SheetContent
-import com.valerytimofeev.h3pand.domain.model.CastleSettings
 import com.valerytimofeev.h3pand.ui.topbar.MainTopBar
 
 
@@ -40,7 +39,13 @@ fun PandCalculationScreen(
     val configuration = LocalConfiguration.current
     val screenHeight = configuration.screenHeightDp.dp
     val screenWidth = configuration.screenWidthDp.dp
-
+    //System bar
+    val systemUiController = rememberSystemUiController()
+    systemUiController.setSystemBarsColor(
+        color = CastleSettings.values()
+            .find { it.id == viewModel.chosenCastleZone.value }?.sheetColor
+            ?: MaterialTheme.colors.secondary
+    )
 
     if (dialogViewModel.isDialogOpen()) {
         DialogScreen(
@@ -103,14 +108,7 @@ fun PandCalculationScreen(
                     backgroundColor = CastleSettings.values()
                         .find { it.id == viewModel.chosenCastleZone.value }?.sheetColor
                         ?: MaterialTheme.colors.secondary
-                ) {
-                    Icon(
-                        painterResource(id = R.drawable.ic_icon),
-                        contentDescription = "",
-                        tint = Color.DarkGray
-                    )
-                }
-
+                )
                 if (viewModel.isErrorShowed.value) {
                     ErrorBlock()
                 }
