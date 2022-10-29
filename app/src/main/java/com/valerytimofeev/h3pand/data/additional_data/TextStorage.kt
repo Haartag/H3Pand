@@ -9,8 +9,10 @@ data class TextWithLocalization(
 enum class TextStorage(
     val text: TextWithLocalization
 ) {
+
     MapTitle(TextWithLocalization("Choose map", "Выбор карты")),
 
+    SettingsTitle(TextWithLocalization("Settings", "Настройки")),
     SettingsLanguageHint(
         TextWithLocalization(
             "Select language for application:",
@@ -48,6 +50,18 @@ enum class TextStorage(
     DialogSearch(TextWithLocalization("Search", "Поиск")),
 
     ItemGuard(TextWithLocalization("Guard: %s", "Охрана: %s")),
-    ItemMostLikely(TextWithLocalization("most likely %s", "скорее всего %s"))
+    ItemMostLikely(TextWithLocalization("most likely %s", "скорее всего %s")),
+
+    AboutTitle(TextWithLocalization("About", "О приложении")),
+    AboutWhatsNew(TextWithLocalization("What's new in this version:", "Что нового в этой версии:")),
+    AboutPointOne(
+        TextWithLocalization(
+            "– Brand new version with Jebus Cross map support.\n",
+            "– Совершенно новая версия с поддержкой карты Jebus Cross.\n"
+        )
+    ),
+
+    HelpTitle(TextWithLocalization("Description", "Описание")),
+    ContactTitle(TextWithLocalization("Contacts", "Контакты"))
 
 }
