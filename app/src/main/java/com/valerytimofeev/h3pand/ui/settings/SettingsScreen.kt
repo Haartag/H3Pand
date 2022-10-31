@@ -1,7 +1,6 @@
 package com.valerytimofeev.h3pand.ui.settings
 
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -9,14 +8,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.valerytimofeev.h3pand.ui.common_composables.CommonListItem
 import com.valerytimofeev.h3pand.ui.theme.SandboxButtonColor
 import com.valerytimofeev.h3pand.ui.theme.TypographyCondenced
 import com.valerytimofeev.h3pand.ui.topbar.MainTopBar
@@ -38,7 +36,7 @@ fun SettingsScreen(
                 },
                 onButtonClicked = { navController.popBackStack() }
             )
-            SettingsListItem { LanguageSettings() }
+            CommonListItem { LanguageSettings() }
         }
         Column(modifier = Modifier.fillMaxSize()) {
             Spacer(modifier = Modifier.fillMaxHeight(0.85f))
@@ -100,33 +98,6 @@ fun LanguageSettings(
                 }
             }
         }
-    }
-}
-
-@Composable
-fun SettingsListItem(
-    content: @Composable () -> Unit
-) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(96.dp),
-        verticalArrangement = Arrangement.SpaceBetween,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth(0.9f)
-                .height(1.dp)
-                .background(Color.Gray)
-        )
-        content()
-        Box(
-            modifier = Modifier
-                .fillMaxWidth(0.9f)
-                .height(1.dp)
-                .background(Color.Gray)
-        )
     }
 }
 
