@@ -29,7 +29,7 @@ fun ItemsList(
     bottomSheetHeight: Dp,
     viewModel: PandCalculationViewModel = hiltViewModel()
 ) {
-    Box(modifier = Modifier.height(screenHeight - bottomSheetHeight + 16.dp)) {
+    Box(modifier = Modifier.height(screenHeight - bottomSheetHeight + 16.dp - 56.dp)) {
         LazyColumn(contentPadding = PaddingValues(12.dp)) {
             items(count = viewModel.boxesWithPercents.size) {
                 ItemEntry(
