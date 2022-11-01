@@ -85,4 +85,10 @@ object AppModule {
     fun provideGetLocalizedTextUseCase(): GetLocalizedTextUseCase {
         return GetLocalizedTextUseCase()
     }
+
+    @Singleton
+    @Provides
+    fun provideSendEmailUseCase(): SendEmailUseCase {
+        return SendEmailUseCase()
+    }
 }
