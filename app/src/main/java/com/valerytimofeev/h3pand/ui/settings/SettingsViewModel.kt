@@ -2,17 +2,19 @@ package com.valerytimofeev.h3pand.ui.settings
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.valerytimofeev.h3pand.data.additional_data.TextStorage
 import com.valerytimofeev.h3pand.domain.model.CurrentLocal
 import com.valerytimofeev.h3pand.domain.model.SettingsDataStorage
-import com.valerytimofeev.h3pand.data.additional_data.TextStorage
 import com.valerytimofeev.h3pand.domain.use_case.GetLocalizedTextUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-    private val settingsDataStorage: SettingsDataStorage,
+    val settingsDataStorage: SettingsDataStorage,
     getLocalizedTextUseCase: GetLocalizedTextUseCase
 ) : ViewModel() {
 
@@ -35,6 +37,9 @@ class SettingsViewModel @Inject constructor(
     val sandboxText = getLocalizedTextUseCase(TextStorage.SettingsLanguageSandboxText.text)
     val sandboxButtonText = getLocalizedTextUseCase(TextStorage.SettingsLanguageSandboxButton.text)
 
+    val itemListText = getLocalizedTextUseCase(TextStorage.SettingsItemListHint.text)
+
+
     /**
      * Temporarily save selected language and, if the language is changed,
      * request that the application be restarted.
@@ -49,6 +54,15 @@ class SettingsViewModel @Inject constructor(
      */
     fun setLocal() = runBlocking {
         settingsDataStorage.setLanguage(newLocaleNumber.value)
+    }
+
+    /**
+     * Save chosen item list type in DataStorage.
+     */
+    fun setItemListGroup(type: Boolean) {
+        viewModelScope.launch {
+            settingsDataStorage.setListType(type)
+        }
     }
 }
 

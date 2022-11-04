@@ -8,6 +8,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
@@ -37,6 +38,7 @@ fun SettingsScreen(
                 onButtonClicked = { navController.popBackStack() }
             )
             CommonListItem { LanguageSettings() }
+            CommonListItem { ItemListSettings() }
         }
         Column(modifier = Modifier.fillMaxSize()) {
             Spacer(modifier = Modifier.fillMaxHeight(0.85f))
@@ -123,10 +125,35 @@ fun LanguageConfirmBox(
             )
         }
     ) {
-            Text(
+        Text(
             text = settingsViewModel.sandboxText,
             style = TypographyCondenced.body2,
             modifier = Modifier.fillMaxWidth(0.75f)
+        )
+    }
+}
+
+@Composable
+fun ItemListSettings(
+    settingsViewModel: SettingsViewModel = hiltViewModel()
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(
+            text = settingsViewModel.itemListText,
+            style = TypographyCondenced.body1
+        )
+        val itemListGroup = settingsViewModel.settingsDataStorage.getListType
+            .collectAsState(initial = true)
+        Switch(
+            checked = itemListGroup.value,
+            onCheckedChange = {
+                settingsViewModel.setItemListGroup(!itemListGroup.value)
+            }
         )
     }
 }
