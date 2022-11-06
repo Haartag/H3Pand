@@ -56,28 +56,32 @@ class GetBoxForGuardRangeUseCaseTest {
                         boxContent = "item 1",
                         boxContentRu = "предмет 1",
                         value = 5000,
-                        img = "img"
+                        img = "img",
+                        type = "Gold"
                     ),
                     BoxValueItem(
                         id = 2,
                         boxContent = "item 2",
                         boxContentRu = "предмет 2",
                         value = 7500,
-                        img = "img"
+                        img = "img",
+                        type = "Exp"
                     ),
                     BoxValueItem(
                         id = 3,
                         boxContent = "item 3",
                         boxContentRu = "предмет 3",
                         value = 10000,
-                        img = "img"
+                        img = "img",
+                        type = "Spell"
                     ),
                     BoxValueItem(
                         id = 0,
                         boxContent = "test name 1 60",
                         boxContentRu = "тестовое имя 1 60",
                         value = 5760,
-                        img = "img1"
+                        img = "img1",
+                        type = "Unit"
                     )
                 )
             )
@@ -100,28 +104,32 @@ class GetBoxForGuardRangeUseCaseTest {
                         boxContent = "item 1",
                         boxContentRu = "предмет 1",
                         value = 5000,
-                        img = "img"
+                        img = "img",
+                        type = "Gold"
                     ),
                     BoxValueItem(
                         id = 2,
                         boxContent = "item 2",
                         boxContentRu = "предмет 2",
                         value = 7500,
-                        img = "img"
+                        img = "img",
+                        type = "Exp"
                     ),
                     BoxValueItem(
                         id = 3,
                         boxContent = "item 3",
                         boxContentRu = "предмет 3",
                         value = 10000,
-                        img = "img"
+                        img = "img",
+                        type = "Spell"
                     ),
                     BoxValueItem(
                         id = 0,
                         boxContent = "test name 4 45",
                         boxContentRu = "тестовое имя 4 45",
                         value = 8640,
-                        img = "img1"
+                        img = "img1",
+                        type = "Unit"
                     )
                 )
             )
@@ -148,21 +156,24 @@ class GetBoxForGuardRangeUseCaseTest {
                         boxContent = "item 1",
                         boxContentRu = "предмет 1",
                         value = 5000,
-                        img = "img"
+                        img = "img",
+                        type = "Gold"
                     ),
                     BoxValueItem(
                         id = 2,
                         boxContent = "item 2",
                         boxContentRu = "предмет 2",
                         value = 7500,
-                        img = "img"
+                        img = "img",
+                        type = "Exp"
                     ),
                     BoxValueItem(
                         id = 3,
                         boxContent = "item 3",
                         boxContentRu = "предмет 3",
                         value = 10000,
-                        img = "img"
+                        img = "img",
+                        type = "Spell"
                     )
                 )
             )
@@ -184,7 +195,14 @@ class GetBoxForGuardRangeUseCaseTest {
         assertThat(result).isEqualTo(
             Resource.success(
                 listOf(
-                    BoxValueItem(id = 0, boxContent = "test name 1 60", boxContentRu = "тестовое имя 1 60", value = 5760, img = "img1")
+                    BoxValueItem(
+                        id = 0,
+                        boxContent = "test name 1 60",
+                        boxContentRu = "тестовое имя 1 60",
+                        value = 5760,
+                        img = "img1",
+                        type = "Unit"
+                    )
                 )
             )
         )
@@ -212,7 +230,14 @@ class GetBoxForGuardRangeUseCaseTest {
 
         assertThat(result).isEqualTo(
             listOf(
-                BoxValueItem(id = 1, boxContent = "item 1", boxContentRu = "предмет 1", value = 5000, img = "img")
+                BoxValueItem(
+                    id = 1,
+                    boxContent = "item 1",
+                    boxContentRu = "предмет 1",
+                    value = 5000,
+                    img = "img",
+                    type = "Gold"
+                )
             )
         )
     }
@@ -232,8 +257,22 @@ class GetBoxForGuardRangeUseCaseTest {
 
         assertThat(result).isEqualTo(
             listOf(
-                BoxValueItem(id = 0, boxContent = "test name 4 45", boxContentRu = "тестовое имя 4 45",  value = 8640, img = "img1"),
-                BoxValueItem(id = 0, boxContent = "test name 5 25", boxContentRu = "тестовое имя 5 25", value = 14400, img = "img2")
+                BoxValueItem(
+                    id = 0,
+                    boxContent = "test name 4 45",
+                    boxContentRu = "тестовое имя 4 45",
+                    value = 8640,
+                    img = "img1",
+                    type = "Unit"
+                ),
+                BoxValueItem(
+                    id = 0,
+                    boxContent = "test name 5 25",
+                    boxContentRu = "тестовое имя 5 25",
+                    value = 14400,
+                    img = "img2",
+                    type = "Unit"
+                )
             )
         )
     }
@@ -253,7 +292,14 @@ class GetBoxForGuardRangeUseCaseTest {
         assertThat(result).isEqualTo(
             Resource.success(
                 listOf(
-                    BoxValueItem(id = 0, boxContent = "test name 1 60", boxContentRu = "тестовое имя 1 60", value = 6720, img = "img1")
+                    BoxValueItem(
+                        id = 0,
+                        boxContent = "test name 1 60",
+                        boxContentRu = "тестовое имя 1 60",
+                        value = 6720,
+                        img = "img1",
+                        type = "Unit"
+                    )
                 )
             )
         )
@@ -274,7 +320,14 @@ class GetBoxForGuardRangeUseCaseTest {
         assertThat(result).isEqualTo(
             Resource.success(
                 listOf(
-                    BoxValueItem(id = 0, boxContent = "test name 1 60", boxContentRu = "тестовое имя 1 60", value = 9600, img = "img1")
+                    BoxValueItem(
+                        id = 0,
+                        boxContent = "test name 1 60",
+                        boxContentRu = "тестовое имя 1 60",
+                        value = 9600,
+                        img = "img1",
+                        type = "Unit"
+                    )
                 )
             )
         )
