@@ -27,9 +27,13 @@ val TowerColor = Color(0xFFDFE8F0)
 val NeutralColor = Color(0xFFEEEED5)
 
 val GoldColor = Color(0xFFF1E8D2)
+val GoldColorLight = Color(0xFFF1EDE2)
 val ExpColor = Color(0xFFDFBCBC)
+val ExpColorLight = Color(0xFFE4CFCF)
 val SpellColor = Color(0xFFDED1EB)
+val SpellColorLight = Color(0xFFE6DFEC)
 val UnitColor = Color(0xFFB5BDBB)
+val UnitColorLight = Color(0xFFCCCFCF)
 
 val AddValueBackground1Color = Color(0xFF6F6F6F)
 val AddValueBackground2Color = Color(0xFF009771)
