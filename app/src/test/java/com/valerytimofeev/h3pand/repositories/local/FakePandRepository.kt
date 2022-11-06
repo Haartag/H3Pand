@@ -212,6 +212,7 @@ class FakePandRepository(
             "add name 1",
             "доп. имя 1",
             1400,
+            50,
             "Misc.",
             "Разное",
             "Morale/Luck",
@@ -223,6 +224,7 @@ class FakePandRepository(
             "add name 2",
             "доп. имя 2",
             2000,
+            null,
             "Artifact",
             "Артефакты",
             "Treasure artifact",
@@ -234,6 +236,7 @@ class FakePandRepository(
             "add name 3",
             "доп. имя 3",
             5000,
+            100,
             "Misc.",
             "Разное",
             "Trade",
@@ -243,13 +246,13 @@ class FakePandRepository(
     )
 
     private val fakeBoxValueDatabase = listOf(
-        BoxValueItem(1, "item 1", "предмет 1", 5000, img = "img"),
-        BoxValueItem(2, "item 2", "предмет 2", 7500, img = "img"),
-        BoxValueItem(3, "item 3", "предмет 3", 10000, img = "img"),
-        BoxValueItem(4, "item 4", "предмет 4", 12500, img = "img"),
-        BoxValueItem(5, "item 5", "предмет 5", 15000, img = "img"),
-        BoxValueItem(6, "item 6", "предмет 6", 17500, img = "img"),
-        BoxValueItem(7, "item 7", "предмет 7", 20000, img = "img"),
+        BoxValueItem(1, "item 1", "предмет 1", 5000, img = "img", "Gold"),
+        BoxValueItem(2, "item 2", "предмет 2", 7500, img = "img", "Exp"),
+        BoxValueItem(3, "item 3", "предмет 3", 10000, img = "img", "Spell"),
+        BoxValueItem(4, "item 4", "предмет 4", 12500, img = "img", "Gold"),
+        BoxValueItem(5, "item 5", "предмет 5", 15000, img = "img", "Exp"),
+        BoxValueItem(6, "item 6", "предмет 6", 17500, img = "img", "Spell"),
+        BoxValueItem(7, "item 7", "предмет 7", 20000, img = "img", "Gold"),
     )
 
     private var returnError = false
@@ -400,6 +403,19 @@ class FakePandRepository(
                 }
         if (result.isEmpty()) return Resource.error(
             "An unknown database error occurred: database_5.0",
+            null
+        )
+        return if (returnError) {
+            Resource.error("Error", null)
+        } else {
+            Resource.success(result)
+        }
+    }
+
+    override suspend fun getAdditionalValueWithFrequency(): Resource<List<AdditionalValueItem>> {
+        val result = fakeAdditionalValueDatabase.filter { it.frequency != null }
+        if (result.isEmpty()) return Resource.error(
+            "An unknown database error occurred: database_6.0",
             null
         )
         return if (returnError) {

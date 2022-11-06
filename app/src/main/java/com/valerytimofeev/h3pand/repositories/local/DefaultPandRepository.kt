@@ -156,4 +156,19 @@ class DefaultPandRepository @Inject constructor(
         }
     }
 
+    override suspend fun getAdditionalValueWithFrequency(): Resource<List<AdditionalValueItem>> {
+        return try {
+            val addValues = pandDao.getAdditionalValueWithFrequency()
+            if (addValues.isEmpty()) return Resource.error(
+                "An unknown database error occurred: database_6.0",
+                null
+            )
+            addValues.let {
+                return@let Resource.success(it)
+            }
+        } catch (e: Exception) {
+            Resource.error("An unknown database error occurred: database_6.1", null)
+        }
+    }
+
 }
