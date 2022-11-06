@@ -40,4 +40,7 @@ interface PandDao {
     @RewriteQueriesToDropUnusedColumns
     @Query("SELECT * FROM UnitDB WHERE castle = :castle AND dwellingName IS NOT NULL")
     suspend fun getDwellingsByCastle(castle: Int): List<Dwelling>
+
+    @Query("SELECT * FROM AdditionalDB WHERE frequency IS NOT NULL")
+    suspend fun getAdditionalValueWithFrequency(): List<AdditionalValueItem>
 }

@@ -50,7 +50,7 @@ class PandDaoTest {
         assertThat(result[0]).isEqualTo(
             Guard(
                 name = "Gnoll",
-                "Гноллы",
+                nameRu = "Гноллы",
                 AIValue = 56,
                 minOnMap = 20,
                 maxOnMap = 50,
@@ -75,6 +75,7 @@ class PandDaoTest {
                 "Altar of sacrifice",
                 "Жертвенный алтарь",
                 100,
+                null,
                 "Misc.",
                 "Разное",
                 "Expirience",
@@ -128,6 +129,7 @@ class PandDaoTest {
                 name = "Crypt",
                 nameRu = "Склеп",
                 value = 1000,
+                frequency = 100,
                 type = "Bank",
                 typeRu = "Банк",
                 subtype = "Artifact bank",
@@ -169,28 +171,32 @@ class PandDaoTest {
                     boxContent = "5000 gold",
                     boxContentRu = "5000 золото",
                     value = 5000,
-                    img = "gold"
+                    img = "gold",
+                    type = "Gold"
                 ),
                 BoxValueItem(
                     id = 5,
                     boxContent = "5000 exp.",
                     boxContentRu = "5000 опыт",
                     value = 6000,
-                    img = "exp"
+                    img = "exp",
+                    type = "Exp"
                 ),
                 BoxValueItem(
                     id = 13,
                     boxContent = "1 lvl. spells",
                     boxContentRu = "Заклинания 1 уровня",
                     value = 5000,
-                    img = "spells1"
+                    img = "spells1",
+                    type = "Spell"
                 ),
                 BoxValueItem(
                     id = 14,
                     boxContent = "2 lvl. spells",
                     boxContentRu = "Заклинания 2 уровня",
                     value = 7500,
-                    img = "spells1"
+                    img = "spells1",
+                    type = "Spell"
                 )
             )
         )
@@ -206,7 +212,7 @@ class PandDaoTest {
     }
 
     @Test
-    fun getNonUnitBoxes_tooHiRange_returnEmptyList() = runTest {
+    fun getNonUnitBoxes_tooHighRange_returnEmptyList() = runTest {
         val minRange = 35000
         val maxRange = 40000
         val result = dao.getNonUnitBoxesInRange(minRange, maxRange)
@@ -302,4 +308,25 @@ class PandDaoTest {
         val result = dao.getDwellingsByCastle(20)
         assertThat(result).isEmpty()
     }
+
+    @Test
+    fun getAdditionalItemsWithFrequency() = runTest {
+        val result = dao.getAdditionalValueWithFrequency()
+        assertThat(result[0]).isEqualTo(
+            AdditionalValueItem(
+                id = 31,
+                name = "Crypt",
+                nameRu = "Склеп",
+                value = 1000,
+                frequency = 100,
+                type = "Bank",
+                typeRu = "Банк",
+                subtype = "Artifact bank",
+                subtypeRu = "Банки артефактов",
+                castle = 0
+            )
+        )
+        assertThat(result.size).isEqualTo(25)
+    }
+
 }
