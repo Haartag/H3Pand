@@ -3,7 +3,6 @@ package com.valerytimofeev.h3pand.domain.use_case
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
 import com.google.common.truth.Truth
-import com.valerytimofeev.h3pand.ui.theme.ExpColor
 import org.junit.Before
 import org.junit.Test
 
@@ -28,7 +27,21 @@ class GetItemImageAndColorUseCaseAndroidTest() {
     fun getImgInvalidInput () {
         val result = GetItemImageAndColorUseCase("test")
 
-        Truth.assertThat(result.getItemImage()).isEqualTo(context.resources.getIdentifier("placeholder", "drawable", "com.valerytimofeev.h3pand"))
+        Truth.assertThat(result.getItemImage()).isEqualTo(context.resources.getIdentifier("ic_dice", "drawable", "com.valerytimofeev.h3pand"))
+    }
+
+    @Test
+    fun getAddValueImgValidInput () {
+        val result = GetItemImageAndColorUseCase("Dwelling")
+
+        Truth.assertThat(result.getAddValueImage()).isEqualTo(context.resources.getIdentifier("av_dwelling", "drawable", "com.valerytimofeev.h3pand"))
+    }
+
+    @Test
+    fun getAddValueImgInvalidInput () {
+        val result = GetItemImageAndColorUseCase("test")
+
+        Truth.assertThat(result.getAddValueImage()).isEqualTo(context.resources.getIdentifier("ic_question", "drawable", "com.valerytimofeev.h3pand"))
     }
 
 }
