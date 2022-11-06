@@ -10,6 +10,7 @@ data class AdditionalValueItem(
     @ColumnInfo val name: String,
     @ColumnInfo val nameRu: String,
     @ColumnInfo val value: Int,
+    @ColumnInfo val frequency: Int?,
     @ColumnInfo val type: String,
     @ColumnInfo val typeRu: String,
     @ColumnInfo val subtype: String,

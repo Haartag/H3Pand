@@ -11,4 +11,5 @@ data class BoxValueItem(
     @ColumnInfo val boxContentRu: String,
     @ColumnInfo val value: Int,
     @ColumnInfo val img: String,
+    @ColumnInfo val type: String,
 )
