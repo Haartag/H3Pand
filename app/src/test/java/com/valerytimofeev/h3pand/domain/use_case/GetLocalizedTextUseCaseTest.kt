@@ -24,6 +24,7 @@ import org.junit.Test
 @ExperimentalCoroutinesApi
 class GetLocalizedTextUseCaseTest() {
 
+
     private val mainThreadSurrogate = newSingleThreadContext("UI thread")
 
     @get:Rule
@@ -218,6 +219,7 @@ class GetLocalizedTextUseCaseTest() {
             "add name 3",
             "доп. имя 3",
             5000,
+            100,
             "Misc.",
             "Разное",
             "Trade",
@@ -240,6 +242,7 @@ class GetLocalizedTextUseCaseTest() {
             "add name 3",
             "доп. имя 3",
             5000,
+            100,
             "Misc.",
             "Разное",
             "Trade",
@@ -262,6 +265,7 @@ class GetLocalizedTextUseCaseTest() {
             "add name 3",
             "доп. имя 3",
             5000,
+            100,
             "Misc.",
             "Разное",
             "Trade",
@@ -335,6 +339,4 @@ class GetLocalizedTextUseCaseTest() {
         val result = getLocalizedText(text)
         assertThat(result).isEmpty()
     }
-
-
 }
