@@ -35,6 +35,13 @@ enum class TextStorage(
         )
     ),
 
+    SettingsItemListHint(
+        TextWithLocalization(
+            "Group the awards tabs",
+            "Группировать вкладки наград"
+        )
+    ),
+
     SheetChooseGuard(TextWithLocalization("Choose a guard\n", "Выбрать охрану\n")),
     SheetTotalValue(TextWithLocalization("Total value:", "Ценность:")),
     SheetWeekAndMonth(TextWithLocalization("month: %s, week: %s", "месяц: %s, неделя: %s")),
@@ -51,6 +58,11 @@ enum class TextStorage(
 
     ItemGuard(TextWithLocalization("Guard: %s", "Охрана: %s")),
     ItemMostLikely(TextWithLocalization("most likely %s", "скорее всего %s")),
+
+    TileNameExp(TextWithLocalization("Experience", "Опыт")),
+    TileNameGold(TextWithLocalization("Gold", "Золото")),
+    TileNameSpell(TextWithLocalization("Spells", "Заклинания")),
+    TileNameUnit(TextWithLocalization("Creatures", "Существа")),
 
     AboutTitle(TextWithLocalization("About", "О приложении")),
     AboutWhatsNew(TextWithLocalization("What's new in this version:", "Что нового в этой версии:")),
