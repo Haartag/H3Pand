@@ -5,7 +5,13 @@ import com.valerytimofeev.h3pand.R
 import com.valerytimofeev.h3pand.ui.theme.TypoJc
 
 data class ZoneSettings(
-    val zoneName: TextWithLocalization, val difficult: Int, val valueRange: IntRange
+    val zoneName: TextWithLocalization, val difficult: Int, val valueRange: List<ValueRange>
+)
+
+data class ValueRange(
+    val type: Int,
+    val range: IntRange,
+    val frequence: Int
 )
 
 enum class MapSettings(
@@ -30,12 +36,20 @@ enum class MapSettings(
             ZoneSettings(
                 TextWithLocalization("Start", "Стартовая"),
                 3,
-                2000..22000
+                listOf(
+                    ValueRange(0, 300..3000, 14),
+                    ValueRange(1, 5000..16000, 6),
+                    ValueRange(2, 12000..22000, 1),
+                )
             ),
             ZoneSettings(
                 TextWithLocalization("Central", "Центр"),
                 5,
-                10000..55000
+                listOf(
+                    ValueRange(0, 10000..25000, 10),
+                    ValueRange(1, 25000..35000, 10),
+                    ValueRange(2, 35000..55000, 3),
+                )
             ),
         ),
         tileImage = R.drawable.map_jc_cropped,
