@@ -2,10 +2,7 @@ package com.valerytimofeev.h3pand.domain.use_case
 
 import androidx.compose.ui.graphics.Color
 import com.valerytimofeev.h3pand.R
-import com.valerytimofeev.h3pand.ui.theme.ExpColor
-import com.valerytimofeev.h3pand.ui.theme.GoldColor
-import com.valerytimofeev.h3pand.ui.theme.SpellColor
-import com.valerytimofeev.h3pand.ui.theme.UnitColor
+import com.valerytimofeev.h3pand.ui.theme.*
 
 class GetItemImageAndColorUseCase (
     val itemImage: String
@@ -29,22 +26,22 @@ class GetItemImageAndColorUseCase (
             else -> R.drawable.ic_dice
         }
     }
-    fun getItemColor(): Color {
+    fun getItemColor(isLight: Boolean = false): Color {
         return when (itemImage) {
-            "gold" -> GoldColor
-            "exp" -> ExpColor
-            "spells1" -> SpellColor
-            "spells2" -> SpellColor
-            "spells3" -> SpellColor
-            "air" -> SpellColor
-            "earth" -> SpellColor
-            "fire" -> SpellColor
-            "water" -> SpellColor
-            "Pawn" -> UnitColor
-            "Knight" -> UnitColor
-            "Rook" -> UnitColor
-            "Queen" -> UnitColor
-            "King" -> UnitColor
+            "gold" -> if (isLight) GoldColorLight else GoldColor
+            "exp" -> if (isLight) ExpColorLight else ExpColor
+            "spells1" -> if (isLight) SpellColorLight else SpellColor
+            "spells2" -> if (isLight) SpellColorLight else SpellColor
+            "spells3" -> if (isLight) SpellColorLight else SpellColor
+            "air" -> if (isLight) SpellColorLight else SpellColor
+            "earth" -> if (isLight) SpellColorLight else SpellColor
+            "fire" -> if (isLight) SpellColorLight else SpellColor
+            "water" -> if (isLight) SpellColorLight else SpellColor
+            "Pawn" -> if (isLight) UnitColorLight else UnitColor
+            "Knight" -> if (isLight) UnitColorLight else UnitColor
+            "Rook" -> if (isLight) UnitColorLight else UnitColor
+            "Queen" -> if (isLight) UnitColorLight else UnitColor
+            "King" -> if (isLight) UnitColorLight else UnitColor
             else -> Color.White
         }
     }
