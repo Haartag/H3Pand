@@ -10,5 +10,6 @@ data class BoxWithDropPercent(
     var dropChance: Double,
     val mostLikelyGuard: Int,
     val range: IntRange,
+    val type: String,
     val img: String,
 )
