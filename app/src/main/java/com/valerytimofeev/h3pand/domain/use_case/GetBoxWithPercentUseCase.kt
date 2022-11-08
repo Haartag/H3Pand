@@ -1,26 +1,37 @@
 package com.valerytimofeev.h3pand.domain.use_case
 
+import com.valerytimofeev.h3pand.data.additional_data.MapSettings
+import com.valerytimofeev.h3pand.data.additional_data.TextWithLocalization
 import com.valerytimofeev.h3pand.data.local.BoxValueItem
 import com.valerytimofeev.h3pand.domain.model.BoxWithDropPercent
 import com.valerytimofeev.h3pand.domain.model.Difficult
 import com.valerytimofeev.h3pand.domain.model.GuardCharacteristics
-import com.valerytimofeev.h3pand.data.additional_data.TextWithLocalization
-import com.valerytimofeev.h3pand.utils.*
+import com.valerytimofeev.h3pand.utils.Resource
+import com.valerytimofeev.h3pand.utils.Status
+import com.valerytimofeev.h3pand.utils.ceilToInt
+import javax.inject.Inject
 import kotlin.math.roundToInt
 
 /**
  * Get drop chances for valid box.
  * Box obtained from [GetBoxForGuardRangeUseCase]
  */
-class GetBoxWithPercentUseCase {
-    operator fun invoke(
+class GetBoxWithPercentUseCase @Inject constructor(
+    private val getUnitDropCoefficientUseCase: GetUnitDropCoefficientUseCase
+) {
+    suspend operator fun invoke(
         boxValueItem: BoxValueItem,
         guardValue: GuardCharacteristics,
         difficult: Difficult,
         unitValue: Int,
         week: Int,
         chosenGuardRange: IntRange,
-        additionalValue: Int
+        additionalValue: Int,
+        castle: Int,
+        numberOfZones: Float,
+        numberOfUnitZones: Float,
+        mapSettings: MapSettings,
+        zoneType: Int
     ): Resource<BoxWithDropPercent> {
 
         val sumValue = boxValueItem.value + additionalValue
@@ -42,8 +53,23 @@ class GetBoxWithPercentUseCase {
 
         val numbersList = (lowGuardNumber..hiGuardNumber).map { it }
 
+        val unitDropCoefficientResource = getUnitDropCoefficientUseCase(
+            boxValueItem,
+            castle,
+            numberOfZones,
+            numberOfUnitZones,
+            mapSettings,
+            zoneType
+        )
+        if (unitDropCoefficientResource.status == Status.ERROR) {
+            return Resource.error(
+                unitDropCoefficientResource.message
+                    ?: "An unknown error occurred", null
+            )
+        }
+
         val numbersWithPercentsMap = numbersList.getPercents(
-            if (boxValueItem.boxContent.contains("exp.")) 2 else 1 //Exp. drop rate twice as much as the rest, but probably need some additional correction.
+            (unitDropCoefficientResource.data!! * 1000).toInt()
         )
 
         val guards = mutableListOf<Int>()
@@ -90,17 +116,18 @@ class GetBoxWithPercentUseCase {
                 summaryPercent,
                 mostLikelyGuardNumber.first,
                 guards.first()..guards.last(),
+                boxValueItem.type,
                 boxValueItem.img
             )
         )
     }
+
     /**
      * Calculate drop chance. Each 2 additional values gives +1 to previous item chance
      * and + item count to divider.
      *  - ex. 1/1 -> 1/4 - 2/4 - 1/4 -> 1/9 - 2/9 - 3/9 - 2/9 - 1/9 e.t.c.
      */
     private fun List<Int>.getPercents(multiplier: Int): Map<Int, Double> {
-
         var divider = 1
 
         for (index in 1 until this.size step 2) {
