@@ -110,6 +110,29 @@ class GetUnitDropCoefficientUseCaseTest() {
     }
 
     @Test
+    fun `Get drop coefficient, different castle`() = runTest {
+        val boxValueItem = BoxValueItem(
+            1,
+            "item 1",
+            "предмет 1",
+            5000,
+            img = "img",
+            "Exp"
+        )
+
+        val result = getUnitDropCoefficientUseCase(
+            boxValueItem,
+            castle = 3,
+            numberOfZones = 5.0f,
+            numberOfUnitZones = 1.0f,
+            mapSettings = MapSettings.JC,
+            zone = 0
+        )
+
+        Truth.assertThat(result).isEqualTo(Resource.success(0.1277193f))
+    }
+
+    @Test
     fun `Get drop coefficient, second zoneType, first range`() = runTest {
         val boxValueItem = BoxValueItem(
             7,
