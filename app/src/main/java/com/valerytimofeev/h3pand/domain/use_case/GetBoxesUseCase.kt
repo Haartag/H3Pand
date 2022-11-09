@@ -18,6 +18,7 @@ class GetBoxesUseCase @Inject constructor(
     private val getGuardCharacteristicsUseCase: GetGuardCharacteristicsUseCase,
     private val getBoxForGuardRangeUseCase: GetBoxForGuardRangeUseCase,
     private val getBoxWithPercentUseCase: GetBoxWithPercentUseCase,
+    private val getZoneValueRangeUseCase: GetZoneValueRangeUseCase,
 ) {
     suspend operator fun invoke(
         guardUnit: Guard,
@@ -31,12 +32,14 @@ class GetBoxesUseCase @Inject constructor(
     ): Resource<List<BoxWithDropPercent>> {
 
         val mapSettings = getMapSettings(mapName)
-            ?: return Resource.error("An unknown error occurred", null)
 
         val zoneLvl = mapSettings.valueRanges.getOrNull(zoneType)?.difficult
             ?: return Resource.error("An unknown error occurred", null)
 
-        var valueRange = mapSettings.valueRanges.getOrNull(zoneType)?.valueRange
+        val valueRangesForZone = mapSettings.valueRanges.getOrNull(zoneType)?.valueRange
+            ?: return Resource.error("An unknown error occurred", null)
+
+        var valueRange = getZoneValueRangeUseCase(valueRangesForZone).data
             ?: return Resource.error("An unknown error occurred", null)
 
         val zones = mapSettings.numberOfZones
@@ -44,7 +47,7 @@ class GetBoxesUseCase @Inject constructor(
         val difficult = getDifficultForZone(zoneLvl)
             ?: return Resource.error("An unknown error occurred", null)
 
-        val chosenGuardRange = GuardRanges.range[guardRangeIndex]
+        val chosenGuardRange = GuardRanges.range[guardRangeIndex] //TODO make guard range IntRange, not index of IntRange
             ?: return Resource.error("An unknown error occurred", null)
 
         val weekCorrectedMinGuardValue = chosenGuardRange.first.weekCorrection(week)
@@ -91,7 +94,12 @@ class GetBoxesUseCase @Inject constructor(
                         unitValue = guardUnit.AIValue,
                         week = week,
                         additionalValue = additionalValue,
-                        chosenGuardRange = chosenGuardRange
+                        chosenGuardRange = chosenGuardRange,
+                        castle = castle,
+                        mapSettings = mapSettings,
+                        numberOfZones = zones.toFloat(),
+                        numberOfUnitZones = castleZones.toFloat(),
+                        zoneType = zoneType
                     ).data ?: continue
                 )
             } else continue
@@ -108,7 +116,7 @@ class GetBoxesUseCase @Inject constructor(
         return if (boxesWithPercent.isNotEmpty()) {
             Resource.success(boxesWithPercent)
         } else {
-            Resource.error("An unknown error occurred: error code 11GB", null)
+            Resource.error("It is impossible to find boxes for this kind or amount of guard", null)
         }
     }
 

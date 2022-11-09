@@ -25,16 +25,21 @@ class GetBoxesUseCaseTest {
     private lateinit var getBoxForGuardRange: GetBoxForGuardRangeUseCase
     private lateinit var getGuardCharacteristicsUseCase: GetGuardCharacteristicsUseCase
     private lateinit var getBoxWithPercentUseCase: GetBoxWithPercentUseCase
+    private lateinit var getUnitDropCoefficientUseCase: GetUnitDropCoefficientUseCase
+    private lateinit var getZoneValueRangeUseCase: GetZoneValueRangeUseCase
 
     @Before
     fun setup() {
         getBoxForGuardRange = GetBoxForGuardRangeUseCase(FakePandRepository())
         getGuardCharacteristicsUseCase = GetGuardCharacteristicsUseCase()
-        getBoxWithPercentUseCase = GetBoxWithPercentUseCase()
+        getUnitDropCoefficientUseCase = GetUnitDropCoefficientUseCase(FakePandRepository())
+        getZoneValueRangeUseCase = GetZoneValueRangeUseCase()
+        getBoxWithPercentUseCase = GetBoxWithPercentUseCase(getUnitDropCoefficientUseCase)
         getBox = GetBoxesUseCase(
             getGuardCharacteristicsUseCase,
             getBoxForGuardRange,
-            getBoxWithPercentUseCase
+            getBoxWithPercentUseCase,
+            getZoneValueRangeUseCase
         )
 
         Dispatchers.setMain(mainThreadSurrogate)
@@ -66,23 +71,26 @@ class GetBoxesUseCaseTest {
                 listOf<BoxWithDropPercent>(
                     BoxWithDropPercent(
                         name = TextWithLocalization("item 2", "предмет 2"),
-                        dropChance = 49.5,
+                        dropChance = 85.2,
                         mostLikelyGuard = 34,
                         range = 26..42,
+                        type = "Exp",
                         img = "img"
                     ),
                     BoxWithDropPercent(
                         name = TextWithLocalization("test name 1 60", "тестовое имя 1 60"),
-                        dropChance = 48.5,
+                        dropChance = 14.5,
                         mostLikelyGuard = 25,
                         range = 20..31,
+                        type = "Unit",
                         img = "img1"
                     ),
                     BoxWithDropPercent(
                         name = TextWithLocalization("item 3", "предмет 3"),
-                        dropChance = 1.9,
+                        dropChance = 0.2,
                         mostLikelyGuard = 49,
                         range = 46..49,
+                        type = "Spell",
                         img = "img"
                     )
                 )
@@ -113,6 +121,7 @@ class GetBoxesUseCaseTest {
                         dropChance = 100.0,
                         mostLikelyGuard = 4,
                         range = 4..4,
+                        type = "Gold",
                         img = "img"
                     )
                 )
@@ -139,18 +148,20 @@ class GetBoxesUseCaseTest {
             Resource.success(
                 listOf<BoxWithDropPercent>(
                     BoxWithDropPercent(
-                        name = TextWithLocalization("test name 1 60", "тестовое имя 1 60"),
-                        dropChance = 50.4,
-                        mostLikelyGuard = 31,
-                        range = 25..38,
-                        img = "img1"
-                    ),
-                    BoxWithDropPercent(
                         name = TextWithLocalization("item 2", "предмет 2"),
-                        dropChance = 49.6,
+                        dropChance = 84.9,
                         mostLikelyGuard = 42,
                         range = 32..49,
+                        type = "Exp",
                         img = "img"
+                    ),
+                    BoxWithDropPercent(
+                        name = TextWithLocalization("test name 1 60", "тестовое имя 1 60"),
+                        dropChance = 15.1,
+                        mostLikelyGuard = 31,
+                        range = 25..38,
+                        type = "Unit",
+                        img = "img1"
                     )
                 )
             )
@@ -198,6 +209,7 @@ class GetBoxesUseCaseTest {
                         dropChance = 100.0,
                         mostLikelyGuard = 49,
                         range = 46..49,
+                        type = "Gold",
                         img = "img"
                     ),
                 )
@@ -244,6 +256,7 @@ class GetBoxesUseCaseTest {
                         dropChance = 100.0,
                         mostLikelyGuard = 49,
                         range = 46..49,
+                        type = "Gold",
                         img = "img"
                     ),
                 )
@@ -252,7 +265,7 @@ class GetBoxesUseCaseTest {
     }
 
     @Test
-    fun `Get Boxes, too big additional value and week correction, returns success`() = runTest {
+    fun `Get Boxes, too big additional value and week correction, returns error`() = runTest {
 
         val guardUnit = Guard("testUnit", "тестЮнит", 201, 20, 30, "img")
         val result = getBox(
@@ -267,4 +280,151 @@ class GetBoxesUseCaseTest {
         )
         assertThat(result).isEqualTo(Resource.error(msg = "Too weak unit", data = null))
     }
+
+    @Test
+    fun `Get Boxes, different castle, returns success`() = runTest {
+
+        val guardUnit = Guard("testUnit", "тестЮнит", 190, 20, 30, "img")
+        val result = getBox(
+            guardUnit = guardUnit,
+            castle = 3,
+            castleZones = 1,
+            guardRangeIndex = 4,
+            zoneType = 0,
+            additionalValue = 0,
+            week = 1,
+            mapName = "JC"
+        )
+
+        assertThat(result).isEqualTo(
+            Resource.success(
+                listOf<BoxWithDropPercent>(
+                    BoxWithDropPercent(
+                        name = TextWithLocalization("item 2", "предмет 2"),
+                        dropChance = 90.9,
+                        mostLikelyGuard = 34,
+                        range = 26..42,
+                        type = "Exp",
+                        img = "img"
+                    ),
+                    BoxWithDropPercent(
+                        name = TextWithLocalization("test name 4 45", "тестовое имя 4 45"),
+                        dropChance = 8.8,
+                        mostLikelyGuard = 46,
+                        range = 35..49,
+                        type = "Unit",
+                        img = "img1"
+                    ),
+                    BoxWithDropPercent(
+                        name = TextWithLocalization("item 3", "предмет 3"),
+                        dropChance = 0.3,
+                        mostLikelyGuard = 49,
+                        range = 46..49,
+                        type = "Spell",
+                        img = "img"
+                    )
+                )
+            )
+        )
+    }
+
+    @Test
+    fun `Get Boxes, different castle zones, returns success`() = runTest {
+
+        val guardUnit = Guard("testUnit", "тестЮнит", 190, 20, 30, "img")
+        val result = getBox(
+            guardUnit = guardUnit,
+            castle = 1,
+            castleZones = 3,
+            guardRangeIndex = 4,
+            zoneType = 0,
+            additionalValue = 0,
+            week = 1,
+            mapName = "JC"
+        )
+
+        assertThat(result).isEqualTo(
+            Resource.success(
+                listOf<BoxWithDropPercent>(
+                    BoxWithDropPercent(
+                        name = TextWithLocalization("item 2", "предмет 2"),
+                        dropChance = 87.4,
+                        mostLikelyGuard = 34,
+                        range = 26..42,
+                        type = "Exp",
+                        img = "img"
+                    ),
+                    BoxWithDropPercent(
+                        name = TextWithLocalization("test name 1 60", "тестовое имя 1 60"),
+                        dropChance = 12.4,
+                        mostLikelyGuard = 36,
+                        range = 27..45,
+                        type = "Unit",
+                        img = "img1"
+                    ),
+                    BoxWithDropPercent(
+                        name = TextWithLocalization("item 3", "предмет 3"),
+                        dropChance = 0.2,
+                        mostLikelyGuard = 49,
+                        range = 46..49,
+                        type = "Spell",
+                        img = "img"
+                    )
+                )
+            )
+        )
+    }
+
+    @Test
+    fun `Get Boxes, wrong castle zones, returns error`() = runTest {
+
+        val guardUnit = Guard("testUnit", "тестЮнит", 190, 20, 30, "img")
+        val result = getBox(
+            guardUnit = guardUnit,
+            castle = 1,
+            castleZones = 10,
+            guardRangeIndex = 4,
+            zoneType = 0,
+            additionalValue = 0,
+            week = 1,
+            mapName = "JC"
+        )
+
+        assertThat(result).isEqualTo(Resource.error(msg = "Error: Wrong map settings", data = null))
+    }
+
+    @Test
+    fun `Get Boxes, valid input, different zone type, returns success`() = runTest {
+
+        val guardUnit = Guard("testUnit", "тестЮнит", 6000, 3, 8, "img")
+        val result = getBox(
+            guardUnit = guardUnit,
+            castle = 5,
+            castleZones = 1,
+            guardRangeIndex = 1,
+            zoneType = 1,
+            additionalValue = 0,
+            week = 1,
+            mapName = "JC"
+        )
+
+        assertThat(result).isEqualTo(
+            Resource.success(
+                listOf<BoxWithDropPercent>(
+                    BoxWithDropPercent(
+                        name = TextWithLocalization("item 4", "предмет 4"),
+                        dropChance = 100.0,
+                        mostLikelyGuard = 4,
+                        range = 4..4,
+                        type = "Gold",
+                        img = "img"
+                    )
+                )
+            )
+        )
+    }
+
+
+
+
 }
