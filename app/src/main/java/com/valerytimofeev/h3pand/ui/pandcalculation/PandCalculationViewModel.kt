@@ -21,8 +21,8 @@ import com.valerytimofeev.h3pand.domain.use_case.dialog_use_case.GetAdditionalVa
 import com.valerytimofeev.h3pand.utils.*
 import com.valerytimofeev.h3pand.ui.pandcalculation.dialog.DialogViewModel
 import com.valerytimofeev.h3pand.ui.pandcalculation.pandcalculationcomposables.*
-import com.valerytimofeev.h3pand.utils.Constants.MIN_PERCENT
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.math.roundToInt
@@ -37,8 +37,13 @@ class PandCalculationViewModel @Inject constructor(
     private val getBoxesUseCase: GetBoxesUseCase,
     private val getValueForSearchItemUseCase: GetValueForSearchItemUseCase,
     private val getAdditionalValueListUseCase: GetAdditionalValueListUseCase,
-    val getLocalizedTextUseCase: GetLocalizedTextUseCase
+    val getLocalizedTextUseCase: GetLocalizedTextUseCase,
+    private val getItemListGroupsUseCase: GetItemListGroupsUseCase,
+    private val settingsDataStorage: SettingsDataStorage,
 ) : ViewModel() {
+
+    //settingsDataStorage
+    var isGroup = true
 
     //savedStateHandle to take nav argument
     private val currentMap: String = checkNotNull(savedStateHandle["mapName"])
@@ -50,6 +55,7 @@ class PandCalculationViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
+            isGroup = settingsDataStorage.getListType.first()
             val additionalValueTypesResource = getAdditionalValueListUseCase()
             if (additionalValueTypesResource.status == Status.ERROR) {
                 errorText.value =
@@ -78,6 +84,13 @@ class PandCalculationViewModel @Inject constructor(
     val errorText = mutableStateOf("")
 
     var boxesWithPercents = mutableStateListOf<BoxWithDropPercent>()
+
+    val boxGroups = mutableStateListOf<GetItemListGroupsUseCase.ListGroup>()
+    val expandedTiles = mutableStateMapOf<Int, Boolean>()
+
+    val isSpecifyDialogShown = mutableStateOf(false)
+    val specifySliderPosition = mutableStateOf(0f)
+
 
     //Texts
     val totalValueText = getLocalizedTextUseCase(TextStorage.SheetTotalValue.text)
@@ -122,21 +135,33 @@ class PandCalculationViewModel @Inject constructor(
                         .replace("..", "–")
         }
 
-    fun itemNameText(index: Int): String {
-        return getLocalizedTextUseCase(boxesWithPercents[index].name)
+    fun tileTypeText(type: String): String {
+        return when (type) {
+            "Exp" -> getLocalizedTextUseCase(TextStorage.TileNameExp.text)
+            "Gold" -> getLocalizedTextUseCase(TextStorage.TileNameGold.text)
+            "Spell" -> getLocalizedTextUseCase(TextStorage.TileNameSpell.text)
+            "Unit" -> getLocalizedTextUseCase(TextStorage.TileNameUnit.text)
+            else -> ""
+        }
     }
 
-    fun itemGuardRangeText(index: Int): String {
+    fun tilePercentText(index: Int) =
+        "${boxGroups[index].summaryPercent.roundToTwoDigits()} %"
+
+    fun itemNameText(name: TextWithLocalization): String {
+        return getLocalizedTextUseCase(name)
+    }
+    fun itemPercentText(percent: Double) = "$percent %"
+    fun itemGuardRangeText(guardRange: IntRange): String {
         return String.format(
             getLocalizedTextUseCase(TextStorage.ItemGuard.text),
-            boxesWithPercents[index].range.toString().replace("..", "–")
+            guardRange.toString().replace("..", "–")
         )
     }
-
-    fun itemMostLikelyText(index: Int): String {
+    fun itemMostLikelyText(mostLikelyGuard: Int): String {
         return String.format(
             getLocalizedTextUseCase(TextStorage.ItemMostLikely.text),
-            boxesWithPercents[index].mostLikelyGuard
+            mostLikelyGuard
         )
     }
 
@@ -174,8 +199,8 @@ class PandCalculationViewModel @Inject constructor(
      */
     fun getGuardData(guardAndNumber: GuardAndNumber) {
         chosenGuard.value = guardAndNumber.guard
-        currentGuardImg.value = getItemImage(null, guardAndNumber.guard.img)
-        chosenGuardRange.value = guardAndNumber.numberRangeIndex
+        currentGuardImg.value = getItemImage(guardAndNumber.guard.img)
+        chosenGuardRange.value = guardAndNumber.numberRangeIndex //TODO
         getBoxesList()
     }
 
@@ -219,7 +244,7 @@ class PandCalculationViewModel @Inject constructor(
     }
 
     /**
-     * Get boxes list to show in [ItemsList]
+     * Get boxes list to show in [ItemsListWithGroups]
      */
     fun getBoxesList() {
         viewModelScope.launch {
@@ -236,7 +261,15 @@ class PandCalculationViewModel @Inject constructor(
                     castleZones = castlesSliderPosition.value.toInt()
                 )
                 if (boxList.status == Status.SUCCESS) {
-                    boxesWithPercents.addAll(boxList.data!!.filter { it.dropChance >= MIN_PERCENT })
+                    boxesWithPercents.addAll(boxList.data!!)
+                    if (isGroup) {
+                        boxGroups.clear()
+                        expandedTiles.clear()
+                        boxGroups.addAll(getItemListGroupsUseCase(boxesWithPercents))
+                        for (index in boxGroups.indices) {
+                            expandedTiles[index] = false
+                        }
+                    }
                 } else {
                     isErrorShowed.value = true
                     errorText.value = boxList.message ?: "error"
@@ -250,24 +283,27 @@ class PandCalculationViewModel @Inject constructor(
         return GetItemImageAndColorUseCase(item).getAddValueImage()
     }
 
-    fun getItemImage(itemNumber: Int?, itemName: String? = null): Int {
-        val itemImage = when {
-            itemNumber != null -> boxesWithPercents[itemNumber].img
-            itemName != null -> itemName
-            else -> ""
-        }
-        return GetItemImageAndColorUseCase(itemImage).getItemImage()
+    fun getItemImage(itemName: String): Int {
+        return GetItemImageAndColorUseCase(itemName).getItemImage()
     }
 
-    fun getItemColor(itemNumber: Int): Color {
-        val itemImage = boxesWithPercents[itemNumber].img
-        return GetItemImageAndColorUseCase(itemImage).getItemColor()
+    fun getItemColor(itemName: String, isLight: Boolean = false): Color {
+        return GetItemImageAndColorUseCase(itemName).getItemColor(isLight)
     }
 
     fun getSheetHeight(screenWidth: Dp): Dp {
         val handle = 45.dp
         val addValueHeight = (screenWidth / 4 + 16.dp)
         return handle + addValueHeight
+    }
+
+    fun showSpecifyDialog() {
+        if (chosenGuard.value != null && chosenGuardRange.value != -1) {
+            isSpecifyDialogShown.value = true
+        }
+    }
+    fun closeSpecifyDialog() {
+        isSpecifyDialogShown.value = false
     }
 
     fun addOrRemoveAddValue(
