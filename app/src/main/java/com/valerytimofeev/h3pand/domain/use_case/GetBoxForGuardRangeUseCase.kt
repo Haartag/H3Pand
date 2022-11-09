@@ -31,6 +31,8 @@ class GetBoxForGuardRangeUseCase @Inject constructor(
         val minBoxRoll = (guardRange.minAverage * guardValue).valueOfBox(difficult) - additionalValue
         val maxBoxRoll = (guardRange.maxAverage * guardValue).valueOfBox(difficult) - additionalValue
 
+        if (castleZones > zones) return Resource.error("Error: Wrong map settings", null)
+
         /**
          * Coefficient for AI value cost of unit boxes. Depends on number of zones.
          */

@@ -89,7 +89,7 @@ class GetBoxForGuardRangeUseCaseTest {
     }
 
     @Test
-    fun `Get box list, valid input, castle 3`() = runTest {
+    fun `Get box list, valid input, different castle`() = runTest {
         val guardRange = GuardCharacteristics(16, 13, 65, 86)
         val difficult = Difficult.THREE
         val guardValue = 201
@@ -343,5 +343,18 @@ class GetBoxForGuardRangeUseCaseTest {
         val result = getBox(guardRange, difficult, guardValue, additionalValue, 1, 5, 1)
 
         assertThat(result).isEqualTo(Resource.error("No boxes found", null))
+    }
+
+
+
+    @Test
+    fun `Get box list, wrong castle zones, too big additional value`() = runTest {
+        val guardRange = GuardCharacteristics(16, 13, 65, 86)
+        val difficult = Difficult.THREE
+        val guardValue = 201
+
+        val result = getBox(guardRange, difficult, guardValue, 0, 10, 5, 1)
+
+        assertThat(result).isEqualTo(Resource.error("Error: Wrong map settings", null))
     }
 }
