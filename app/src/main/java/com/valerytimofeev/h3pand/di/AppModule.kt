@@ -58,12 +58,6 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideGetBoxWithPercentUseCase(): GetBoxWithPercentUseCase {
-        return GetBoxWithPercentUseCase()
-    }
-
-    @Singleton
-    @Provides
     fun provideGetDwellingValueUseCase(): GetDwellingValueUseCase {
         return GetDwellingValueUseCase()
     }
@@ -90,5 +84,17 @@ object AppModule {
     @Provides
     fun provideSendEmailUseCase(): SendEmailUseCase {
         return SendEmailUseCase()
+    }
+
+    @Singleton
+    @Provides
+    fun provideGetZoneValueRangeUseCase(): GetZoneValueRangeUseCase {
+        return GetZoneValueRangeUseCase()
+    }
+
+    @Singleton
+    @Provides
+    fun provideGetItemListGroups(): GetItemListGroupsUseCase {
+        return GetItemListGroupsUseCase()
     }
 }
