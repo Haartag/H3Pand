@@ -132,6 +132,8 @@ fun NoPaddingAlertDialog(
     modifier: Modifier = Modifier,
     title: @Composable (() -> Unit)? = null,
     text: @Composable (() -> Unit)? = null,
+    confirmButton: @Composable (() -> Unit)? = null,
+    dismissButton: @Composable (() -> Unit)? = null,
     shape: Shape = MaterialTheme.shapes.medium,
     backgroundColor: Color = MaterialTheme.colors.surface,
     contentColor: Color = contentColorFor(backgroundColor),
@@ -161,6 +163,26 @@ fun NoPaddingAlertDialog(
                     CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.high) {
                         val textStyle = TypographyCondenced.body1
                         ProvideTextStyle(textStyle, it)
+                    }
+                }
+                //Buttons for dialog
+                if (confirmButton != null || dismissButton != null) {
+                    Box(
+                        Modifier
+                            .fillMaxWidth()
+                    ) {
+                        Row(
+                            horizontalArrangement = Arrangement.Center,
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            if (dismissButton != null) {
+                                dismissButton()
+                            }
+                            Spacer(modifier = Modifier.width(1.dp))
+                            if (confirmButton != null) {
+                                confirmButton()
+                            }
+                        }
                     }
                 }
             }
