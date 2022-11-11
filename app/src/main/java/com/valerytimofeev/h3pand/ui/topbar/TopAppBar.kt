@@ -20,7 +20,7 @@ fun MainTopBar(
     titleStyle: TextStyle = Typography.h5,
     buttonIcon: @Composable () -> Unit = {
         Icon(
-            painterResource(id = R.drawable.ic_icon),
+            painterResource(id = R.drawable.ic_scyship_bw),
             contentDescription = "App icon",
             tint = Color.DarkGray
         )
@@ -29,7 +29,7 @@ fun MainTopBar(
     backgroundColor: Color = Color.White,
     additionalInfo: @Composable () -> Unit = {
         Icon(
-            painterResource(id = R.drawable.ic_icon),
+            painterResource(id = R.drawable.ic_scyship_bw),
             contentDescription = "App icon",
             tint = Color.DarkGray
         )
