@@ -13,8 +13,8 @@ android {
         applicationId "com.valerytimofeev.h3pand"
         minSdk 28
         targetSdk 33
-        versionCode 7
-        versionName "0.16"
+        versionCode 8
+        versionName "beta-0.3.1"
 
         testInstrumentationRunner "com.valerytimofeev.h3pand.HiltTestRunner"
         vectorDrawables {
@@ -95,6 +95,9 @@ dependencies {
 
     //Accompanist
     implementation "com.google.accompanist:accompanist-systemuicontroller:0.27.0"
+
+    //Snapper
+    implementation "dev.chrisbanes.snapper:snapper:0.3.0"
 
     //Testing
     testImplementation 'junit:junit:4.13.2'
