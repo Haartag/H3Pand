@@ -35,7 +35,7 @@ fun DialogScreen(
             header()
             Spacer(modifier = Modifier.height(20.dp))
         },
-        text = {
+        body = {
             Box(
                 modifier = Modifier.fillMaxHeight(),
                 contentAlignment = Alignment.Center
@@ -131,7 +131,7 @@ fun NoPaddingAlertDialog(
     onDismissRequest: () -> Unit,
     modifier: Modifier = Modifier,
     title: @Composable (() -> Unit)? = null,
-    text: @Composable (() -> Unit)? = null,
+    body: @Composable (() -> Unit)? = null,
     confirmButton: @Composable (() -> Unit)? = null,
     dismissButton: @Composable (() -> Unit)? = null,
     shape: Shape = MaterialTheme.shapes.medium,
@@ -159,7 +159,7 @@ fun NoPaddingAlertDialog(
                         ProvideTextStyle(textStyle, it)
                     }
                 }
-                text?.let {
+                body?.let {
                     CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.high) {
                         val textStyle = TypographyCondenced.body1
                         ProvideTextStyle(textStyle, it)
