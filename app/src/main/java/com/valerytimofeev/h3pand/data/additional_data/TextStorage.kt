@@ -56,6 +56,13 @@ enum class TextStorage(
 
     DialogSearch(TextWithLocalization("Search", "Поиск")),
 
+    SpecifyGuardDialogTitleText(
+        TextWithLocalization(
+            "Exact number of the guards",
+            "Точное количество охраны"
+        )
+    ),
+
     ItemGuard(TextWithLocalization("Guard: %s", "Охрана: %s")),
     ItemMostLikely(TextWithLocalization("most likely %s", "скорее всего %s")),
 
