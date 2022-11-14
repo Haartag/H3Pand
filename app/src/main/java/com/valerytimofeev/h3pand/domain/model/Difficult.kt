@@ -1,5 +1,8 @@
 package com.valerytimofeev.h3pand.domain.model
 
+/**
+ * Coefficient presets for map zones
+ */
 enum class Difficult(
     val minValue1: Int,
     val coefficient1: Double,

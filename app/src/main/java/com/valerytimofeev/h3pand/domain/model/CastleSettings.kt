@@ -5,6 +5,12 @@ import com.valerytimofeev.h3pand.R
 import com.valerytimofeev.h3pand.data.additional_data.TextWithLocalization
 import com.valerytimofeev.h3pand.ui.theme.*
 
+/**
+ * Data presets for each castle
+ * @param castleName name of town (with localization)
+ * @param img link to image resource (png)
+ * @param sheetColor link to compose color
+ */
 enum class CastleSettings(
     val id: Int,
     val castleName: TextWithLocalization,
