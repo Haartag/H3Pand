@@ -21,12 +21,11 @@ class DialogButtonHandleUseCase @Inject constructor(
         val castle =
             if (index in 0..(CastleSettings.values().size - 2)) index + 1 else 0 // 0 - neutral zone, but it is at the bottom of the list
         val guardResource = repository.getGuardsByCastle(castle)
-
         return when {
             guardResource.status == Status.ERROR -> Resource.error(
                 guardResource.message!!, null
             )
-            castle == 3 -> Resource.success( //If castle is cove - add empty guard to align rows after Sea dogs
+            castle == 10 -> Resource.success( //If castle is cove - add empty guard to align rows after Sea dogs
                 guardResource.data!!.toMutableList().also {
                     it.add(7, Guard("", "", 0, 0, 0, ""))
                 })
@@ -60,7 +59,7 @@ class DialogButtonHandleUseCase @Inject constructor(
                         chosenCastleZone,
                     ).data ?: emptyList()
                 )
-                if (chosenCastleZone == 2) dwellingList.add(
+                if (chosenCastleZone == 9) dwellingList.add(
                     Dwelling(
                         "Elemental conflux",
                         "Сопряжение стихий",
@@ -68,10 +67,10 @@ class DialogButtonHandleUseCase @Inject constructor(
                         "различное",
                         0,
                         0,
-                        2
+                        9
                     )
                 )
-                if (chosenCastleZone == 10 || chosenCastleZone == 0) dwellingList.add(
+                if (chosenCastleZone == 3 || chosenCastleZone == 0) dwellingList.add(
                     Dwelling(
                         "Golem factory",
                         "Фабрика големов",
@@ -79,7 +78,7 @@ class DialogButtonHandleUseCase @Inject constructor(
                         "различное",
                         0,
                         0,
-                        10
+                        3
                     )
                 )
                 return Resource.success(

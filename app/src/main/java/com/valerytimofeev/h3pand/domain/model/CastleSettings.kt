@@ -12,15 +12,15 @@ enum class CastleSettings(
     val sheetColor: Color
 ) {
     CAS(1, TextWithLocalization("Castle", "Замок"), R.drawable.town_castle, CastleColor),
-    CON(2, TextWithLocalization("Conflux", "Сопряжение"), R.drawable.town_conflux, ConfluxColor),
-    COV(3, TextWithLocalization("Cove", "Причал"), R.drawable.town_cove, CoveColor),
-    DUN(4, TextWithLocalization("Dungeon", "Темница"), R.drawable.town_dungeon, DungeonColor),
-    FOR(5, TextWithLocalization("Fortress", "Крепость"), R.drawable.town_fortress, FortressColor),
-    INF(6, TextWithLocalization("Inferno", "Инферно"), R.drawable.town_inferno, InfernoColor),
-    NEC(7, TextWithLocalization("Necropolis", "Некрополис"), R.drawable.town_necropolis, NecropolisColor),
-    RAM(8, TextWithLocalization("Rampart", "Оплот"), R.drawable.town_rampart, RampartColor),
-    STR(9, TextWithLocalization("Stronghold", "Цитадель"), R.drawable.town_stronghold, StrongholdColor),
-    TOW(10, TextWithLocalization("Tower", "Башня"), R.drawable.town_tower, TowerColor),
+    RAM(2, TextWithLocalization("Rampart", "Оплот"), R.drawable.town_rampart, RampartColor),
+    TOW(3, TextWithLocalization("Tower", "Башня"), R.drawable.town_tower, TowerColor),
+    INF(4, TextWithLocalization("Inferno", "Инферно"), R.drawable.town_inferno, InfernoColor),
+    NEC(5, TextWithLocalization("Necropolis", "Некрополис"), R.drawable.town_necropolis, NecropolisColor),
+    DUN(6, TextWithLocalization("Dungeon", "Темница"), R.drawable.town_dungeon, DungeonColor),
+    STR(7, TextWithLocalization("Stronghold", "Цитадель"), R.drawable.town_stronghold, StrongholdColor),
+    FOR(8, TextWithLocalization("Fortress", "Крепость"), R.drawable.town_fortress, FortressColor),
+    CON(9, TextWithLocalization("Conflux", "Сопряжение"), R.drawable.town_conflux, ConfluxColor),
+    COV(10, TextWithLocalization("Cove", "Причал"), R.drawable.town_cove, CoveColor),
     NEU(0, TextWithLocalization("Neutral", "Нейтральная"), R.drawable.town_neutral, NeutralColor),
 }
 
