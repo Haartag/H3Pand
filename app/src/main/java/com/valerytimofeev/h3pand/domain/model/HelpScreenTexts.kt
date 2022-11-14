@@ -31,6 +31,32 @@ enum class HelpScreenTexts(
         )
     ),
 
+    RandomResource(
+        img = R.drawable.av_resource,
+        imgDescription = "Resource",
+        text = TextWithLocalization(
+            enText = "Due to the nature of the GSC, any pile of resources on the map may turn out " +
+                    "to be a \"random resource\" with a value of 1500. In this case, " +
+                    "the calculation results may be inaccurate.",
+            ruText = "Из-за особенностей ГСК любая кучка ресурсов на карте может оказаться " +
+                    "\"случайным ресурсом\", имеющим ценность 1500. В этом случае результаты " +
+                    "вычислений могут оказаться неточными."
+        )
+    ),
+
+    QuestArtifact(
+        img = R.drawable.av_artifact,
+        imgDescription = "Resource",
+        text = TextWithLocalization(
+            enText = "On maps with allowed \"seer`s huts\" any treasure artifact (value 2000) that " +
+                    "is not part of the combination artifact can be the target of the quest. In this case, the calculation results may be inaccurate.",
+            ruText = "На картах с разрешённым \"хижинами провидца\" любой " +
+                    "артефакт-сокровище(ценностью 2000), не являющийся частью сборного артефакта, " +
+                    "может оказаться целью квеста. " +
+                    "В этом случае результаты вычислений могут оказаться неточными."
+        )
+    ),
+
     Sliders(
         img = R.drawable.ic_slider,
         imgDescription = "Slider",
@@ -42,19 +68,19 @@ enum class HelpScreenTexts(
         )
     ),
 
-    RandomResource(
-        img = R.drawable.av_resource,
-        imgDescription = "Resource",
-        text = TextWithLocalization(
-            enText = "Due to the nature of the GSC, any pile of resources on the map may turn out " +
-                    "to be a \"random resource\" with a value of 1500. When selecting an additional " +
-                    "value, use a long press on any selected pile of resources to change the " +
-                    "specific resource/random resource selection.",
-            ruText = "Из-за особенностей ГСК любая кучка ресурсов на карте может оказаться " +
-                    "\"случайным ресурсом\", имеющим ценность 1500. При выборе дополнительной " +
-                    "ценности используйте долгое нажатие по иконке любого ресурса, чтобы поменять " +
-                    "выбор конкретный ресурс / случайный ресурс."
-        )
+/*    RandomResourceOld(
+    img = R.drawable.av_resource,
+    imgDescription = "Resource",
+    text = TextWithLocalization(
+    enText = "Due to the nature of the GSC, any pile of resources on the map may turn out " +
+    "to be a \"random resource\" with a value of 1500. When selecting an additional " +
+    "value, use a long press on any selected pile of resources to change the " +
+    "specific resource/random resource selection.",
+    ruText = "Из-за особенностей ГСК любая кучка ресурсов на карте может оказаться " +
+    "\"случайным ресурсом\", имеющим ценность 1500. При выборе дополнительной " +
+    "ценности используйте долгое нажатие по иконке любого ресурса, чтобы поменять " +
+    "выбор конкретный ресурс / случайный ресурс."
     )
+    )*/
 }
 
