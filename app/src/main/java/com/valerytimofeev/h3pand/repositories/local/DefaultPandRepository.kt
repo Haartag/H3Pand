@@ -102,6 +102,36 @@ class DefaultPandRepository @Inject constructor(
         }
     }
 
+    override suspend fun getAllNonUnitBoxes(): Resource<List<BoxValueItem>> {
+        return try {
+            val boxesInRange = pandDao.getAllNonUnitBoxes()
+            boxesInRange.let {
+                if (it.isNotEmpty()) {
+                    return@let Resource.success(it)
+                } else {
+                    return@let Resource.error("No boxes found", null)
+                }
+            }
+        } catch (e: Exception) {
+            Resource.error("An unknown database error occurred: database_3.2", null)
+        }
+    }
+
+    override suspend fun getAllUnitBoxesByCastle(castle: Int): Resource<List<UnitBox>> {
+        return try {
+            val boxesInRange = pandDao.getAllUnitBoxesByCastle(castle)
+            boxesInRange.let {
+                if (it.isNotEmpty()) {
+                    return@let Resource.success(it)
+                } else {
+                    return@let Resource.error("No boxes found", null)
+                }
+            }
+        } catch (e: Exception) {
+            Resource.error("An unknown database error occurred: database_4.2", null)
+        }
+    }
+
     override suspend fun getNonUnitBoxesInRange(
         minValue: Int,
         maxValue: Int

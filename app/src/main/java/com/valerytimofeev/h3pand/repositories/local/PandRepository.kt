@@ -19,6 +19,10 @@ interface PandRepository {
 
     suspend fun getAdditionalValuesList(type: String, subtype: String): Resource<List<AdditionalValueItem>>
 
+    suspend fun getAllNonUnitBoxes(): Resource<List<BoxValueItem>>
+
+    suspend fun getAllUnitBoxesByCastle(castle: Int): Resource<List<UnitBox>>
+
     suspend fun getNonUnitBoxesInRange(minValue: Int, maxValue: Int): Resource<List<BoxValueItem>>
 
     suspend fun getUnitBoxesInRange(minValue: Int, maxValue: Int, castle: Int): Resource<List<UnitBox>>
