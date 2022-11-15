@@ -6,5 +6,7 @@ object Constants {
 
     const val MAX_GENERATED_GUARD = 99
 
-    const val MIN_PERCENT = 0.5
+    const val MIN_PERCENT = 0.1
+
+    const val DWELLING_FREQUENCY = 40
 }
