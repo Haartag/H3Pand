@@ -20,10 +20,8 @@ class SendEmailUseCase {
         val subject = "Heroes Helper in-app mail form: "
         val body = "appVersion: ${BuildConfig.VERSION_NAME} :${CurrentLocal.local} \n\n"
 
-        val emailIntent = Intent(Intent.ACTION_SEND_MULTIPLE)
-        emailIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-        emailIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
-        emailIntent.selector = Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:"))
+        val emailIntent = Intent(Intent.ACTION_SENDTO)
+        emailIntent.data = Uri.parse("mailto:")
 
         emailIntent.putExtra(Intent.EXTRA_EMAIL, recipient)
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject)
