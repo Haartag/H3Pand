@@ -14,9 +14,9 @@ enum class HelpScreenTexts(
         imgDescription = "Choose guard",
         text = TextWithLocalization(
             enText = "Pandora's box guard selection. If you want to set the exact number of guards, " +
-                    "use a long press on the guard icon after selecting guards.",
+                    "after selecting, use a long press on the guard icon.",
             ruText = "Выбор охраны коробки пандоры. Если вы хотите задать точное количество охраны, " +
-                    "после выбора охраны используйте долгое нажатие на иконку охраны."
+                    "после выбора используйте долгое нажатие на иконку охраны."
         )
     ),
 
