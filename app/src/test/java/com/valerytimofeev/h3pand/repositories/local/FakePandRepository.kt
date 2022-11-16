@@ -1,7 +1,7 @@
 package com.valerytimofeev.h3pand.repositories.local
 
-import com.valerytimofeev.h3pand.data.additional_data.TextWithLocalization
-import com.valerytimofeev.h3pand.data.local.*
+import com.valerytimofeev.h3pand.data.local.additional_data.TextWithLocalization
+import com.valerytimofeev.h3pand.data.local.database.*
 import com.valerytimofeev.h3pand.utils.Resource
 
 class FakePandRepository(
@@ -345,6 +345,35 @@ class FakePandRepository(
             Resource.success(fakeAdditionalValueDatabase
                 .filter { it.type == type }
                 .filter { it.subtype == subtype })
+        }
+    }
+
+    override suspend fun getAllNonUnitBoxes(): Resource<List<BoxValueItem>> {
+        val result = fakeBoxValueDatabase
+        return when {
+            returnError -> Resource.error("Error", null)
+            result.isEmpty() -> Resource.error("No boxes found", null)
+            returnEmptyNonUnitBoxList -> Resource.error("No boxes found", null)
+            else -> Resource.success(result)
+        }
+    }
+
+    override suspend fun getAllUnitBoxesByCastle(castle: Int): Resource<List<UnitBox>> {
+        val result = fakeGuardDatabase.filter { it.castle == castle }
+        return when {
+            returnError -> Resource.error("Error", null)
+            result.isEmpty() -> Resource.error("No boxes found", null)
+            returnEmptyUnitBoxList -> Resource.error("No boxes found", null)
+            else -> Resource.success(result.map {
+                UnitBox(
+                    it.name,
+                    it.nameRu,
+                    it.AIValue,
+                    it.numberInBox,
+                    it.castle,
+                    it.img
+                )
+            })
         }
     }
 

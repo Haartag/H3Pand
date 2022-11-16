@@ -1,7 +1,7 @@
 package com.valerytimofeev.h3pand.repositories.local
 
-import com.valerytimofeev.h3pand.data.local.*
-import com.valerytimofeev.h3pand.data.additional_data.TextWithLocalization
+import com.valerytimofeev.h3pand.data.local.additional_data.TextWithLocalization
+import com.valerytimofeev.h3pand.data.local.database.*
 import com.valerytimofeev.h3pand.utils.Resource
 
 
