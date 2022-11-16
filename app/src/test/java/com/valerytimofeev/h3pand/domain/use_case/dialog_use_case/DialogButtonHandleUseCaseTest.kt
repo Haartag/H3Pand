@@ -2,10 +2,10 @@ package com.valerytimofeev.h3pand.domain.use_case.dialog_use_case
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.google.common.truth.Truth
-import com.valerytimofeev.h3pand.data.additional_data.TextWithLocalization
-import com.valerytimofeev.h3pand.data.local.AdditionalValueItem
-import com.valerytimofeev.h3pand.data.local.Dwelling
-import com.valerytimofeev.h3pand.data.local.Guard
+import com.valerytimofeev.h3pand.data.local.additional_data.TextWithLocalization
+import com.valerytimofeev.h3pand.data.local.database.AdditionalValueItem
+import com.valerytimofeev.h3pand.data.local.database.Dwelling
+import com.valerytimofeev.h3pand.data.local.database.Guard
 import com.valerytimofeev.h3pand.domain.model.*
 import com.valerytimofeev.h3pand.repositories.local.FakePandRepository
 import com.valerytimofeev.h3pand.utils.Resource
@@ -67,7 +67,7 @@ class DialogButtonHandleUseCaseTest() {
     @Test
     fun `guardDialogCastleButton, valid castle index, return success (with additional item)`() =
         runTest {
-            val result = buttonHandleUseCase.guardDialogCastleButton(2)
+            val result = buttonHandleUseCase.guardDialogCastleButton(9) //index of cove
 
             Truth.assertThat(result.data!!.size).isEqualTo(
                 9
@@ -224,7 +224,7 @@ class DialogButtonHandleUseCaseTest() {
         runTest {
             val result = buttonHandleUseCase.addValueDialogTypeButton(
                 "Dwellings",
-                2
+                9
             )
             Truth.assertThat(result).isEqualTo(
                 Resource.success(
@@ -243,7 +243,7 @@ class DialogButtonHandleUseCaseTest() {
                                 nameRu = "тестовое имя 2",
                                 AIValue = 60,
                                 weeklyGain = 15,
-                                castle = 2
+                                castle = 9
                             ),
                             Dwelling(
                                 "Elemental conflux",
@@ -252,7 +252,7 @@ class DialogButtonHandleUseCaseTest() {
                                 "различное",
                                 0,
                                 0,
-                                2
+                                9
                             )
                         ),
                         addValueSubtypeList = null
@@ -294,7 +294,7 @@ class DialogButtonHandleUseCaseTest() {
                                 "различное",
                                 0,
                                 0,
-                                10
+                                3
                             )
                         ),
                         addValueSubtypeList = null
