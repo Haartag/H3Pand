@@ -1,8 +1,8 @@
 package com.valerytimofeev.h3pand.domain.use_case
 
-import com.valerytimofeev.h3pand.data.local.Dwelling
+import com.valerytimofeev.h3pand.data.local.database.Dwelling
 import com.valerytimofeev.h3pand.utils.Resource
-import com.valerytimofeev.h3pand.data.additional_data.SpecialDwellings
+import com.valerytimofeev.h3pand.data.local.additional_data.SpecialDwellings
 import kotlin.math.roundToInt
 
 /**

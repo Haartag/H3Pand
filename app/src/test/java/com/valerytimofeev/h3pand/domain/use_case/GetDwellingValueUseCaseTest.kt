@@ -1,7 +1,7 @@
 package com.valerytimofeev.h3pand.domain.use_case
 
 import com.google.common.truth.Truth.assertThat
-import com.valerytimofeev.h3pand.data.local.Dwelling
+import com.valerytimofeev.h3pand.data.local.database.Dwelling
 import com.valerytimofeev.h3pand.utils.Status
 import org.junit.Before
 import org.junit.Test
