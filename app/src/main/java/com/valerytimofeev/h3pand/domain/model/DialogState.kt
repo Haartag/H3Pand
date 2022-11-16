@@ -47,3 +47,11 @@ enum class SearchType {
     GUARD,
     ADDVALUE
 }
+
+/**
+ * Status of dialog
+ */
+enum class DialogStatus {
+    OPENED,
+    CLOSED
+}
