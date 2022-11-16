@@ -1,6 +1,7 @@
 package com.valerytimofeev.h3pand.domain.use_case
 
-import com.valerytimofeev.h3pand.data.additional_data.ValueRange
+import com.valerytimofeev.h3pand.data.local.additional_data.ValueRange
+import com.valerytimofeev.h3pand.utils.Constants.MIN_PAND_VALUE
 import com.valerytimofeev.h3pand.utils.Resource
 
 class GetZoneValueRangeUseCase {
@@ -18,6 +19,7 @@ class GetZoneValueRangeUseCase {
         if (min > max || max < 0 || min < 0) {
             return Resource.error("Error: wrong map settings", null)
         }
-        return Resource.success(min..max)
+
+        return Resource.success(minOf(min, MIN_PAND_VALUE)..max)
     }
 }
