@@ -1,8 +1,8 @@
 package com.valerytimofeev.h3pand.domain.use_case.dialog_use_case
 
 import com.google.common.truth.Truth
-import com.valerytimofeev.h3pand.data.local.AdditionalValueItem
-import com.valerytimofeev.h3pand.data.local.Dwelling
+import com.valerytimofeev.h3pand.data.local.database.AdditionalValueItem
+import com.valerytimofeev.h3pand.data.local.database.Dwelling
 import com.valerytimofeev.h3pand.domain.model.SearchItem
 import org.junit.Before
 import org.junit.Test

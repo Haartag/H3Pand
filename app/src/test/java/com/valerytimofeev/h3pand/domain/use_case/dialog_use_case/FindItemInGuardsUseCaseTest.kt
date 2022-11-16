@@ -2,7 +2,7 @@ package com.valerytimofeev.h3pand.domain.use_case.dialog_use_case
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.google.common.truth.Truth
-import com.valerytimofeev.h3pand.data.local.Guard
+import com.valerytimofeev.h3pand.data.local.database.Guard
 import com.valerytimofeev.h3pand.repositories.local.FakePandRepository
 import com.valerytimofeev.h3pand.utils.Resource
 import kotlinx.coroutines.Dispatchers

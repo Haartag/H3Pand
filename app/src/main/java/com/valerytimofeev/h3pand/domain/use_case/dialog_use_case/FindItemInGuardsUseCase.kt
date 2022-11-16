@@ -1,6 +1,6 @@
 package com.valerytimofeev.h3pand.domain.use_case.dialog_use_case
 
-import com.valerytimofeev.h3pand.data.local.Guard
+import com.valerytimofeev.h3pand.data.local.database.Guard
 import com.valerytimofeev.h3pand.domain.model.CurrentLocal
 import com.valerytimofeev.h3pand.repositories.local.PandRepository
 import com.valerytimofeev.h3pand.utils.Resource

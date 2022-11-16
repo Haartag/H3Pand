@@ -4,8 +4,8 @@ import com.valerytimofeev.h3pand.domain.model.SearchItem
 import com.valerytimofeev.h3pand.domain.use_case.GetDwellingsListUseCase
 import com.valerytimofeev.h3pand.repositories.local.PandRepository
 import com.valerytimofeev.h3pand.utils.Resource
-import com.valerytimofeev.h3pand.data.local.*
 import com.valerytimofeev.h3pand.domain.model.CurrentLocal
+import com.valerytimofeev.h3pand.data.local.database.*
 import javax.inject.Inject
 
 /**

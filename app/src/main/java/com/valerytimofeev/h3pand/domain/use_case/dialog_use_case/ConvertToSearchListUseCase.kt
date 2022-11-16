@@ -1,11 +1,11 @@
 package com.valerytimofeev.h3pand.domain.use_case.dialog_use_case
 
-import com.valerytimofeev.h3pand.data.local.AdditionalValueItem
-import com.valerytimofeev.h3pand.data.local.Dwelling
+import com.valerytimofeev.h3pand.data.local.database.AdditionalValueItem
+import com.valerytimofeev.h3pand.data.local.database.Dwelling
 import com.valerytimofeev.h3pand.domain.model.SearchItem
 
 /**
- * Merge [AdditionalValueItem] list and [Dwelling] list to [SearchItem] list.
+ * Merge [AdditionalValueItem] list and [Dwelling] list into [SearchItem] list.
  */
 class ConvertToSearchListUseCase {
     operator fun invoke(
@@ -39,4 +39,3 @@ class ConvertToSearchListUseCase {
         return resultList
     }
 }
-

@@ -1,6 +1,6 @@
 package com.valerytimofeev.h3pand.domain.use_case.dialog_use_case
 
-import com.valerytimofeev.h3pand.data.additional_data.TextWithLocalization
+import com.valerytimofeev.h3pand.data.local.additional_data.TextWithLocalization
 import com.valerytimofeev.h3pand.repositories.local.PandRepository
 import com.valerytimofeev.h3pand.utils.Resource
 import com.valerytimofeev.h3pand.utils.Status
