@@ -1,10 +1,10 @@
 package com.valerytimofeev.h3pand.domain.use_case
 
-import com.valerytimofeev.h3pand.data.local.AdditionalValueItem
-import com.valerytimofeev.h3pand.data.local.Dwelling
-import com.valerytimofeev.h3pand.data.local.Guard
+import com.valerytimofeev.h3pand.data.local.database.AdditionalValueItem
+import com.valerytimofeev.h3pand.data.local.database.Dwelling
+import com.valerytimofeev.h3pand.data.local.database.Guard
 import com.valerytimofeev.h3pand.domain.model.CurrentLocal
-import com.valerytimofeev.h3pand.data.additional_data.TextWithLocalization
+import com.valerytimofeev.h3pand.data.local.additional_data.TextWithLocalization
 import com.valerytimofeev.h3pand.domain.model.SearchItem
 
 class GetLocalizedTextUseCase {

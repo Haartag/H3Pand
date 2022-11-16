@@ -1,9 +1,10 @@
 package com.valerytimofeev.h3pand.domain.use_case
 
-import com.valerytimofeev.h3pand.data.local.Dwelling
+import com.valerytimofeev.h3pand.data.local.database.Dwelling
 import com.valerytimofeev.h3pand.domain.model.SearchItem
 import com.valerytimofeev.h3pand.utils.Resource
 import com.valerytimofeev.h3pand.utils.Status
+import com.valerytimofeev.h3pand.domain.use_case.dialog_use_case.FindItemInAdditionalValuesUseCase
 import javax.inject.Inject
 
 /**
