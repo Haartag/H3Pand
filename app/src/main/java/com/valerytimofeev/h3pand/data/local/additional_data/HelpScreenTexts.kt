@@ -1,7 +1,6 @@
-package com.valerytimofeev.h3pand.domain.model
+package com.valerytimofeev.h3pand.data.local.additional_data
 
 import com.valerytimofeev.h3pand.R
-import com.valerytimofeev.h3pand.data.additional_data.TextWithLocalization
 
 enum class HelpScreenTexts(
     val img: Int,

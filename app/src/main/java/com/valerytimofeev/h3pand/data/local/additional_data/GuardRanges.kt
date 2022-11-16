@@ -1,4 +1,4 @@
-package com.valerytimofeev.h3pand.data.additional_data
+package com.valerytimofeev.h3pand.data.local.additional_data
 
 object GuardRanges {
 

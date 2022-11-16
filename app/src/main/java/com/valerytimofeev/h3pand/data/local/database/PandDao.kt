@@ -1,9 +1,9 @@
-package com.valerytimofeev.h3pand.data.local
+package com.valerytimofeev.h3pand.data.local.database
 
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.RewriteQueriesToDropUnusedColumns
-import com.valerytimofeev.h3pand.data.additional_data.TextWithLocalization
+import com.valerytimofeev.h3pand.data.local.additional_data.TextWithLocalization
 
 @Dao
 interface PandDao {

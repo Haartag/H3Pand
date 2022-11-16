@@ -1,4 +1,4 @@
-package com.valerytimofeev.h3pand.data.local
+package com.valerytimofeev.h3pand.data.local.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

@@ -1,4 +1,4 @@
-package com.valerytimofeev.h3pand.domain.model
+package com.valerytimofeev.h3pand.data.local.additional_data
 
 /**
  * Coefficient presets for map zones

@@ -1,4 +1,4 @@
-package com.valerytimofeev.h3pand.data.additional_data
+package com.valerytimofeev.h3pand.data.local.additional_data
 
 
 data class TextWithLocalization(
@@ -75,8 +75,8 @@ enum class TextStorage(
     AboutWhatsNew(TextWithLocalization("What's new in this version:", "Что нового в этой версии:")),
     AboutPointOne(
         TextWithLocalization(
-            "– Brand new version with Jebus Cross map support.\n",
-            "– Совершенно новая версия с поддержкой карты Jebus Cross.\n"
+            "– Slightly increased performance.\n",
+            "– Слегка увеличена производительность.\n"
         )
     ),
 

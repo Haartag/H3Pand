@@ -1,19 +1,48 @@
-package com.valerytimofeev.h3pand.data.additional_data
+package com.valerytimofeev.h3pand.data.local.additional_data
 
 import androidx.compose.ui.text.TextStyle
 import com.valerytimofeev.h3pand.R
 import com.valerytimofeev.h3pand.ui.theme.TypoJc
+import com.valerytimofeev.h3pand.ui.mapselection.MapSelectionScreen
 
+/**
+ * Each map has a set of zones with preset object generation parameters for each zone.
+ * @param zoneName displayed zone name
+ * @param difficult number of difficult set from [Difficult]
+ * @param valueRange list of [ValueRange]
+ */
 data class ZoneSettings(
-    val zoneName: TextWithLocalization, val difficult: Int, val valueRange: List<ValueRange>
+    val zoneName: TextWithLocalization,
+    val difficult: Int,
+    val valueRange: List<ValueRange>
 )
 
+/**
+ * Each zone has up to three value ranges, each with its own frequency.
+ * All parameters are taken from the map settings in the map editor.
+ * @param number number of value range
+ * @param range range of values from which items are selected for generation
+ * @param frequency the frequency of this range
+ */
 data class ValueRange(
-    val type: Int,
+    val number: Int,
     val range: IntRange,
-    val frequence: Int
+    val frequency: Int
 )
 
+/**
+ * Set of constants for each map.
+ *
+ * @param mapName displayed map name
+ * @param numberOfZones the number of zones on the map that have a central town
+ * @param valueRanges list of [ZoneSettings] for each zone type
+ * @param expRate frequency of exp box generation
+ * @param goldRate frequency of gold box generation
+ * @param spellRate frequency of spell box generation
+ * @param unitRate frequency of unit box generation
+ * @param tileImage resource with image for [MapSelectionScreen]
+ * @param tileTypo typography for [MapSelectionScreen]
+ */
 enum class MapSettings(
     val mapName: String,
     val numberOfZones: Int,
@@ -26,9 +55,6 @@ enum class MapSettings(
     val tileImage: Int,
     val tileTypo: TextStyle
 ) {
-    /**
-     * Value range must be over 2000
-     */
     JC(
         mapName = "Jebus Cross",
         numberOfZones = 5,

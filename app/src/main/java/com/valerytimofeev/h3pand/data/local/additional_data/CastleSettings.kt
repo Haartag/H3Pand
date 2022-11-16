@@ -1,8 +1,7 @@
-package com.valerytimofeev.h3pand.domain.model
+package com.valerytimofeev.h3pand.data.local.additional_data
 
 import androidx.compose.ui.graphics.Color
 import com.valerytimofeev.h3pand.R
-import com.valerytimofeev.h3pand.data.additional_data.TextWithLocalization
 import com.valerytimofeev.h3pand.ui.theme.*
 
 /**
