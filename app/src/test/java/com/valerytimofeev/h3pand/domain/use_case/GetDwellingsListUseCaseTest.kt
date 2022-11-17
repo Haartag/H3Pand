@@ -2,7 +2,7 @@ package com.valerytimofeev.h3pand.domain.use_case
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.google.common.truth.Truth
-import com.valerytimofeev.h3pand.data.local.Dwelling
+import com.valerytimofeev.h3pand.data.local.database.Dwelling
 import com.valerytimofeev.h3pand.repositories.local.FakePandRepository
 import com.valerytimofeev.h3pand.utils.Resource
 import kotlinx.coroutines.Dispatchers
@@ -41,7 +41,7 @@ class GetDwellingsListUseCaseTest {
 
     @Test
     fun `Get dwellings, valid input`() = runTest {
-        val result = getDwellings(3)
+        val result = getDwellings(10)
 
         Truth.assertThat(result.data).isEqualTo(
             listOf(
@@ -52,7 +52,7 @@ class GetDwellingsListUseCaseTest {
                     nameRu = "тестовое имя 4",
                     AIValue = 160,
                     weeklyGain = 8,
-                    castle = 3
+                    castle = 10
                 ),
                 Dwelling(
                     dwellingName = "test dwelling 4",
@@ -61,7 +61,7 @@ class GetDwellingsListUseCaseTest {
                     nameRu = "тестовое имя 5",
                     AIValue = 480,
                     weeklyGain = 4,
-                    castle = 3
+                    castle = 10
                 ),
             )
         )
