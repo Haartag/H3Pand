@@ -1,6 +1,6 @@
 package com.valerytimofeev.h3pand.domain.use_case
 
-import com.valerytimofeev.h3pand.domain.model.BoxWithDropPercent
+import com.valerytimofeev.h3pand.domain.model.BoxWithDropChance
 import com.valerytimofeev.h3pand.utils.Constants.MIN_PERCENT
 
 /**
@@ -8,7 +8,7 @@ import com.valerytimofeev.h3pand.utils.Constants.MIN_PERCENT
  */
 class GetItemListGroupsUseCase {
     operator fun invoke(
-        boxList: List<BoxWithDropPercent>
+        boxList: List<BoxWithDropChance>
     ): List<ListGroup> {
         val groupTypes = listOf("Exp", "Gold", "Spell", "Unit")
         return groupTypes.mapNotNull { makeListGroup(it, boxList) }
@@ -18,12 +18,12 @@ class GetItemListGroupsUseCase {
         val type: String,
         val img: String,
         val summaryPercent: Double,
-        val content: List<BoxWithDropPercent>
+        val content: List<BoxWithDropChance>
     )
 
     private fun makeListGroup(
         type: String,
-        boxList: List<BoxWithDropPercent>
+        boxList: List<BoxWithDropChance>
     ): ListGroup? {
         val expItems = boxList.filter { it.type == type && it.dropChance >= MIN_PERCENT}
         if (expItems.isEmpty()) return null
