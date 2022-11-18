@@ -80,6 +80,32 @@ enum class MapSettings(
         ),
         tileImage = R.drawable.map_jc_cropped,
         tileTypo = TypoJc.h4
+    ),
+    JCL(
+        mapName = "Jebus Cross L",
+        numberOfZones = 5,
+        valueRanges = listOf(
+            ZoneSettings(
+                TextWithLocalization("Start", "Стартовая"),
+                2,
+                listOf(
+                    ValueRange(0, 300..3000, 14),
+                    ValueRange(1, 5000..16000, 6),
+                    ValueRange(2, 12000..22000, 1),
+                )
+            ),
+            ZoneSettings(
+                TextWithLocalization("Central", "Центр"),
+                4,
+                listOf(
+                    ValueRange(0, 10000..25000, 10),
+                    ValueRange(1, 25000..35000, 10),
+                    ValueRange(2, 35000..55000, 3),
+                )
+            ),
+        ),
+        tileImage = R.drawable.map_test,
+        tileTypo = TypoJc.h4
     );
 
     companion object {
