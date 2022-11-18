@@ -72,7 +72,7 @@ class GetAllAvailableBoxesUseCaseTest() {
     }
 
     @Test
-    fun `Get all boxes, wrong castle, return only non-unit boxes`() = runTest {
+    fun `Get all boxes, wrong castle, returns error`() = runTest {
 
         val result = getAllAvailableBoxes(
             castle = 20,
@@ -83,7 +83,7 @@ class GetAllAvailableBoxesUseCaseTest() {
     }
 
     @Test
-    fun `Get all boxes, wrong zones, return error`() = runTest {
+    fun `Get all boxes, wrong zones, returns error`() = runTest {
 
         val result = getAllAvailableBoxes(
             castle = 20,
