@@ -2,8 +2,11 @@ package com.valerytimofeev.h3pand.domain.use_case
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.google.common.truth.Truth
-import com.valerytimofeev.h3pand.data.additional_data.*
-import com.valerytimofeev.h3pand.data.local.BoxValueItem
+import com.valerytimofeev.h3pand.data.local.additional_data.MapSettings
+import com.valerytimofeev.h3pand.data.local.additional_data.TextWithLocalization
+import com.valerytimofeev.h3pand.data.local.additional_data.ValueRange
+import com.valerytimofeev.h3pand.data.local.additional_data.ZoneSettings
+import com.valerytimofeev.h3pand.data.local.database.BoxValueItem
 import com.valerytimofeev.h3pand.repositories.local.FakePandRepository
 import com.valerytimofeev.h3pand.utils.Resource
 import io.mockk.every
@@ -80,7 +83,8 @@ class GetUnitDropCoefficientUseCaseTest() {
             numberOfZones = 5.0f,
             numberOfUnitZones = 1.0f,
             mapSettings = MapSettings.JC,
-            zone = 0
+            zone = 0,
+            exactlyGuard = false
         )
 
         Truth.assertThat(result).isEqualTo(Resource.success(0.033584908f))
@@ -103,7 +107,8 @@ class GetUnitDropCoefficientUseCaseTest() {
             numberOfZones = 5.0f,
             numberOfUnitZones = 1.0f,
             mapSettings = MapSettings.JC,
-            zone = 0
+            zone = 0,
+            exactlyGuard = false
         )
 
         Truth.assertThat(result).isEqualTo(Resource.success(0.13433963f))
@@ -122,11 +127,12 @@ class GetUnitDropCoefficientUseCaseTest() {
 
         val result = getUnitDropCoefficientUseCase(
             boxValueItem,
-            castle = 3,
+            castle = 10,
             numberOfZones = 5.0f,
             numberOfUnitZones = 1.0f,
             mapSettings = MapSettings.JC,
-            zone = 0
+            zone = 0,
+            exactlyGuard = false
         )
 
         Truth.assertThat(result).isEqualTo(Resource.success(0.1277193f))
@@ -149,7 +155,8 @@ class GetUnitDropCoefficientUseCaseTest() {
             numberOfZones = 5.0f,
             numberOfUnitZones = 1.0f,
             mapSettings = MapSettings.JC,
-            zone = 1
+            zone = 1,
+            exactlyGuard = false
         )
 
         Truth.assertThat(result).isEqualTo(Resource.success(0.084535286f))
@@ -172,7 +179,8 @@ class GetUnitDropCoefficientUseCaseTest() {
             numberOfZones = 5.0f,
             numberOfUnitZones = 1.0f,
             mapSettings = MapSettings.JC,
-            zone = 10
+            zone = 10,
+            exactlyGuard = false
         )
 
         Truth.assertThat(result).isEqualTo(Resource.error("Error: Wrong map settings", null))
@@ -195,7 +203,8 @@ class GetUnitDropCoefficientUseCaseTest() {
             numberOfZones = 5.0f,
             numberOfUnitZones = 1.0f,
             mapSettings = MapSettings.JC,
-            zone = 1
+            zone = 1,
+            exactlyGuard = false
         )
 
         Truth.assertThat(result).isEqualTo(Resource.success(0.18193926f))
@@ -218,7 +227,8 @@ class GetUnitDropCoefficientUseCaseTest() {
             numberOfZones = 5.0f,
             numberOfUnitZones = 1.0f,
             mapSettings = MapSettings.JC,
-            zone = 1
+            zone = 1,
+            exactlyGuard = false
         )
 
         Truth.assertThat(result).isEqualTo(Resource.error("Error: Wrong map settings", null))
@@ -241,9 +251,82 @@ class GetUnitDropCoefficientUseCaseTest() {
             numberOfZones = 5.0f,
             numberOfUnitZones = 10.0f,
             mapSettings = MapSettings.JC,
-            zone = 0
+            zone = 0,
+            exactlyGuard = false
         )
 
         Truth.assertThat(result).isEqualTo(Resource.error("An unknown error occurred", null))
+    }
+
+    @Test
+    fun `Get drop coefficient, exactly guard`() = runTest {
+        val boxValueItem = BoxValueItem(
+            1,
+            "item 1",
+            "предмет 1",
+            5000,
+            img = "img",
+            "Gold"
+        )
+
+        val result = getUnitDropCoefficientUseCase(
+            boxValueItem,
+            castle = 1,
+            numberOfZones = 5.0f,
+            numberOfUnitZones = 1.0f,
+            mapSettings = MapSettings.JC,
+            zone = 0,
+            exactlyGuard = true
+        )
+
+        Truth.assertThat(result).isEqualTo(Resource.success(15.0f))
+    }
+
+    @Test
+    fun `Get drop coefficient, exactly guard, different type`() = runTest {
+        val boxValueItem = BoxValueItem(
+            1,
+            "item 1",
+            "предмет 1",
+            5000,
+            img = "img",
+            "Exp"
+        )
+
+        val result = getUnitDropCoefficientUseCase(
+            boxValueItem,
+            castle = 1,
+            numberOfZones = 5.0f,
+            numberOfUnitZones = 1.0f,
+            mapSettings = MapSettings.JC,
+            zone = 0,
+            exactlyGuard = true
+        )
+
+        Truth.assertThat(result).isEqualTo(Resource.success(60.0f))
+    }
+
+    @Test
+    fun `Get drop coefficient, exactly guard, different castle`() = runTest {
+        val boxValueItem = BoxValueItem(
+            1,
+            "item 1",
+            "предмет 1",
+            5000,
+            img = "img",
+            "Gold"
+        )
+
+        val result = getUnitDropCoefficientUseCase(
+            boxValueItem,
+            castle = 10,
+            numberOfZones = 5.0f,
+            numberOfUnitZones = 1.0f,
+            mapSettings = MapSettings.JC,
+            zone = 0,
+            exactlyGuard = true
+        )
+
+        Truth.assertThat(result).isEqualTo(Resource.success(15.0f))
     }
 }

@@ -1,10 +1,10 @@
 package com.valerytimofeev.h3pand.domain.use_case
 
-import com.valerytimofeev.h3pand.data.additional_data.MapSettings
-import com.valerytimofeev.h3pand.data.local.AdditionalValueItem
-import com.valerytimofeev.h3pand.data.local.BoxValueItem
-import com.valerytimofeev.h3pand.data.local.Dwelling
-import com.valerytimofeev.h3pand.domain.model.ItemWithFrequence
+import com.valerytimofeev.h3pand.data.local.additional_data.MapSettings
+import com.valerytimofeev.h3pand.data.local.database.AdditionalValueItem
+import com.valerytimofeev.h3pand.data.local.database.BoxValueItem
+import com.valerytimofeev.h3pand.data.local.database.Dwelling
+import com.valerytimofeev.h3pand.data.local.additional_data.ItemWithFrequency
 import com.valerytimofeev.h3pand.repositories.local.PandRepository
 import com.valerytimofeev.h3pand.utils.Constants
 import com.valerytimofeev.h3pand.utils.Resource
@@ -21,7 +21,8 @@ class GetUnitDropCoefficientUseCase @Inject constructor(
         numberOfZones: Float,
         numberOfUnitZones: Float,
         mapSettings: MapSettings,
-        zone: Int
+        zone: Int,
+        exactlyGuard: Boolean
     ): Resource<Float> {
 
         if (zone !in mapSettings.valueRanges.indices) {
@@ -55,10 +56,26 @@ class GetUnitDropCoefficientUseCase @Inject constructor(
                 }
             }
             val chance = when (boxValueItem.type) {
-                "Gold" -> (mapSettings.goldRate *  item.value) / sumFrequence
-                "Exp" -> (mapSettings.expRate *  item.value) / sumFrequence
-                "Spell" -> (mapSettings.spellRate *  item.value) / sumFrequence
-                else -> (mapSettings.unitRate *  item.value) / sumFrequence
+                "Gold" -> if (exactlyGuard) {
+                    mapSettings.goldRate.toFloat()
+                } else {
+                    (mapSettings.goldRate * item.value) / sumFrequence
+                }
+                "Exp" -> if (exactlyGuard) {
+                    mapSettings.expRate.toFloat()
+                } else {
+                    (mapSettings.expRate * item.value) / sumFrequence
+                }
+                "Spell" -> if (exactlyGuard) {
+                    mapSettings.spellRate.toFloat()
+                } else {
+                    (mapSettings.spellRate * item.value) / sumFrequence
+                }
+                else -> if (exactlyGuard) {
+                    mapSettings.unitRate.toFloat()
+                } else {
+                    (mapSettings.unitRate * item.value) / sumFrequence
+                }
             }
             chanceSumm += chance
         }
@@ -67,15 +84,15 @@ class GetUnitDropCoefficientUseCase @Inject constructor(
 
     /**
      * Get list of map objects and they frequency from database [AdditionalValueItem], [Dwelling]
-     * and from [ItemWithFrequence]
+     * and from [ItemWithFrequency]
      */
     private suspend fun getItemsList(
         castle: Int,
         numberOfZones: Float,
         numberOfUnitZones: Float,
 
-        ): Resource<List<ItemWithFrequence>> {
-        val itemsWithFrequency = mutableListOf<ItemWithFrequence>()
+        ): Resource<List<ItemWithFrequency>> {
+        val itemsWithFrequency = mutableListOf<ItemWithFrequency>()
 
         val addValuesResource = repository.getAdditionalValueWithFrequency()
         if (addValuesResource.status == Status.ERROR) return Resource.error(
@@ -91,7 +108,7 @@ class GetUnitDropCoefficientUseCase @Inject constructor(
         )
         val dwellings = dwellingsResource.data!!
 
-        val specialItems = ItemWithFrequence.specialItemsWithFrequence
+        val specialItems = ItemWithFrequency.specialItemsWithFrequency
 
         //Seer`s hut unit reward and other boxes can be added to increase precision
 
@@ -126,7 +143,7 @@ class GetUnitDropCoefficientUseCase @Inject constructor(
                     val flatChance =
                         ((item.range.last - boxValueItem.value).toFloat() / item.range.last)
                     //frequency from map settings
-                    val frequency = item.frequence
+                    val frequency = item.frequency
                     mapCoefficient[item.range] = flatChance * frequency
                 }
             }
@@ -138,7 +155,7 @@ class GetUnitDropCoefficientUseCase @Inject constructor(
      * Convert additional value to value/frequence
      */
     private fun AdditionalValueItem.toItemWithFrequency() =
-        ItemWithFrequence(this.value, this.frequency!!)
+        ItemWithFrequency(this.value, this.frequency!!)
 
     /**
      * Convert dwelling to value/frequence
@@ -147,7 +164,7 @@ class GetUnitDropCoefficientUseCase @Inject constructor(
         numberOfZones: Float,
         numberOfUnitZones: Float,
         getDwellingValueUseCase: GetDwellingValueUseCase = GetDwellingValueUseCase()
-    ): Resource<ItemWithFrequence> {
+    ): Resource<ItemWithFrequency> {
         val getDwellingValueResource = getDwellingValueUseCase(
             this,
             numberOfZones,
@@ -157,9 +174,9 @@ class GetUnitDropCoefficientUseCase @Inject constructor(
             return Resource.error("An unknown error occurred", null)
         }
         return Resource.success(
-            ItemWithFrequence(
+            ItemWithFrequency(
                 getDwellingValueResource.data!!,
-                Constants.DWELLING_FREQUENCE
+                Constants.DWELLING_FREQUENCY
             )
         )
     }
