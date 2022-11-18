@@ -60,6 +60,16 @@ fun AboutScreen(
                     style = MaterialTheme.typography.body2,
                     text = aboutViewModel.pointOne
                 )
+                Text(
+                    modifier = Modifier.padding(16.dp),
+                    style = MaterialTheme.typography.body2,
+                    text = aboutViewModel.pointTwo
+                )
+                Text(
+                    modifier = Modifier.padding(16.dp),
+                    style = MaterialTheme.typography.body2,
+                    text = aboutViewModel.pointThree
+                )
                 Spacer(modifier = Modifier.weight(1f))
                 ClickableText(
                     text = AnnotatedString("Open source libraries used in this app."),

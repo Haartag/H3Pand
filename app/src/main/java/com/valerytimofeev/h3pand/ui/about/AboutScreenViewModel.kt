@@ -1,7 +1,7 @@
 package com.valerytimofeev.h3pand.ui.about
 
 import androidx.lifecycle.ViewModel
-import com.valerytimofeev.h3pand.data.additional_data.TextStorage
+import com.valerytimofeev.h3pand.data.local.additional_data.TextStorage
 import com.valerytimofeev.h3pand.domain.use_case.GetLocalizedTextUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -15,5 +15,7 @@ class AboutViewModel @Inject constructor(
     val aboutWhatsNewText = getLocalizedTextUseCase(TextStorage.AboutWhatsNew.text)
 
     val pointOne = getLocalizedTextUseCase(TextStorage.AboutPointOne.text)
+    val pointTwo = getLocalizedTextUseCase(TextStorage.AboutPointTwo.text)
+    val pointThree = getLocalizedTextUseCase(TextStorage.AboutPointThree.text)
 
 }
