@@ -1,8 +1,8 @@
 package com.valerytimofeev.h3pand.ui.help
 
 import androidx.lifecycle.ViewModel
-import com.valerytimofeev.h3pand.data.additional_data.TextStorage
-import com.valerytimofeev.h3pand.domain.model.HelpScreenTexts
+import com.valerytimofeev.h3pand.data.local.additional_data.TextStorage
+import com.valerytimofeev.h3pand.data.local.additional_data.HelpScreenTexts
 import com.valerytimofeev.h3pand.domain.use_case.GetLocalizedTextUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject

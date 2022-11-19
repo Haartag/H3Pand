@@ -6,8 +6,8 @@ import android.content.Intent
 import android.net.Uri
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
-import com.valerytimofeev.h3pand.data.additional_data.TextStorage
-import com.valerytimofeev.h3pand.data.additional_data.TextWithLocalization
+import com.valerytimofeev.h3pand.data.local.additional_data.TextStorage
+import com.valerytimofeev.h3pand.data.local.additional_data.TextWithLocalization
 import com.valerytimofeev.h3pand.domain.use_case.GetLocalizedTextUseCase
 import com.valerytimofeev.h3pand.domain.use_case.SendEmailUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel

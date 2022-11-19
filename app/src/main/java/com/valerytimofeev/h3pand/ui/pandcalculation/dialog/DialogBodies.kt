@@ -8,9 +8,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.valerytimofeev.h3pand.data.additional_data.GuardRanges
-import com.valerytimofeev.h3pand.data.additional_data.Values
-import com.valerytimofeev.h3pand.data.local.AdditionalValueItem
+import com.valerytimofeev.h3pand.data.local.additional_data.GuardRanges
+import com.valerytimofeev.h3pand.data.local.additional_data.Values
+import com.valerytimofeev.h3pand.data.local.database.AdditionalValueItem
 import com.valerytimofeev.h3pand.domain.model.DialogState
 import com.valerytimofeev.h3pand.ui.pandcalculation.PandCalculationViewModel
 
