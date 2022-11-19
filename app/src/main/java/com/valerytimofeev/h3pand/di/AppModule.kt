@@ -2,8 +2,8 @@ package com.valerytimofeev.h3pand.di
 
 import android.content.Context
 import androidx.room.Room
-import com.valerytimofeev.h3pand.data.local.PandDao
-import com.valerytimofeev.h3pand.data.local.PandDatabase
+import com.valerytimofeev.h3pand.data.local.database.PandDao
+import com.valerytimofeev.h3pand.data.local.database.PandDatabase
 import com.valerytimofeev.h3pand.domain.model.SettingsDataStorage
 import com.valerytimofeev.h3pand.domain.use_case.*
 import com.valerytimofeev.h3pand.domain.use_case.dialog_use_case.ConvertToSearchListUseCase
@@ -96,5 +96,18 @@ object AppModule {
     @Provides
     fun provideGetItemListGroups(): GetItemListGroupsUseCase {
         return GetItemListGroupsUseCase()
+    }
+
+    @Singleton
+    @Provides
+    fun provideGetChosenGuardRangeUseCase(): GetChosenGuardRangeUseCase {
+        return GetChosenGuardRangeUseCase()
+    }
+
+    //REBUILD CALCULATION DI
+    @Singleton
+    @Provides
+    fun provideGetGuardForAllBoxesUseCase(): GetValidBoxesAndGuardsUseCase {
+        return GetValidBoxesAndGuardsUseCase()
     }
 }
