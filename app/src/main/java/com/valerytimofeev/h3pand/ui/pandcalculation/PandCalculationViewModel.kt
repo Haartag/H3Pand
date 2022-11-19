@@ -10,11 +10,11 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.valerytimofeev.h3pand.R
-import com.valerytimofeev.h3pand.data.additional_data.GuardRanges
-import com.valerytimofeev.h3pand.data.additional_data.MapSettings.Companion.getMapSettings
-import com.valerytimofeev.h3pand.data.additional_data.TextStorage
-import com.valerytimofeev.h3pand.data.additional_data.TextWithLocalization
-import com.valerytimofeev.h3pand.data.local.Guard
+import com.valerytimofeev.h3pand.data.local.additional_data.CastleSettings
+import com.valerytimofeev.h3pand.data.local.additional_data.MapSettings.Companion.getMapSettings
+import com.valerytimofeev.h3pand.data.local.additional_data.TextStorage
+import com.valerytimofeev.h3pand.data.local.additional_data.TextWithLocalization
+import com.valerytimofeev.h3pand.data.local.database.Guard
 import com.valerytimofeev.h3pand.domain.model.*
 import com.valerytimofeev.h3pand.domain.use_case.*
 import com.valerytimofeev.h3pand.domain.use_case.dialog_use_case.GetAdditionalValueListUseCase
@@ -40,6 +40,7 @@ class PandCalculationViewModel @Inject constructor(
     val getLocalizedTextUseCase: GetLocalizedTextUseCase,
     private val getItemListGroupsUseCase: GetItemListGroupsUseCase,
     private val settingsDataStorage: SettingsDataStorage,
+    private val getChosenGuardRangeUseCase: GetChosenGuardRangeUseCase
 ) : ViewModel() {
 
     //settingsDataStorage
@@ -76,20 +77,22 @@ class PandCalculationViewModel @Inject constructor(
 
     val currentGuardImg = mutableStateOf(R.drawable.ic_dice)
     val chosenGuard = mutableStateOf<Guard?>(null)
-    val chosenGuardRange = mutableStateOf(-1)
+    val chosenGuardRangeIndex = mutableStateOf(-1)
+    val chosenGuardRange = mutableStateOf(0..0)
 
     val additionalValueMap = mutableStateMapOf<Int, SearchItem>()
 
     val isErrorShowed = mutableStateOf(false)
     val errorText = mutableStateOf("")
 
-    var boxesWithPercents = mutableStateListOf<BoxWithDropPercent>()
+    var boxesWithPercents = mutableStateListOf<BoxWithDropChance>()
 
     val boxGroups = mutableStateListOf<GetItemListGroupsUseCase.ListGroup>()
     val expandedTiles = mutableStateMapOf<Int, Boolean>()
 
     val isSpecifyDialogShown = mutableStateOf(false)
-    val specifySliderPosition = mutableStateOf(0f)
+    val guardNumbersList = (1..250).toList()
+    val exactlyGuardianNumber = mutableStateOf(0)
 
 
     //Texts
@@ -126,13 +129,12 @@ class PandCalculationViewModel @Inject constructor(
         )
 
     val unitButtonText: String
-        get() = if (chosenGuard.value == null || chosenGuardRange.value !in 0..10) {
+        get() = if (chosenGuard.value == null || chosenGuardRangeIndex.value !in 0..10) {
             getLocalizedTextUseCase(TextStorage.SheetChooseGuard.text)
         } else {
             getLocalizedTextUseCase(chosenGuard.value) +
                     "\n" +
-                    GuardRanges.range.getOrDefault(chosenGuardRange.value, "").toString()
-                        .replace("..", "–")
+                    chosenGuardRange.value.toString().replace("..", "–")
         }
 
     fun tileTypeText(type: String): String {
@@ -151,6 +153,7 @@ class PandCalculationViewModel @Inject constructor(
     fun itemNameText(name: TextWithLocalization): String {
         return getLocalizedTextUseCase(name)
     }
+
     fun itemPercentText(percent: Double) = "$percent %"
     fun itemGuardRangeText(guardRange: IntRange): String {
         return String.format(
@@ -158,6 +161,7 @@ class PandCalculationViewModel @Inject constructor(
             guardRange.toString().replace("..", "–")
         )
     }
+
     fun itemMostLikelyText(mostLikelyGuard: Int): String {
         return String.format(
             getLocalizedTextUseCase(TextStorage.ItemMostLikely.text),
@@ -165,12 +169,32 @@ class PandCalculationViewModel @Inject constructor(
         )
     }
 
+    val specifyDialogTitleText = getLocalizedTextUseCase(TextStorage.SpecifyGuardDialogTitleText.text)
+
     /**
      * Close error and wipe error text
      */
     fun closeError() {
         isErrorShowed.value = false
         errorText.value = ""
+    }
+
+    /**
+     * Set guard range by index or by range
+     */
+    private fun setChosenGuardRange(index: Int) {
+        chosenGuardRange.value = getChosenGuardRangeUseCase(index)
+        if (chosenGuardRange.value == -1..-1) {
+            isErrorShowed.value = true
+            errorText.value = "An unknown error occurred"
+        }
+    }
+
+    /**
+     * Set guard range by index or by range
+     */
+    fun setChosenGuardRange(range: IntRange) {
+        chosenGuardRange.value = getChosenGuardRangeUseCase(range)
     }
 
     /**
@@ -200,7 +224,8 @@ class PandCalculationViewModel @Inject constructor(
     fun getGuardData(guardAndNumber: GuardAndNumber) {
         chosenGuard.value = guardAndNumber.guard
         currentGuardImg.value = getItemImage(guardAndNumber.guard.img)
-        chosenGuardRange.value = guardAndNumber.numberRangeIndex //TODO
+        chosenGuardRangeIndex.value = guardAndNumber.numberRangeIndex
+        setChosenGuardRange(chosenGuardRangeIndex.value)
         getBoxesList()
     }
 
@@ -249,10 +274,12 @@ class PandCalculationViewModel @Inject constructor(
     fun getBoxesList() {
         viewModelScope.launch {
             boxesWithPercents.clear()
+            boxGroups.clear()
+            expandedTiles.clear()
             if (chosenGuard.value != null) {
                 val boxList = getBoxesUseCase(
                     guardUnit = chosenGuard.value!!,
-                    guardRangeIndex = chosenGuardRange.value,
+                    guardRange = chosenGuardRange.value,
                     zoneType = zoneSliderPosition.value.toInt(),
                     mapName = currentMap,
                     week = weekSliderPosition.value.toInt() + 1,
@@ -263,8 +290,6 @@ class PandCalculationViewModel @Inject constructor(
                 if (boxList.status == Status.SUCCESS) {
                     boxesWithPercents.addAll(boxList.data!!)
                     if (isGroup) {
-                        boxGroups.clear()
-                        expandedTiles.clear()
                         boxGroups.addAll(getItemListGroupsUseCase(boxesWithPercents))
                         for (index in boxGroups.indices) {
                             expandedTiles[index] = false
@@ -298,10 +323,12 @@ class PandCalculationViewModel @Inject constructor(
     }
 
     fun showSpecifyDialog() {
-        if (chosenGuard.value != null && chosenGuardRange.value != -1) {
+        if (chosenGuard.value != null && chosenGuardRangeIndex.value != -1) {
+            exactlyGuardianNumber.value = chosenGuardRange.value.first - 1
             isSpecifyDialogShown.value = true
         }
     }
+
     fun closeSpecifyDialog() {
         isSpecifyDialogShown.value = false
     }

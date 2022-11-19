@@ -1,5 +1,6 @@
 package com.valerytimofeev.h3pand.ui.pandcalculation
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -19,16 +20,21 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.valerytimofeev.h3pand.domain.model.CastleSettings
+import com.valerytimofeev.h3pand.data.local.additional_data.CastleSettings
 import com.valerytimofeev.h3pand.ui.pandcalculation.dialog.DialogScreen
 import com.valerytimofeev.h3pand.ui.pandcalculation.dialog.DialogViewModel
+import com.valerytimofeev.h3pand.ui.pandcalculation.dialog.SpecifyDialog
 import com.valerytimofeev.h3pand.ui.pandcalculation.pandcalculationcomposables.ErrorBlock
-import com.valerytimofeev.h3pand.ui.pandcalculation.pandcalculationcomposables.ItemsList
+import com.valerytimofeev.h3pand.ui.pandcalculation.pandcalculationcomposables.ItemsListWithGroups
+import com.valerytimofeev.h3pand.ui.pandcalculation.pandcalculationcomposables.ItemsListWithoutGroups
 import com.valerytimofeev.h3pand.ui.pandcalculation.pandcalculationcomposables.SheetContent
 import com.valerytimofeev.h3pand.ui.topbar.MainTopBar
+import dev.chrisbanes.snapper.ExperimentalSnapperApi
 
 
 @ExperimentalMaterialApi
+@ExperimentalFoundationApi
+@ExperimentalSnapperApi
 @Composable
 fun PandCalculationScreen(
     navController: NavController,
@@ -51,6 +57,17 @@ fun PandCalculationScreen(
         DialogScreen(
             header = { dialogViewModel.getDialogHeader()() },
             body = { dialogViewModel.getDialogBody()() }
+        )
+    }
+    if (viewModel.isSpecifyDialogShown.value) {
+        SpecifyDialog(
+            onConfirm = {
+                viewModel.setChosenGuardRange(viewModel.exactlyGuardianNumber.value + 1
+                        ..viewModel.exactlyGuardianNumber.value + 1)
+                viewModel.closeSpecifyDialog()
+                viewModel.getBoxesList()
+            },
+            onDismiss = { viewModel.closeSpecifyDialog() }
         )
     }
 
@@ -87,7 +104,7 @@ fun PandCalculationScreen(
             .find { it.id == viewModel.chosenCastleZone.value }?.sheetColor
             ?: MaterialTheme.colors.secondary,
         sheetElevation = 16.dp,
-        sheetShape = RoundedCornerShape(topEnd = 36.dp, topStart = 36.dp),
+        //sheetShape = RoundedCornerShape(topEnd = 36.dp, topStart = 36.dp),
         sheetPeekHeight = viewModel.getSheetHeight(screenWidth)
     ) {
 
@@ -112,10 +129,17 @@ fun PandCalculationScreen(
                 if (viewModel.isErrorShowed.value) {
                     ErrorBlock()
                 }
-                ItemsList(
-                    screenHeight = screenHeight,
-                    bottomSheetHeight = viewModel.getSheetHeight(screenWidth)
-                )
+                if (viewModel.isGroup) {
+                    ItemsListWithGroups(
+                        screenHeight = screenHeight,
+                        bottomSheetHeight = viewModel.getSheetHeight(screenWidth)
+                    )
+                } else {
+                    ItemsListWithoutGroups(
+                        screenHeight = screenHeight,
+                        bottomSheetHeight = viewModel.getSheetHeight(screenWidth)
+                    )
+                }
             }
         }
     }
