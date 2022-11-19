@@ -1,5 +1,6 @@
 package com.valerytimofeev.h3pand
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -16,9 +17,12 @@ import com.valerytimofeev.h3pand.ui.mapselection.MapSelectionScreen
 import com.valerytimofeev.h3pand.ui.pandcalculation.PandCalculationScreen
 import com.valerytimofeev.h3pand.ui.settings.SettingsScreen
 import com.valerytimofeev.h3pand.ui.splashscreen.SplashScreen
+import dev.chrisbanes.snapper.ExperimentalSnapperApi
 
-@Composable
 @ExperimentalMaterialApi
+@ExperimentalFoundationApi
+@ExperimentalSnapperApi
+@Composable
 fun Navigation() {
 
     val navController = rememberNavController()
