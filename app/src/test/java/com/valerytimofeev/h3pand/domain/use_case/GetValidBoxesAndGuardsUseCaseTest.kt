@@ -1,7 +1,7 @@
 package com.valerytimofeev.h3pand.domain.use_case
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import com.valerytimofeev.h3pand.data.local.additional_data.Difficult
 import com.valerytimofeev.h3pand.data.local.database.BoxValueItem
 import com.valerytimofeev.h3pand.data.local.database.Guard
@@ -46,6 +46,15 @@ class GetValidBoxesAndGuardsUseCaseTest {
         val boxes = listOf(
             BoxValueItem(1, "item 1", "предмет 1", 5000, img = "img", "Gold"),
             BoxValueItem(2, "item 2", "предмет 2", 7500, img = "img", "Exp"),
+            BoxValueItem(
+                id = 0,
+                boxContent = "test name 1 60",
+                boxContentRu = "тестовое имя 1 60",
+                value = 5760,
+                img = "img1",
+                type = "Unit"
+            )
+
         )
         val guard = Guard(
             name = "test name 1",
@@ -64,7 +73,7 @@ class GetValidBoxesAndGuardsUseCaseTest {
             valueRange = 500..15000,
         )
 
-        Truth.assertThat(result).isEqualTo(
+        assertThat(result).isEqualTo(
             listOf(
                 BoxWithGuard(
                     box = BoxValueItem(
@@ -87,6 +96,17 @@ class GetValidBoxesAndGuardsUseCaseTest {
                         type = "Exp"
                     ),
                     guardNumber = GuardNumber(minGuard = 61, avgGuard = 81, maxGuard = 101)
+                ),
+                BoxWithGuard(
+                    box = BoxValueItem(
+                        id = 0,
+                        boxContent = "test name 1 60",
+                        boxContentRu = "тестовое имя 1 60",
+                        value = 5760,
+                        img = "img1",
+                        type = "Unit"
+                    ),
+                    guardNumber = GuardNumber(minGuard = 45, avgGuard = 60, maxGuard = 75)
                 )
             )
         )
@@ -118,8 +138,8 @@ class GetValidBoxesAndGuardsUseCaseTest {
             valueRange = 500..15000,
         )
 
-        Truth.assertThat(result.size).isEqualTo(2)
-        Truth.assertThat(result.last()).isEqualTo(
+        assertThat(result.size).isEqualTo(2)
+        assertThat(result.last()).isEqualTo(
             BoxWithGuard(
                 box = BoxValueItem(
                     id = 2,
@@ -160,8 +180,8 @@ class GetValidBoxesAndGuardsUseCaseTest {
             valueRange = 500..15000,
         )
 
-        Truth.assertThat(result.size).isEqualTo(4)
-        Truth.assertThat(result.first()).isEqualTo(
+        assertThat(result.size).isEqualTo(4)
+        assertThat(result.first()).isEqualTo(
             BoxWithGuard(
                 box = BoxValueItem(
                     id = 2,
@@ -200,7 +220,7 @@ class GetValidBoxesAndGuardsUseCaseTest {
             valueRange = 500..5000,
         )
 
-        Truth.assertThat(result).isEqualTo(
+        assertThat(result).isEqualTo(
             listOf(
                 BoxWithGuard(
                     box = BoxValueItem(
@@ -241,7 +261,7 @@ class GetValidBoxesAndGuardsUseCaseTest {
             valueRange = 500..5000,
         )
 
-        Truth.assertThat(result).isEqualTo(emptyList<BoxWithGuard>())
+        assertThat(result).isEqualTo(emptyList<BoxWithGuard>())
     }
 
     @Test
@@ -270,8 +290,8 @@ class GetValidBoxesAndGuardsUseCaseTest {
             valueRange = 13000..15000,
         )
 
-        Truth.assertThat(result.size).isEqualTo(1)
-        Truth.assertThat(result.first()).isEqualTo(
+        assertThat(result.size).isEqualTo(1)
+        assertThat(result.first()).isEqualTo(
             BoxWithGuard(
                 box = BoxValueItem(
                     id = 5,
@@ -312,7 +332,7 @@ class GetValidBoxesAndGuardsUseCaseTest {
             valueRange = 20000..30000,
         )
 
-        Truth.assertThat(result).isEqualTo(emptyList<BoxWithGuard>())
+        assertThat(result).isEqualTo(emptyList<BoxWithGuard>())
     }
 
     @Test
@@ -338,7 +358,7 @@ class GetValidBoxesAndGuardsUseCaseTest {
             valueRange = 500..15000,
         )
 
-        Truth.assertThat(result).isEqualTo(
+        assertThat(result).isEqualTo(
             listOf(
                 BoxWithGuard(
                     box = BoxValueItem(
@@ -378,7 +398,7 @@ class GetValidBoxesAndGuardsUseCaseTest {
             valueRange = 500..15000,
         )
 
-        Truth.assertThat(result).isEqualTo(
+        assertThat(result).isEqualTo(
             listOf(
                 BoxWithGuard(
                     box = BoxValueItem(
