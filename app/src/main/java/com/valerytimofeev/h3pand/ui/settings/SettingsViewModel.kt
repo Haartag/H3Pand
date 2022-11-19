@@ -3,7 +3,7 @@ package com.valerytimofeev.h3pand.ui.settings
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.valerytimofeev.h3pand.data.additional_data.TextStorage
+import com.valerytimofeev.h3pand.data.local.additional_data.TextStorage
 import com.valerytimofeev.h3pand.domain.model.CurrentLocal
 import com.valerytimofeev.h3pand.domain.model.SettingsDataStorage
 import com.valerytimofeev.h3pand.domain.use_case.GetLocalizedTextUseCase
