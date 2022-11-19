@@ -2,7 +2,7 @@ package com.valerytimofeev.h3pand.di
 
 import android.content.Context
 import androidx.room.Room
-import com.valerytimofeev.h3pand.data.local.PandDatabase
+import com.valerytimofeev.h3pand.data.local.database.PandDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
