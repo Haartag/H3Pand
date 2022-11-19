@@ -1,8 +1,6 @@
 package com.valerytimofeev.h3pand.ui.pandcalculation.pandcalculationcomposables
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Slider
@@ -20,7 +18,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import coil.size.Scale
-import com.valerytimofeev.h3pand.domain.model.CastleSettings
+import com.valerytimofeev.h3pand.data.local.additional_data.CastleSettings
 import com.valerytimofeev.h3pand.domain.model.DialogState
 import com.valerytimofeev.h3pand.ui.pandcalculation.PandCalculationViewModel
 import com.valerytimofeev.h3pand.ui.pandcalculation.dialog.DialogViewModel
@@ -28,9 +26,9 @@ import com.valerytimofeev.h3pand.ui.theme.*
 import kotlin.math.roundToInt
 
 /**
- * Bottom sheet of pand calculation screen.
+ * Contents of the bottom sheet of the pand calculation screen.
  */
-
+@ExperimentalFoundationApi
 @Composable
 fun SheetContent(
     screenWidth: Dp,
@@ -55,6 +53,7 @@ fun SheetContent(
     }
 }
 
+@ExperimentalFoundationApi
 @Composable
 fun SheetChooseUnit(
     screenWidth: Dp,
@@ -64,11 +63,17 @@ fun SheetChooseUnit(
     Box(
         modifier = Modifier
             .size((screenWidth - 48.dp) / 3)
-            .clickable {
-                viewModel.closeError()
-                dialogViewModel.getChosenCastleZone(viewModel.chosenCastleZone.value)
-                dialogViewModel.setDialogState(DialogState.Companion.DialogUiPresets.GUARD_CASTLE.dialogUiState)
-            }
+            .combinedClickable(
+                onClick = {
+                    viewModel.closeError()
+                    dialogViewModel.getChosenCastleZone(viewModel.chosenCastleZone.value)
+                    dialogViewModel.setDialogState(DialogState.Companion.DialogUiPresets.GUARD_CASTLE.dialogUiState)
+                },
+                onLongClick = {
+                    viewModel.closeError()
+                    viewModel.showSpecifyDialog()
+                }
+            )
     ) {
         val painter = rememberAsyncImagePainter(
             ImageRequest.Builder(LocalContext.current)
