@@ -2,16 +2,16 @@ package com.valerytimofeev.h3pand.domain.use_case
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.google.common.truth.Truth.assertThat
-import com.valerytimofeev.h3pand.data.additional_data.MapSettings
-import com.valerytimofeev.h3pand.data.additional_data.TextWithLocalization
-import com.valerytimofeev.h3pand.data.additional_data.ValueRange
-import com.valerytimofeev.h3pand.data.additional_data.ZoneSettings
-import com.valerytimofeev.h3pand.data.local.BoxValueItem
-import com.valerytimofeev.h3pand.domain.model.BoxWithDropPercent
-import com.valerytimofeev.h3pand.domain.model.Difficult
+import com.valerytimofeev.h3pand.data.local.additional_data.MapSettings
+import com.valerytimofeev.h3pand.data.local.additional_data.TextWithLocalization
+import com.valerytimofeev.h3pand.data.local.additional_data.ValueRange
+import com.valerytimofeev.h3pand.data.local.additional_data.ZoneSettings
+import com.valerytimofeev.h3pand.data.local.database.BoxValueItem
+import com.valerytimofeev.h3pand.domain.model.BoxWithGuard
 import com.valerytimofeev.h3pand.domain.model.GuardCharacteristics
+import com.valerytimofeev.h3pand.domain.model.GuardNumber
 import com.valerytimofeev.h3pand.repositories.local.FakePandRepository
-import com.valerytimofeev.h3pand.utils.*
+import com.valerytimofeev.h3pand.utils.Resource
 import io.mockk.every
 import io.mockk.mockkObject
 import kotlinx.coroutines.Dispatchers
@@ -24,6 +24,7 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+
 
 @ExperimentalCoroutinesApi
 class GetBoxWithPercentUseCaseTest() {
@@ -71,20 +72,21 @@ class GetBoxWithPercentUseCaseTest() {
     }
 
     @Test
-    fun `Get BoxWithDropPercent, valid input, all guards in range`() = runTest {
+    fun `Get BoxWithDropPercent, valid input`() = runTest {
         val boxValueItem = BoxValueItem(
-            1,
-            "5000exp",
-            "5000 опыт",
-            6000,
-            "exp",
-            "Exp"
+            id = 1,
+            boxContent = "item 1",
+            boxContentRu = "предмет 1",
+            value = 5000,
+            img = "img",
+            type = "Gold"
+        )
+        val boxWithGuard = BoxWithGuard(
+            box = boxValueItem,
+            guardNumber = GuardNumber(minGuard = 38, avgGuard = 50, maxGuard = 62)
         )
         val guardValue = GuardCharacteristics(16, 13, 65, 86)
-        val difficult = Difficult.THREE
-        val unitValue = 190
         val week = 1
-        val additionalValue = 0
         val chosenGuardRange = 20..49
         val castle = 1
         val numberOfZones = 5.0f
@@ -93,168 +95,238 @@ class GetBoxWithPercentUseCaseTest() {
         val zoneType = 0
 
         val value = getBoxWithPercentUseCase(
-            boxValueItem,
+            boxWithGuard,
             guardValue,
-            difficult,
-            unitValue,
             week,
             chosenGuardRange,
-            additionalValue,
             castle,
             numberOfZones,
             numberOfUnitZones,
             mapSettings,
-            zoneType
+            zoneType,
+            false
         )
-        assertThat(value.data).isEqualTo(
-            BoxWithDropPercent(
-                name =  TextWithLocalization("5000exp", "5000 опыт"),
-                dropChance = 11300.0,
-                mostLikelyGuard = 26,
-                range = 20..32,
-                type = "Exp",
-                img = "exp"
-            )
-        )
+        assertThat(value.data!!.name).isEqualTo(TextWithLocalization("item 1", "предмет 1"))
+        assertThat(value.data!!.mostLikelyGuard).isEqualTo(49)
+        assertThat(value.data!!.range).isEqualTo(38..49)
+        assertThat(value.data!!.type).isEqualTo("Gold")
+        assertThat(value.data!!.img).isEqualTo("img")
+        assertThat(value.data!!.dropChance).isWithin(0.5).of(15462.0)
     }
 
     @Test
-    fun `Get BoxWithDropPercent, different town, all guards in range`() = runTest {
+    fun `Get BoxWithDropPercent, unit box`() = runTest {
         val boxValueItem = BoxValueItem(
-            1,
-            "5000exp",
-            "5000 опыт",
-            6000,
-            "exp",
-            "Exp"
+            id = 0,
+            boxContent = "test name 1 60",
+            boxContentRu = "тестовое имя 1 60",
+            value = 5760,
+            img = "img1",
+            type = "Unit"
+        )
+        val boxWithGuard = BoxWithGuard(
+            box = boxValueItem,
+            guardNumber = GuardNumber(minGuard = 45, avgGuard = 60, maxGuard = 75)
         )
         val guardValue = GuardCharacteristics(16, 13, 65, 86)
-        val difficult = Difficult.THREE
-        val unitValue = 190
         val week = 1
-        val additionalValue = 0
         val chosenGuardRange = 20..49
-        val castle = 3
+        val castle = 1
         val numberOfZones = 5.0f
         val numberOfUnitZones = 1.0f
         val mapSettings = MapSettings.JC
         val zoneType = 0
 
         val value = getBoxWithPercentUseCase(
-            boxValueItem,
+            boxWithGuard,
             guardValue,
-            difficult,
-            unitValue,
             week,
             chosenGuardRange,
-            additionalValue,
             castle,
             numberOfZones,
             numberOfUnitZones,
             mapSettings,
-            zoneType
+            zoneType,
+            false
         )
-        assertThat(value.data).isEqualTo(
-            BoxWithDropPercent(
-                name =  TextWithLocalization("5000exp", "5000 опыт"),
-                dropChance = 10800.0,
-                mostLikelyGuard = 26,
-                range = 20..32,
-                type = "Exp",
-                img = "exp"
-            )
-        )
+        assertThat(value.data!!.range).isEqualTo(45..49)
+        assertThat(value.data!!.dropChance).isWithin(0.5).of(1037.0)
     }
 
+
     @Test
-    fun `Get BoxWithDropPercent, wrong zones, all guards in range`() = runTest {
+    fun `Get BoxWithDropPercent, different town`() = runTest {
         val boxValueItem = BoxValueItem(
-            1,
-            "5000exp",
-            "5000 опыт",
-            6000,
-            "exp",
-            "Exp"
+            id = 1,
+            boxContent = "item 1",
+            boxContentRu = "предмет 1",
+            value = 5000,
+            img = "img",
+            type = "Gold"
+        )
+        val boxWithGuard = BoxWithGuard(
+            box = boxValueItem,
+            guardNumber = GuardNumber(minGuard = 38, avgGuard = 50, maxGuard = 62)
         )
         val guardValue = GuardCharacteristics(16, 13, 65, 86)
-        val difficult = Difficult.THREE
-        val unitValue = 190
         val week = 1
-        val additionalValue = 0
         val chosenGuardRange = 20..49
-        val castle = 1
+        val castle = 10
         val numberOfZones = 5.0f
-        val numberOfUnitZones = 10.0f
+        val numberOfUnitZones = 1.0f
         val mapSettings = MapSettings.JC
         val zoneType = 0
 
         val value = getBoxWithPercentUseCase(
-            boxValueItem,
+            boxWithGuard,
             guardValue,
-            difficult,
-            unitValue,
             week,
             chosenGuardRange,
-            additionalValue,
             castle,
             numberOfZones,
             numberOfUnitZones,
             mapSettings,
-            zoneType
+            zoneType,
+            false
+        )
+        assertThat(value.data!!.name).isEqualTo(TextWithLocalization("item 1", "предмет 1"))
+        assertThat(value.data!!.mostLikelyGuard).isEqualTo(49)
+        assertThat(value.data!!.range).isEqualTo(38..49)
+    }
+
+    @Test
+    fun `Get BoxWithDropPercent, different zones, non-unit box`() = runTest {
+        val boxValueItem = BoxValueItem(
+            id = 1,
+            boxContent = "item 1",
+            boxContentRu = "предмет 1",
+            value = 5000,
+            img = "img",
+            type = "Gold"
+        )
+        val boxWithGuard = BoxWithGuard(
+            box = boxValueItem,
+            guardNumber = GuardNumber(minGuard = 38, avgGuard = 50, maxGuard = 62)
+        )
+        val guardValue = GuardCharacteristics(16, 13, 65, 86)
+        val week = 1
+        val chosenGuardRange = 20..49
+        val castle = 1
+        val numberOfZones = 5.0f
+        val numberOfUnitZones = 2.0f
+        val mapSettings = MapSettings.JC
+        val zoneType = 0
+
+        val value = getBoxWithPercentUseCase(
+            boxWithGuard,
+            guardValue,
+            week,
+            chosenGuardRange,
+            castle,
+            numberOfZones,
+            numberOfUnitZones,
+            mapSettings,
+            zoneType,
+            false
+        )
+        assertThat(value.data!!.range).isEqualTo(38..49)
+        assertThat(value.data!!.dropChance).isWithin(0.5).of(15462.0)
+    }
+
+    @Test
+    fun `Get BoxWithDropPercent, different zones, unit box`() = runTest {
+        val boxValueItem = BoxValueItem(
+            id = 0,
+            boxContent = "test name 1 60",
+            boxContentRu = "тестовое имя 1 60",
+            value = 5760,
+            img = "img1",
+            type = "Unit"
+        )
+        val boxWithGuard = BoxWithGuard(
+            box = boxValueItem,
+            guardNumber = GuardNumber(minGuard = 45, avgGuard = 60, maxGuard = 75)
+        )
+        val guardValue = GuardCharacteristics(16, 13, 65, 86)
+        val week = 1
+        val chosenGuardRange = 20..49
+        val castle = 1
+        val numberOfZones = 5.0f
+        val numberOfUnitZones = 5.0f
+        val mapSettings = MapSettings.JC
+        val zoneType = 0
+
+        val value = getBoxWithPercentUseCase(
+            boxWithGuard,
+            guardValue,
+            week,
+            chosenGuardRange,
+            castle,
+            numberOfZones,
+            numberOfUnitZones,
+            mapSettings,
+            zoneType,
+            false
+        )
+        assertThat(value.data!!.range).isEqualTo(45..49)
+        assertThat(value.data!!.dropChance).isWithin(0.5).of(990.0)
+    }
+
+    @Test
+    fun `Get BoxWithDropPercent, too low guard range`() = runTest {
+        val boxValueItem = BoxValueItem(
+            id = 1,
+            boxContent = "item 1",
+            boxContentRu = "предмет 1",
+            value = 5000,
+            img = "img",
+            type = "Gold"
+        )
+        val boxWithGuard = BoxWithGuard(
+            box = boxValueItem,
+            guardNumber = GuardNumber(minGuard = 38, avgGuard = 50, maxGuard = 62)
+        )
+        val guardValue = GuardCharacteristics(16, 13, 65, 86)
+        val week = 1
+        val chosenGuardRange = 10..19
+        val castle = 1
+        val numberOfZones = 5.0f
+        val numberOfUnitZones = 1.0f
+        val mapSettings = MapSettings.JC
+        val zoneType = 0
+
+        val value = getBoxWithPercentUseCase(
+            boxWithGuard,
+            guardValue,
+            week,
+            chosenGuardRange,
+            castle,
+            numberOfZones,
+            numberOfUnitZones,
+            mapSettings,
+            zoneType,
+            false
         )
         assertThat(value).isEqualTo(Resource.error("An unknown error occurred", null))
     }
 
     @Test
-    fun `Get BoxWithDropPercent, valid input, some guards not in range`() = runTest {
+    fun `Get BoxWithDropPercent, too big guard range`() = runTest {
         val boxValueItem = BoxValueItem(
-            1,
-            "5000exp",
-            "5000 опыт",
-            6000,
-            "exp",
-            "Exp"
+            id = 1,
+            boxContent = "item 1",
+            boxContentRu = "предмет 1",
+            value = 5000,
+            img = "img",
+            type = "Gold"
         )
-        val guardValue = GuardCharacteristics(30, 24, 65, 86)
-        val difficult = Difficult.THREE
-        val unitValue = 201
-        val week = 1
-        val additionalValue = 0
-        val chosenGuardRange = 20..49
-        val castle = 1
-        val numberOfZones = 5.0f
-        val numberOfUnitZones = 1.0f
-        val mapSettings = MapSettings.JC
-        val zoneType = 0
-
-        val value = getBoxWithPercentUseCase(
-            boxValueItem,
-            guardValue,
-            difficult,
-            unitValue,
-            week,
-            chosenGuardRange,
-            additionalValue,
-            castle,
-            numberOfZones,
-            numberOfUnitZones,
-            mapSettings,
-            zoneType
+        val boxWithGuard = BoxWithGuard(
+            box = boxValueItem,
+            guardNumber = GuardNumber(minGuard = 38, avgGuard = 50, maxGuard = 62)
         )
-
-        assertThat(value.data!!.dropChance).isAtLeast(7840.0)
-        assertThat(value.data!!.dropChance).isAtMost(7841.0)
-    }
-
-    @Test
-    fun `Get BoxWithDropPercent, too high value, returns error`() = runTest {
-        val boxValueItem = BoxValueItem(1, "1LvlSpells", "Заклинания 1 уровня", 5000, "1LvlSpells", "Spell")
         val guardValue = GuardCharacteristics(16, 13, 65, 86)
-        val difficult = Difficult.THREE
-        val unitValue = 1350
         val week = 1
-        val additionalValue = 0
-        val chosenGuardRange = 20..49
+        val chosenGuardRange = 100..250
         val castle = 1
         val numberOfZones = 5.0f
         val numberOfUnitZones = 1.0f
@@ -262,31 +334,36 @@ class GetBoxWithPercentUseCaseTest() {
         val zoneType = 0
 
         val value = getBoxWithPercentUseCase(
-            boxValueItem,
+            boxWithGuard,
             guardValue,
-            difficult,
-            unitValue,
             week,
             chosenGuardRange,
-            additionalValue,
             castle,
             numberOfZones,
             numberOfUnitZones,
             mapSettings,
-            zoneType
+            zoneType,
+            false
         )
-
         assertThat(value).isEqualTo(Resource.error("An unknown error occurred", null))
     }
 
     @Test
-    fun `Get BoxWithDropPercent, valid input, week after 1`() = runTest {
-        val boxValueItem = BoxValueItem(1, "5000exp", "5000 опыт", 6000, "exp", "Exp")
+    fun `Get BoxWithDropPercent, week after 1`() = runTest {
+        val boxValueItem = BoxValueItem(
+            id = 1,
+            boxContent = "item 1",
+            boxContentRu = "предмет 1",
+            value = 5000,
+            img = "img",
+            type = "Gold"
+        )
+        val boxWithGuard = BoxWithGuard(
+            box = boxValueItem,
+            guardNumber = GuardNumber(minGuard = 38, avgGuard = 50, maxGuard = 62)
+        )
         val guardValue = GuardCharacteristics(16, 13, 65, 86)
-        val difficult = Difficult.THREE
-        val unitValue = 190
-        val week = 3
-        val additionalValue = 0
+        val week = 2
         val chosenGuardRange = 20..49
         val castle = 1
         val numberOfZones = 5.0f
@@ -295,39 +372,38 @@ class GetBoxWithPercentUseCaseTest() {
         val zoneType = 0
 
         val value = getBoxWithPercentUseCase(
-            boxValueItem,
+            boxWithGuard,
             guardValue,
-            difficult,
-            unitValue,
             week,
             chosenGuardRange,
-            additionalValue,
             castle,
             numberOfZones,
             numberOfUnitZones,
             mapSettings,
-            zoneType
+            zoneType,
+            false
         )
-        assertThat(value.data).isEqualTo(
-            BoxWithDropPercent(
-                name =  TextWithLocalization("5000exp", "5000 опыт"),
-                dropChance = 11300.0,
-                mostLikelyGuard = 32,
-                range = 25..39,
-                type = "Exp",
-                img = "exp"
-            )
-        )
+        assertThat(value.data!!.mostLikelyGuard).isEqualTo(49)
+        assertThat(value.data!!.range).isEqualTo(41..49)
+        assertThat(value.data!!.dropChance).isWithin(0.5).of(7136.0)
     }
 
     @Test
-    fun `!! Get BoxWithDropPercent, valid input, part of week-modified range above guard range`() = runTest {
-        val boxValueItem = BoxValueItem(1, "5000exp", "5000 опыт", 6000, "exp", "Exp")
+    fun `!! Get BoxWithDropPercent, valid input`() = runTest {
+        val boxValueItem = BoxValueItem(
+            id = 1,
+            boxContent = "item test",
+            boxContentRu = "предмет тест",
+            value = 6000,
+            img = "exp",
+            type = "Exp"
+        )
+        val boxWithGuard = BoxWithGuard(
+            box = boxValueItem,
+            guardNumber = GuardNumber(minGuard = 22, avgGuard = 29, maxGuard = 36)
+        )
         val guardValue = GuardCharacteristics(16, 13, 65, 86)
-        val difficult = Difficult.THREE
-        val unitValue = 190
-        val week = 7
-        val additionalValue = 0
+        val week = 8
         val chosenGuardRange = 20..49
         val castle = 1
         val numberOfZones = 5.0f
@@ -335,57 +411,21 @@ class GetBoxWithPercentUseCaseTest() {
         val mapSettings = MapSettings.JC
         val zoneType = 0
 
+
+
         val value = getBoxWithPercentUseCase(
-            boxValueItem,
+            boxWithGuard,
             guardValue,
-            difficult,
-            unitValue,
             week,
             chosenGuardRange,
-            additionalValue,
             castle,
             numberOfZones,
             numberOfUnitZones,
             mapSettings,
-            zoneType
+            zoneType,
+            false
         )
-
-        assertThat(value.data!!.range).isEqualTo((36..49))
-        assertThat(value.data!!.dropChance).isAtLeast(7840.0)
-        assertThat(value.data!!.dropChance).isAtMost(7841.0)
+        assertThat(value.data!!.mostLikelyGuard).isEqualTo(48)
+        assertThat(value.data!!.range).isEqualTo(42..49)
     }
-
-    @Test
-    fun `!! Get BoxWithDropPercent, valid input, all week-modified range above guard range`() = runTest {
-        val boxValueItem = BoxValueItem(1, "5000exp", "5000 опыт", 6000, "exp", "Exp")
-        val guardValue = GuardCharacteristics(16, 13, 65, 86)
-        val difficult = Difficult.THREE
-        val unitValue = 190
-        val week = 11
-        val additionalValue = 0
-        val chosenGuardRange = 20..49
-        val castle = 1
-        val numberOfZones = 5.0f
-        val numberOfUnitZones = 1.0f
-        val mapSettings = MapSettings.JC
-        val zoneType = 0
-
-        val value = getBoxWithPercentUseCase(
-            boxValueItem,
-            guardValue,
-            difficult,
-            unitValue,
-            week,
-            chosenGuardRange,
-            additionalValue,
-            castle,
-            numberOfZones,
-            numberOfUnitZones,
-            mapSettings,
-            zoneType
-        )
-        assertThat(value).isEqualTo(Resource.error("An unknown error occurred", null))
-    }
-
-
 }

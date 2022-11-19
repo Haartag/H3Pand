@@ -1,65 +1,45 @@
 package com.valerytimofeev.h3pand.domain.use_case
 
-import com.valerytimofeev.h3pand.data.additional_data.MapSettings
-import com.valerytimofeev.h3pand.data.additional_data.TextWithLocalization
-import com.valerytimofeev.h3pand.data.local.BoxValueItem
-import com.valerytimofeev.h3pand.domain.model.BoxWithDropPercent
-import com.valerytimofeev.h3pand.domain.model.Difficult
+import com.valerytimofeev.h3pand.data.local.additional_data.MapSettings
+import com.valerytimofeev.h3pand.data.local.additional_data.TextWithLocalization
+import com.valerytimofeev.h3pand.domain.model.BoxWithDropChance
+import com.valerytimofeev.h3pand.domain.model.BoxWithGuard
 import com.valerytimofeev.h3pand.domain.model.GuardCharacteristics
 import com.valerytimofeev.h3pand.utils.Resource
 import com.valerytimofeev.h3pand.utils.Status
-import com.valerytimofeev.h3pand.utils.ceilToInt
 import javax.inject.Inject
-import kotlin.math.roundToInt
+import kotlin.math.pow
 
 /**
  * Get drop chances for valid box.
- * Box obtained from [GetBoxForGuardRangeUseCase]
  */
 class GetBoxWithPercentUseCase @Inject constructor(
     private val getUnitDropCoefficientUseCase: GetUnitDropCoefficientUseCase
 ) {
     suspend operator fun invoke(
-        boxValueItem: BoxValueItem,
+        boxWithGuard: BoxWithGuard,
         guardValue: GuardCharacteristics,
-        difficult: Difficult,
-        unitValue: Int,
         week: Int,
         chosenGuardRange: IntRange,
-        additionalValue: Int,
         castle: Int,
         numberOfZones: Float,
         numberOfUnitZones: Float,
         mapSettings: MapSettings,
-        zoneType: Int
-    ): Resource<BoxWithDropPercent> {
+        zoneType: Int,
+        exactlyGuard: Boolean
+    ): Resource<BoxWithDropChance> {
 
-        val sumValue = boxValueItem.value + additionalValue
-
-        val midGuardValue =
-            if ((sumValue - difficult.minValue2) * difficult.coefficient2 > 0) {
-                ((sumValue - difficult.minValue1) * difficult.coefficient1 +
-                        (sumValue - difficult.minValue2) * difficult.coefficient2)
-                    .roundToInt()
-            } else {
-                ((sumValue - difficult.minValue1) * difficult.coefficient1).roundToInt()
-            }
-
-        val midGuardNumber = (midGuardValue / unitValue.toDouble()).roundToInt()
-        val randomWindowSize = (midGuardNumber * 0.25).toInt()
-
-        val lowGuardNumber = midGuardNumber - randomWindowSize
-        val hiGuardNumber = midGuardNumber + randomWindowSize
-
-        val numbersList = (lowGuardNumber..hiGuardNumber).map { it }
+        val numbersList = (boxWithGuard.guardNumber.minGuard
+                ..boxWithGuard.guardNumber.maxGuard).toList()
 
         val unitDropCoefficientResource = getUnitDropCoefficientUseCase(
-            boxValueItem,
+            boxWithGuard.box,
             castle,
             numberOfZones,
             numberOfUnitZones,
             mapSettings,
-            zoneType
+            zoneType,
+            exactlyGuard
         )
         if (unitDropCoefficientResource.status == Status.ERROR) {
             return Resource.error(
@@ -69,7 +49,7 @@ class GetBoxWithPercentUseCase @Inject constructor(
         }
 
         val numbersWithPercentsMap = numbersList.getPercents(
-            (unitDropCoefficientResource.data!! * 1000).toInt()
+            (unitDropCoefficientResource.data!! * 10000).toInt()
         )
 
         val guards = mutableListOf<Int>()
@@ -111,13 +91,18 @@ class GetBoxWithPercentUseCase @Inject constructor(
         if (guards.isEmpty()) return Resource.error("An unknown error occurred", null)
 
         return Resource.success(
-            BoxWithDropPercent(
-                TextWithLocalization(boxValueItem.boxContent, boxValueItem.boxContentRu),
+            BoxWithDropChance(
+                TextWithLocalization(boxWithGuard.box.boxContent, boxWithGuard.box.boxContentRu),
                 summaryPercent,
                 mostLikelyGuardNumber.first,
-                guards.first()..guards.last(),
-                boxValueItem.type,
-                boxValueItem.img
+                if (exactlyGuard) {
+                    boxWithGuard.guardNumber.minGuard.weekCorrectionUndo(week)..
+                            boxWithGuard.guardNumber.maxGuard.weekCorrectionUndo(week)
+                } else {
+                    guards.first()..guards.last()
+                       },
+                boxWithGuard.box.type,
+                boxWithGuard.box.img
             )
         )
     }
@@ -151,10 +136,6 @@ class GetBoxWithPercentUseCase @Inject constructor(
     private fun Int.weekCorrectionUndo(
         week: Int
     ): Int {
-        var weekModifier = 1.0
-        repeat(week - 1) {
-            weekModifier *= 1.1
-        }
-        return (this * weekModifier).ceilToInt()
+        return (this * 1.1.pow(week - 1)).toInt()
     }
 }
