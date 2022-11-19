@@ -3,7 +3,8 @@ package com.valerytimofeev.h3pand.data.local
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.filters.SmallTest
 import com.google.common.truth.Truth.assertThat
-import com.valerytimofeev.h3pand.data.additional_data.TextWithLocalization
+import com.valerytimofeev.h3pand.data.local.additional_data.TextWithLocalization
+import com.valerytimofeev.h3pand.data.local.database.*
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -46,7 +47,7 @@ class PandDaoTest {
 
     @Test
     fun getAllGuardList_returnCorrectGuardAndListSize() = runTest {
-        val result = dao.getGuardsByCastle(5)
+        val result = dao.getGuardsByCastle(8)
         assertThat(result[0]).isEqualTo(
             Guard(
                 name = "Gnoll",
@@ -224,7 +225,7 @@ class PandDaoTest {
     fun getUnitBoxes_validInput() = runTest {
         val minRange = 5000
         val maxRange = 8000
-        val castle = 4
+        val castle = 6
         val result = dao.getUnitBoxesInRange(minRange, maxRange, castle)
 
         assertThat(result).isEqualTo(
@@ -234,7 +235,7 @@ class PandDaoTest {
                     nameRu = "Троглодиты-охотники",
                     AIValue = 84,
                     numberInBox = 60,
-                    castle = 4,
+                    castle = 6,
                     img = "Pawn"
                 ),
                 UnitBox(
@@ -242,7 +243,7 @@ class PandDaoTest {
                     nameRu = "Гарпии",
                     AIValue = 154,
                     numberInBox = 45,
-                    castle = 4,
+                    castle = 6,
                     img = "Pawn"
                 ),
                 UnitBox(
@@ -250,7 +251,7 @@ class PandDaoTest {
                     nameRu = "Гарпии-ведьмы",
                     AIValue = 238,
                     numberInBox = 30,
-                    castle = 4,
+                    castle = 6,
                     img = "Pawn"
                 ),
             )
