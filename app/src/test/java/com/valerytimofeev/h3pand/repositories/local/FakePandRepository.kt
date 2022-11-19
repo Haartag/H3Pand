@@ -31,7 +31,7 @@ class FakePandRepository(
             80,
             "test dwelling 2",
             "тестовое жилище 2",
-            2,
+            9,
             "img1"
         ),
         UnitItem(
@@ -45,7 +45,7 @@ class FakePandRepository(
             30,
             null,
             null,
-            2,
+            9,
             "img1"
         ),
         UnitItem(
@@ -59,7 +59,7 @@ class FakePandRepository(
             45,
             "test dwelling 3",
             "тестовое жилище 3",
-            3,
+            10,
             "img1"
         ),
         UnitItem(
@@ -73,7 +73,7 @@ class FakePandRepository(
             25,
             "test dwelling 4",
             "тестовое жилище 4",
-            3,
+            10,
             "img2"
         ),
         UnitItem(
@@ -87,7 +87,7 @@ class FakePandRepository(
             8,
             null,
             null,
-            3,
+            10,
             "img4"
         ),
         UnitItem(
@@ -144,7 +144,7 @@ class FakePandRepository(
             8,
             null,
             null,
-            3,
+            10,
             "img4"
         ),
         UnitItem(
@@ -158,7 +158,7 @@ class FakePandRepository(
             8,
             null,
             null,
-            3,
+            10,
             "img4"
         ),
         UnitItem(
@@ -172,7 +172,7 @@ class FakePandRepository(
             8,
             null,
             null,
-            3,
+            10,
             "img4"
         ),
         UnitItem(
@@ -186,7 +186,7 @@ class FakePandRepository(
             8,
             null,
             null,
-            3,
+            10,
             "img4"
         ),
         UnitItem(
@@ -200,7 +200,7 @@ class FakePandRepository(
             8,
             null,
             null,
-            3,
+            10,
             "img4"
         ),
     )
