@@ -2,19 +2,21 @@ package com.valerytimofeev.h3pand.data.local.additional_data
 
 import androidx.compose.ui.text.TextStyle
 import com.valerytimofeev.h3pand.R
-import com.valerytimofeev.h3pand.ui.theme.TypoJc
 import com.valerytimofeev.h3pand.ui.mapselection.MapSelectionScreen
+import com.valerytimofeev.h3pand.ui.theme.TypoJc
 
 /**
  * Each map has a set of zones with preset object generation parameters for each zone.
  * @param zoneName displayed zone name
  * @param difficult number of difficult set from [Difficult]
  * @param valueRange list of [ValueRange]
+ * @param zoneRestrictedBoxes forbidden boxes of this zone
  */
 data class ZoneSettings(
     val zoneName: TextWithLocalization,
     val difficult: Int,
-    val valueRange: List<ValueRange>
+    val valueRange: List<ValueRange>,
+    val zoneRestrictedBoxes: BoxRestrictions? = null
 )
 
 /**
@@ -28,6 +30,16 @@ data class ValueRange(
     val number: Int,
     val range: IntRange,
     val frequency: Int
+)
+
+/**
+ * Some maps may have forbidden boxes (by type or just some boxes)
+ * @param restrictedTypes list of banned types
+ * @param restrictedIds list of banned Ids
+ */
+data class BoxRestrictions(
+    val restrictedTypes: List<String>?,
+    val restrictedIds: List<Int>?
 )
 
 /**
@@ -52,6 +64,7 @@ enum class MapSettings(
     val spellRate: Int = 2,
     val unitRate: Int = 3,
     val mirror: Boolean = false,
+    val boxRestrictions: BoxRestrictions? = null,
     val tileImage: Int,
     val tileTypo: TextStyle
 ) {
