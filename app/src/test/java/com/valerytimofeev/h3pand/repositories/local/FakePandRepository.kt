@@ -366,6 +366,7 @@ class FakePandRepository(
             returnEmptyUnitBoxList -> Resource.error("No boxes found", null)
             else -> Resource.success(result.map {
                 UnitBox(
+                    it.id,
                     it.name,
                     it.nameRu,
                     it.AIValue,
@@ -403,6 +404,7 @@ class FakePandRepository(
             returnEmptyUnitBoxList -> Resource.error("No boxes found", null)
             else -> Resource.success(result.map {
                 UnitBox(
+                    it.id,
                     it.name,
                     it.nameRu,
                     it.AIValue,

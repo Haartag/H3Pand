@@ -30,6 +30,7 @@ data class Guard(
 )
 
 data class UnitBox(
+    val id: Int,
     val name: String,
     val nameRu: String,
     val AIValue: Int,
