@@ -4,6 +4,7 @@ import com.google.common.truth.Truth.assertThat
 import com.valerytimofeev.h3pand.data.local.additional_data.TextWithLocalization
 import com.valerytimofeev.h3pand.data.local.database.Guard
 import com.valerytimofeev.h3pand.domain.model.BoxWithDropChance
+import com.valerytimofeev.h3pand.domain.use_case.calculation_pand_use_case.RemoveUnnecessaryBoxesUseCase
 import com.valerytimofeev.h3pand.repositories.local.FakePandRepository
 import com.valerytimofeev.h3pand.utils.Resource
 import kotlinx.coroutines.Dispatchers
@@ -29,13 +30,15 @@ class GetBoxesUseCaseTest {
     private lateinit var getZoneValueRangeUseCase: GetZoneValueRangeUseCase
     private lateinit var getAllAvailableBoxesUseCase: GetAllAvailableBoxesUseCase
     private lateinit var getValidBoxesAndGuardsUseCase: GetValidBoxesAndGuardsUseCase
+    private lateinit var removeUnnecessaryBoxes: RemoveUnnecessaryBoxesUseCase
 
     @Before
     fun setup() {
         getGuardCharacteristicsUseCase = GetGuardCharacteristicsUseCase()
         getUnitDropCoefficientUseCase = GetUnitDropCoefficientUseCase(FakePandRepository())
         getZoneValueRangeUseCase = GetZoneValueRangeUseCase()
-        getAllAvailableBoxesUseCase = GetAllAvailableBoxesUseCase(FakePandRepository())
+        removeUnnecessaryBoxes = RemoveUnnecessaryBoxesUseCase()
+        getAllAvailableBoxesUseCase = GetAllAvailableBoxesUseCase(FakePandRepository(), removeUnnecessaryBoxes)
         getValidBoxesAndGuardsUseCase = GetValidBoxesAndGuardsUseCase()
         getBoxWithPercentUseCase = GetBoxWithPercentUseCase(getUnitDropCoefficientUseCase)
         getBox = GetBoxesUseCase(

@@ -66,6 +66,8 @@ class GetBoxesUseCase @Inject constructor(
          * List of all boxes, including units of the selected zone
          */
         val boxes = getAllAvailableBoxesUseCase(
+            mapSettings = mapSettings,
+            currentZone = zoneType,
             castleZones = castleZones,
             zones = zones,
             castle = castle
