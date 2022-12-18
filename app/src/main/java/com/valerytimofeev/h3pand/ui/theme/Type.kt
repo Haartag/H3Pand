@@ -124,3 +124,21 @@ val TypoJc = Typography(
         letterSpacing = 0.2.sp
     )
 )
+
+val MapMlyn = FontFamily(
+    Font(R.font.berkshire, FontWeight.Normal),
+)
+val TypoMlyn = Typography(
+    h4 = TextStyle(
+        fontFamily = MapMlyn,
+        fontWeight = FontWeight.Normal,
+        fontSize = 28.sp,
+        letterSpacing = 0.25.sp
+    ),
+    h5 = TextStyle(
+        fontFamily = MapMlyn,
+        fontWeight = FontWeight.Normal,
+        fontSize = 20.sp,
+        letterSpacing = 0.2.sp
+    )
+)
