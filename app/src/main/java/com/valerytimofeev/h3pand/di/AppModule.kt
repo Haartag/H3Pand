@@ -6,6 +6,7 @@ import com.valerytimofeev.h3pand.data.local.database.PandDao
 import com.valerytimofeev.h3pand.data.local.database.PandDatabase
 import com.valerytimofeev.h3pand.domain.model.SettingsDataStorage
 import com.valerytimofeev.h3pand.domain.use_case.*
+import com.valerytimofeev.h3pand.domain.use_case.calculation_pand_use_case.RemoveUnnecessaryBoxesUseCase
 import com.valerytimofeev.h3pand.domain.use_case.dialog_use_case.ConvertToSearchListUseCase
 import com.valerytimofeev.h3pand.repositories.local.DefaultPandRepository
 import com.valerytimofeev.h3pand.repositories.local.PandRepository
@@ -109,5 +110,11 @@ object AppModule {
     @Provides
     fun provideGetGuardForAllBoxesUseCase(): GetValidBoxesAndGuardsUseCase {
         return GetValidBoxesAndGuardsUseCase()
+    }
+
+    @Singleton
+    @Provides
+    fun provideRemoveUnnecessaryBoxesUseCase(): RemoveUnnecessaryBoxesUseCase {
+        return RemoveUnnecessaryBoxesUseCase()
     }
 }
