@@ -13,8 +13,8 @@ android {
         applicationId "com.valerytimofeev.h3pand"
         minSdk 28
         targetSdk 33
-        versionCode 8
-        versionName "beta-0.3.1"
+        versionCode 17
+        versionName "beta-0.6.3"
 
         testInstrumentationRunner "com.valerytimofeev.h3pand.HiltTestRunner"
         vectorDrawables {
@@ -115,6 +115,12 @@ dependencies {
     kaptAndroidTest 'com.google.dagger:hilt-android-compiler:2.40.5'
     testImplementation 'androidx.test:core:1.4.0'
     androidTestImplementation 'androidx.test:core:1.4.0'
+
+    testImplementation 'com.google.dagger:hilt-android-testing:2.44'
+    kaptTest 'com.google.dagger:hilt-android-compiler:2.44'
+    androidTestImplementation 'com.google.dagger:hilt-android-testing:2.44'
+    kaptAndroidTest 'com.google.dagger:hilt-android-compiler:2.44'
+
 
     //Mock
     testImplementation "io.mockk:mockk:1.13.2"
