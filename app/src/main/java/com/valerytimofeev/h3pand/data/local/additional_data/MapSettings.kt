@@ -3,10 +3,10 @@ package com.valerytimofeev.h3pand.data.local.additional_data
 import androidx.compose.ui.text.TextStyle
 import com.valerytimofeev.h3pand.R
 import com.valerytimofeev.h3pand.data.local.database.BoxValueItem
-import com.valerytimofeev.h3pand.ui.theme.TypoJc
 import com.valerytimofeev.h3pand.ui.mapselection.MapSelectionScreen
+import com.valerytimofeev.h3pand.ui.theme.TypoJc
+import com.valerytimofeev.h3pand.ui.theme.TypoJo
 import com.valerytimofeev.h3pand.ui.theme.TypoMlyn
-import com.valerytimofeev.h3pand.ui.theme.Typography
 
 /**
  * Each map has a set of zones with preset object generation parameters for each zone.
@@ -134,12 +134,13 @@ enum class MapSettings(
                 )
             ),
         ),
-        tileImage = R.drawable.map_test,
+        tileImage = R.drawable.map_jc_cropped,
         tileTypo = TypoJc.h4
     ),
     JO(
-        mapName = "Jebus outcast",
+        mapName = " Jebus outcast ",
         numberOfZones = 5,
+        guaranteedNotMainZones = 4,
         valueRanges = listOf(
             ZoneSettings(
                 TextWithLocalization("Start", "Стартовая"),
@@ -151,7 +152,11 @@ enum class MapSettings(
                 ),
                 zoneRestrictedBoxes = BoxRestrictions(
                     null,
-                    listOf(1093, 1067),
+                    listOf(1011, 1012, 1013, 1014, 1025, 1026, 1027, 1028, 1040, 1041, 1042, 1043,
+                        1054, 1055, 1056, 1057, 1068, 1069, 1070, 1071, 1082, 1083, 1084, 1085,
+                        1096, 1097, 1098, 1099, 1110, 1111, 1112, 1113, 1124, 1125, 1126, 1127,
+                        1138, 1139, 1140, 1141,
+                        1093, 1067),
                     null
                 ),
                 zoneModifiedAddValues = ModifiedAddValues(
@@ -172,7 +177,14 @@ enum class MapSettings(
                 ),
                 zoneRestrictedBoxes = BoxRestrictions(
                     null,
-                    null,
+                    listOf(
+                        1001, 1002, 1003, 1004, 1005, 1006, 1015, 1016, 1017, 1018, 1019, 1020,
+                        1029, 1030, 1031, 1032, 1033, 1034, 1035, 1044, 1045, 1046, 1047, 1048, 1049,
+                        1058, 1059, 1060, 1061, 1062, 1063, 1072, 1073, 1074, 1075, 1076, 1077,
+                        1086, 1087, 1088, 1089, 1090, 1091, 1100, 1101, 1102, 1103, 1104, 1105,
+                        1114, 1115, 1116, 1117, 1118, 1119, 1128, 1129, 1130, 1131, 1132, 1133,
+                        1142, 1143, 1144, 1145, 1146, 1147, 1148
+                    ),
                     listOf(
                         BoxValueItem(
                             18,
@@ -197,8 +209,8 @@ enum class MapSettings(
         modifiedAddValues = ModifiedAddValues(
             mapOf(68 to 2000, 81 to 1500)
         ),
-        tileImage = R.drawable.map_test,
-        tileTypo = Typography.h4
+        tileImage = R.drawable.map_jo,
+        tileTypo = TypoJo.h4
     ),
     MLYN(
         mapName = "Mlyn 1.7c",
@@ -243,7 +255,7 @@ enum class MapSettings(
             ),*/
         ),
         flatCalculation = true,
-        tileImage = R.drawable.map_test,
+        tileImage = R.drawable.map_mlyn,
         tileTypo = TypoMlyn.h4
     );
 
