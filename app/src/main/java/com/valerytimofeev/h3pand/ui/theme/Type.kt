@@ -125,6 +125,24 @@ val TypoJc = Typography(
     )
 )
 
+val MapJo = FontFamily(
+    Font(R.font.trade_winds, FontWeight.Normal),
+)
+val TypoJo = Typography(
+    h4 = TextStyle(
+        fontFamily = MapJo,
+        fontWeight = FontWeight.Normal,
+        fontSize = 28.sp,
+        letterSpacing = 0.25.sp
+    ),
+    h5 = TextStyle(
+        fontFamily = MapJo,
+        fontWeight = FontWeight.Normal,
+        fontSize = 20.sp,
+        letterSpacing = 0.2.sp
+    )
+)
+
 val MapMlyn = FontFamily(
     Font(R.font.berkshire, FontWeight.Normal),
 )
