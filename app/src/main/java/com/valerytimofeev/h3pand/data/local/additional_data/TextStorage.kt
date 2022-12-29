@@ -75,23 +75,20 @@ enum class TextStorage(
     AboutWhatsNew(TextWithLocalization("What's new in this version:", "Что нового в этой версии:")),
     AboutPointOne(
         TextWithLocalization(
-            "– Increased accuracy in calculation the contents of the boxes for " +
-                    "weeks after the first.\n",
-            "– Увеличена точность определения содержимого коробок для недель после первой.\n"
+            "– New map added: Jebus Outcast\n",
+            "– Добавлена новая карта: Jebus Outcast\n"
         )
     ),
     AboutPointTwo(
         TextWithLocalization(
-            "– Now, when selecting the exact number of guards, for the contents of " +
-                    "the box is shown all the available range of guards for it.\n",
-            "– Теперь при выборе точного количества охраны, для содержимого " +
-                    "коробки показывается весь доступный для неё диапазон охран.\n"
+            "– New map added: Mlyn (only available starting area)\n",
+            "– Добавлена новая карта: Mlyn (доступна только стартовая зона)\n"
         )
     ),
     AboutPointThree(
         TextWithLocalization(
-            "– Jebus Cross L (medium guard power) is available in test mode.\n",
-            "– В тестовом режиме доступен Jebus Cross L (средняя сила охраны).\n"
+            "",
+            ""
         )
     ),
 
