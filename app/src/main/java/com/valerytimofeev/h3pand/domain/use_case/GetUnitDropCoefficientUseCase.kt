@@ -32,6 +32,8 @@ class GetUnitDropCoefficientUseCase @Inject constructor(
             return Resource.error("An unknown error occurred", null)
         }
 
+       if (mapSettings.flatCalculation) return Resource.success(0.1f)
+
         val itemsResource = getItemsList(
             castle,
             numberOfZones,
