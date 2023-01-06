@@ -107,6 +107,10 @@ class GetAllAvailableBoxesUseCase @Inject constructor(
         restrictedIds.addAll(mapSettings.boxRestrictions?.restrictedIds.orEmpty())
         restrictedIds.addAll(zoneRestrictions?.restrictedIds.orEmpty())
 
+        val newBoxes = mutableListOf<BoxValueItem>()
+        newBoxes.addAll(mapSettings.boxRestrictions?.newBoxes.orEmpty())
+        newBoxes.addAll(zoneRestrictions?.newBoxes.orEmpty())
+
         var allBoxes = this
 
         if (restrictedTypes.isNotEmpty()) {
@@ -117,6 +121,11 @@ class GetAllAvailableBoxesUseCase @Inject constructor(
         if (restrictedIds.isNotEmpty()) {
             with(removeUnnecessaryBoxesUseCase) {
                 allBoxes = allBoxes.removeByIds(restrictedIds)
+            }
+        }
+        if (newBoxes.isNotEmpty()) {
+            with(removeUnnecessaryBoxesUseCase) {
+                allBoxes = allBoxes.addBoxes(newBoxes)
             }
         }
         return allBoxes
