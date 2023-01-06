@@ -1,27 +1,33 @@
 package com.valerytimofeev.h3pand.domain.use_case.dialog_use_case
 
+import com.valerytimofeev.h3pand.data.local.additional_data.MapSettings
+import com.valerytimofeev.h3pand.data.local.database.AdditionalValueItem
+import com.valerytimofeev.h3pand.data.local.database.Dwelling
+import com.valerytimofeev.h3pand.domain.model.CurrentLocal
 import com.valerytimofeev.h3pand.domain.model.SearchItem
 import com.valerytimofeev.h3pand.domain.use_case.GetDwellingsListUseCase
-import com.valerytimofeev.h3pand.repositories.local.PandRepository
 import com.valerytimofeev.h3pand.utils.Resource
-import com.valerytimofeev.h3pand.domain.model.CurrentLocal
-import com.valerytimofeev.h3pand.data.local.database.*
 import javax.inject.Inject
 
 /**
  * Find string in addValue name [AdditionalValueItem] and Dwelling name [Dwelling].
  */
 class FindItemInAdditionalValuesUseCase @Inject constructor(
-    private val repository: PandRepository,
     private val getDwellingsListUseCase: GetDwellingsListUseCase,
-    private val convertToSearchListUseCase: ConvertToSearchListUseCase
+    private val convertToSearchListUseCase: ConvertToSearchListUseCase,
+    private val getAdditionalValue: GetAdditionalValueUseCase
 ) {
     suspend operator fun invoke(
         input: String,
         castle: Int,
+        map: MapSettings,
+        zone: Int
     ): Resource<List<SearchItem>> {
         val localization = CurrentLocal.local
-        val additionalValueResource = repository.getFullAdditionalValueList()
+        val additionalValueResource = getAdditionalValue.getFullList(
+            map = map,
+            zone = zone
+        )
         val dwellingsResource = getDwellingsListUseCase(castle)
 
         if (additionalValueResource.data.isNullOrEmpty()) {
