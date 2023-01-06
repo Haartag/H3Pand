@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.valerytimofeev.h3pand.data.local.additional_data.MapSettings
 import com.valerytimofeev.h3pand.data.local.additional_data.TextStorage
 import com.valerytimofeev.h3pand.data.local.additional_data.TextWithLocalization
 import com.valerytimofeev.h3pand.data.local.database.AdditionalValueItem
@@ -37,6 +38,9 @@ class DialogViewModel @Inject constructor(
 
     val isDialogError = mutableStateOf(false)
     val dialogErrorText = mutableStateOf("")
+
+    private lateinit var mapSettings: MapSettings
+    private var zoneSettings = 0
 
 
     //Texts
@@ -84,6 +88,14 @@ class DialogViewModel @Inject constructor(
             chosenGuard
         )
         closeDialogAndWipeData()
+    }
+
+    fun getMapSettings(
+        map: MapSettings,
+        zone: Int
+    ) {
+        mapSettings = map
+        zoneSettings = zone
     }
 
     /**
@@ -142,7 +154,9 @@ class DialogViewModel @Inject constructor(
         viewModelScope.launch {
             val addValueResource = dialogButtonHandleUseCase.addValueDialogSubtypeButton(
                 addValueSubtype.enText,
-                addValueType
+                addValueType,
+                mapSettings,
+                zoneSettings
             )
             if (addValueResource.data == null) {
                 isDialogError.value = true
@@ -193,7 +207,9 @@ class DialogViewModel @Inject constructor(
             viewModelScope.launch {
                 val resultList = findItemInAdditionalValuesUseCase(
                     searchAddValueInput.value,
-                    chosenCastleZone
+                    chosenCastleZone,
+                    mapSettings,
+                    zoneSettings
                 )
                 if (!resultList.data.isNullOrEmpty()) {
                     searchAddValueResult.addAll(resultList.data)
