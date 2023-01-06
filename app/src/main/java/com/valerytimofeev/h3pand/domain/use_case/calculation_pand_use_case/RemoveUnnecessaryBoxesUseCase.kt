@@ -23,12 +23,21 @@ class RemoveUnnecessaryBoxesUseCase {
      */
     fun List<BoxValueItem>.removeByIds(
         idsToBeRemoved: List<Int>
-    ): List<BoxValueItem>  {
+    ): List<BoxValueItem> {
         val unitBoxesToBeRemoved = idsToBeRemoved.filter { it > 1000 }
         val nonUnitBoxesToBeRemoved = idsToBeRemoved.filter { it < 1000 }
         return this
             .filter {!nonUnitBoxesToBeRemoved.contains(it.id)}
             .removeUnitBoxes(unitBoxesToBeRemoved)
+    }
+
+    /**
+     * Add map-special boxes
+     */
+    fun List<BoxValueItem>.addBoxes(
+        boxes: List<BoxValueItem>
+    ): List<BoxValueItem> {
+        return this + boxes
     }
 
     /**
