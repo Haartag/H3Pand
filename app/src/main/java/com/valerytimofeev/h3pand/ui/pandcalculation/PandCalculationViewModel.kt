@@ -48,9 +48,14 @@ class PandCalculationViewModel @Inject constructor(
 
     //savedStateHandle to take nav argument
     private val currentMap: String = checkNotNull(savedStateHandle["mapName"])
+    val mapSettings = getMapSettings(currentMap)
     val fullMapName = getMapSettings(currentMap).mapName
     val mapNameTypo = getMapSettings(currentMap).tileTypo
-    val maxCastleNumber = getMapSettings(currentMap).numberOfZones.toFloat()
+    val maxCastleNumber = getMapSettings(currentMap).numberOfZones
+    val minZonesNumber = getMapSettings(currentMap).minOfZones.toFloat()
+    val castleZonesNumber = getMapSettings(currentMap).valueRanges.lastIndex.toFloat()
+    val guaranteedNotMainZones = getMapSettings(currentMap).guaranteedNotMainZones
+    val maxOfCastleSlider = (maxCastleNumber - guaranteedNotMainZones).toFloat()
     val castleNamesList = CastleSettings.values().map { getLocalizedTextUseCase(it.castleName) }
     var additionalValueTypesList = listOf<TextWithLocalization>()
 
@@ -70,10 +75,13 @@ class PandCalculationViewModel @Inject constructor(
     //States
 
     val weekSliderPosition = mutableStateOf(0f)
-    val castlesSliderPosition = mutableStateOf(1f)
+    val castlesSliderPosition = mutableStateOf(minZonesNumber)
     val zoneSliderPosition = mutableStateOf(0f)
-    val castleSliderSteps = if (maxCastleNumber.toInt() >= 2) maxCastleNumber.toInt() - 2 else 0
+    val castleSliderSteps = if (maxOfCastleSlider.toInt() >= 2) maxOfCastleSlider.toInt() - 2 else 0
+    val castleSliderIsEnabled = mutableStateOf(minZonesNumber != maxOfCastleSlider)
     val chosenCastleZone = mutableStateOf(1)
+    val chosenZoneSliderSteps = if (castleZonesNumber.toInt() >= 2) castleZonesNumber.toInt() - 2 else 0
+    val chosenZoneSliderIsEnabled = mutableStateOf(castleZonesNumber > 0)
 
     val currentGuardImg = mutableStateOf(R.drawable.ic_dice)
     val chosenGuard = mutableStateOf<Guard?>(null)
@@ -205,7 +213,7 @@ class PandCalculationViewModel @Inject constructor(
         additionalValueMap.forEach {
             val item = getValueForSearchItemUseCase(
                 it.value,
-                maxCastleNumber,
+                maxCastleNumber.toFloat(),
                 castlesSliderPosition.value
             )
             if (item.status == Status.SUCCESS) {
