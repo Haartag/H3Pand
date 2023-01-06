@@ -187,6 +187,10 @@ fun SheetAdditionalValue(
                                             dialogViewModel.setDialogState(
                                                 DialogState.Companion.DialogUiPresets.ADDVALUE_TYPE.dialogUiState
                                             )
+                                            dialogViewModel.getMapSettings(
+                                                viewModel.mapSettings,
+                                                viewModel.zoneSliderPosition.value.toInt()
+                                            )
                                         }
                                     }
                             ) {
@@ -326,7 +330,7 @@ fun SheetChooseCastleNumber(
         )
         Slider(
             value = viewModel.castlesSliderPosition.value,
-            valueRange = 1f..viewModel.maxCastleNumber,
+            valueRange = viewModel.minZonesNumber..viewModel.maxOfCastleSlider,
             steps = viewModel.castleSliderSteps,
             onValueChange = {
                 viewModel.castlesSliderPosition.value = it
@@ -335,6 +339,7 @@ fun SheetChooseCastleNumber(
                 viewModel.closeError()
                 viewModel.getBoxesList()
             },
+            enabled = viewModel.castleSliderIsEnabled.value,
             colors = SliderDefaults.colors(
                 thumbColor = SliderColor,
                 activeTrackColor = SliderColor,
@@ -359,8 +364,8 @@ fun SheetChooseZone(
         )
         Slider(
             value = viewModel.zoneSliderPosition.value,
-            valueRange = 0f..1f,
-            //steps = 1,
+            valueRange = 0f..viewModel.castleZonesNumber,
+            steps = viewModel.chosenZoneSliderSteps,
             onValueChange = {
                 viewModel.zoneSliderPosition.value = it
             },
@@ -370,6 +375,7 @@ fun SheetChooseZone(
                     viewModel.zoneSliderPosition.value.roundToInt().toFloat()
                 viewModel.getBoxesList()
             },
+            enabled = viewModel.chosenZoneSliderIsEnabled.value,
             colors = SliderDefaults.colors(
                 thumbColor = SliderColor,
                 activeTrackColor = SliderColor,
