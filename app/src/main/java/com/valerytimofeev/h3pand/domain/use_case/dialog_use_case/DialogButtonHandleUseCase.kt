@@ -1,6 +1,7 @@
 package com.valerytimofeev.h3pand.domain.use_case.dialog_use_case
 
 import com.valerytimofeev.h3pand.data.local.additional_data.CastleSettings
+import com.valerytimofeev.h3pand.data.local.additional_data.MapSettings
 import com.valerytimofeev.h3pand.data.local.database.AdditionalValueItem
 import com.valerytimofeev.h3pand.data.local.database.Dwelling
 import com.valerytimofeev.h3pand.data.local.database.Guard
@@ -13,7 +14,7 @@ import javax.inject.Inject
 
 class DialogButtonHandleUseCase @Inject constructor(
     private val repository: PandRepository,
-
+    private val getAdditionalValueUseCase: GetAdditionalValueUseCase
     ) {
 
     suspend fun guardDialogCastleButton(
@@ -118,10 +119,16 @@ class DialogButtonHandleUseCase @Inject constructor(
     }
 
     suspend fun addValueDialogSubtypeButton(
-        addValueSubtype: String, addValueType: String
+        addValueSubtype: String,
+        addValueType: String,
+        map: MapSettings,
+        zone: Int
     ): Resource<List<AdditionalValueItem>> {
-        val result = repository.getAdditionalValuesList(
-            addValueType, addValueSubtype
+        val result = getAdditionalValueUseCase.getListByTypeAndSubtype(
+            addValueType,
+            addValueSubtype,
+            map,
+            zone
         )
         return if (result.data.isNullOrEmpty()) {
             Resource.error(
