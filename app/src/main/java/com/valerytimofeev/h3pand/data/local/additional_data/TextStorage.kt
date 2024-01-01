@@ -93,6 +93,12 @@ enum class TextStorage(
     ),
 
     HelpTitle(TextWithLocalization("Description", "Описание")),
-    ContactTitle(TextWithLocalization("Contacts", "Контакты"))
+    ContactTitle(TextWithLocalization("Contacts", "Контакты")),
+
+    RateRequestTitle(TextWithLocalization("Rate this app", "Оцените приложение")),
+    RateRequestBody(TextWithLocalization("Do you want to rate this app?", "Вы хотите оценить это приложение?")),
+
+    Yes(TextWithLocalization("Yes", "Да")),
+    No(TextWithLocalization("No", "Нет"))
 
 }
