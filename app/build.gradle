@@ -7,14 +7,14 @@ plugins {
 }
 
 android {
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.valerytimofeev.h3pand"
-        minSdk 28
-        targetSdk 33
-        versionCode 17
-        versionName "beta-0.6.3"
+        minSdk 26
+        targetSdk 34
+        versionCode 18
+        versionName "beta-0.7.0" //Forge patch
 
         testInstrumentationRunner "com.valerytimofeev.h3pand.HiltTestRunner"
         vectorDrawables {
