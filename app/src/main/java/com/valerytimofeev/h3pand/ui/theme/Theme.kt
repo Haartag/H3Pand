@@ -1,10 +1,12 @@
 package com.valerytimofeev.h3pand.ui.theme
 
+import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalView
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 /*private val DarkColorPalette = darkColors(
@@ -36,6 +38,12 @@ fun H3PandTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable
     } else {
         LightColorPalette
     }
+
+    //Redmi dark mode color bug fix.
+    if(Build.VERSION.SDK_INT >= 29) {
+        LocalView.current.isForceDarkAllowed = false
+    }
+
     //System bar
     val systemUiController = rememberSystemUiController()
     systemUiController.setNavigationBarColor(
