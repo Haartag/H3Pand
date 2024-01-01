@@ -6,18 +6,28 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MailOutline
 import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.outlined.ThumbUp
 import androidx.compose.material.icons.sharp.Settings
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.valerytimofeev.h3pand.R
+import com.valerytimofeev.h3pand.ui.ratedialog.RateDialog
 
 @Composable
 fun BottomButtonRow(
     navController: NavController
 ) {
+    var testCounter by remember {
+        mutableStateOf(false)
+    }
+    if (testCounter) RateDialog(
+        onDismiss = {testCounter = it}
+    )
     Row(
         modifier = Modifier.padding(8.dp),
         horizontalArrangement = Arrangement.End
@@ -29,6 +39,11 @@ fun BottomButtonRow(
         AboutButton(navController)
         Spacer(modifier = Modifier.width(8.dp))
         ContactButton(navController)
+        Spacer(modifier = Modifier.width(8.dp))
+        TestButton(
+            navController,
+            onClick = {testCounter = it}
+        )
     }
 }
 
@@ -91,6 +106,28 @@ fun AboutButton(
         Icon(
             Icons.Outlined.Info,
             contentDescription = "About application",
+            modifier = Modifier.size(52.dp)
+        )
+    }
+}
+
+
+/**
+ * Test button
+ */
+@Composable
+fun TestButton(
+    navController: NavController,
+    onClick: (Boolean)-> Unit
+) {
+    IconButton(
+        modifier = Modifier.size(52.dp),
+        //onClick = { navController.navigate("calc_picker_screen") }
+        onClick = { onClick(true) }
+    ) {
+        Icon(
+            Icons.Outlined.ThumbUp,
+            contentDescription = "test icon",
             modifier = Modifier.size(52.dp)
         )
     }
