@@ -220,7 +220,7 @@ class DialogViewModel @Inject constructor(
 
     fun castleZoneDialogButton(index: Int): Int { //Castle zone dialog
         setDialogState(DialogState.Companion.DialogUiPresets.CLOSED.dialogUiState)
-        return if (index == 10) {
+        return if (index == 11) {
             0
         } else {
             index + 1

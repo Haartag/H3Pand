@@ -9,8 +9,9 @@ import androidx.room.RoomDatabase
         UnitItem::class,
         AdditionalValueItem::class,
         BoxValueItem::class,
+        //UnitCharItem::class,
     ],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 
