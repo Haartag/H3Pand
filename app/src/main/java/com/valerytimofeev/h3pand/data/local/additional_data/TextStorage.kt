@@ -75,24 +75,30 @@ enum class TextStorage(
     AboutWhatsNew(TextWithLocalization("What's new in this version:", "Что нового в этой версии:")),
     AboutPointOne(
         TextWithLocalization(
-            "– New map added: Jebus Outcast\n",
-            "– Добавлена новая карта: Jebus Outcast\n"
+            "– Added support for a new city - Forge\n",
+            "– Добавлена поддержка нового города - Фабрика\n"
         )
     ),
     AboutPointTwo(
         TextWithLocalization(
-            "– New map added: Mlyn (only available starting area)\n",
-            "– Добавлена новая карта: Mlyn (доступна только стартовая зона)\n"
+            "– Fixed various visual bugs\n",
+            "– Исправлены некоторые визуальные баги\n"
         )
     ),
     AboutPointThree(
         TextWithLocalization(
-            "",
-            ""
+            "– Added support for Android 8 and Android 14",
+            "– Добавлена поддержка Android 8 и Android 14"
         )
     ),
 
     HelpTitle(TextWithLocalization("Description", "Описание")),
-    ContactTitle(TextWithLocalization("Contacts", "Контакты"))
+    ContactTitle(TextWithLocalization("Contacts", "Контакты")),
+
+    RateRequestTitle(TextWithLocalization("Rate this app", "Оцените приложение")),
+    RateRequestBody(TextWithLocalization("Do you want to rate this app?", "Вы хотите оценить это приложение?")),
+
+    Yes(TextWithLocalization("Yes", "Да")),
+    No(TextWithLocalization("No", "Нет"))
 
 }
