@@ -27,6 +27,7 @@ enum class CastleSettings(
     CON(9, TextWithLocalization("Conflux", "Сопряжение"), R.drawable.town_conflux, ConfluxColor),
     COV(10, TextWithLocalization("Cove", "Причал"), R.drawable.town_cove, CoveColor),
     FRG(11, TextWithLocalization("Forge", "Фабрика"), R.drawable.town_neutral, ForgeColor),
+    KRN(12, TextWithLocalization("Bulwark", "Кронверк"), R.drawable.town_neutral, BulwarkColor),
     NEU(0, TextWithLocalization("Neutral", "Нейтральная"), R.drawable.town_neutral, NeutralColor),
 }
 

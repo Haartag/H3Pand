@@ -13,8 +13,8 @@ android {
         applicationId "com.valerytimofeev.h3pand"
         minSdk 28
         targetSdk 36
-        versionCode 18
-        versionName "beta-0.6.4"
+        versionCode 20
+        versionName "beta-0.8.0"
 
         testInstrumentationRunner "com.valerytimofeev.h3pand.HiltTestRunner"
         vectorDrawables {

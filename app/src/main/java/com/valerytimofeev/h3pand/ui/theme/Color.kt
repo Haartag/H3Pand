@@ -25,6 +25,7 @@ val RampartColor = Color(0xFFDDF0B9)
 val StrongholdColor = Color(0xFFEEDDBF)
 val TowerColor = Color(0xFFDFE8F0)
 val ForgeColor = Color(0xFFEEEED5)
+val BulwarkColor = Color(0xFFDFE8F0)
 val NeutralColor = Color(0xFFEEEED5)
 
 val GoldColor = Color(0xFFF1E8D2)
