@@ -1,5 +1,6 @@
 package com.valerytimofeev.h3pand.ui.contact
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
@@ -25,61 +26,71 @@ fun ContactScreen(
     contactViewModel: ContactViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
-    Column(
-        modifier = Modifier
-            .fillMaxSize(),
-    ) {
-        MainTopBar(
-            title = contactViewModel.contactTitleText,
-            buttonIcon = {
-                Icon(
-                    Icons.Default.ArrowBack,
-                    contentDescription = "Back button",
-                )
-            },
-            onButtonClicked = { navController.popBackStack() }
-        )
-        Spacer(modifier = Modifier.height(24.dp))
-        
-        Column() {
-            Row(
-                modifier = Modifier
-                    .height(56.dp)
-                    .clickable {
-                        contactViewModel.sendEmail(context = context)
-                    },
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Spacer(modifier = Modifier.width(24.dp))
-                Icon(
-                    Icons.Default.MailOutline,
+    Box(modifier = Modifier.fillMaxSize()) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .statusBarsPadding()
+                .navigationBarsPadding()
+        ) {
+            MainTopBar(
+                title = contactViewModel.contactTitleText,
+                buttonIcon = {
+                    Icon(
+                        Icons.Default.ArrowBack,
+                        contentDescription = "Back button",
+                    )
+                },
+                onButtonClicked = { navController.popBackStack() }
+            )
+            Spacer(modifier = Modifier.height(24.dp))
+
+            Column() {
+                Row(
                     modifier = Modifier
-                        .size(24.dp),
-                    contentDescription = "Mail"
-                )
-                Spacer(modifier = Modifier.width(24.dp))
-                Text(text = contactViewModel.getLocalizedTextUseCase(contactViewModel.mailText))
-            }
-            Spacer(modifier = Modifier.height(16.dp))
-            Row(
-                modifier = Modifier
-                    .height(56.dp)
-                    .clickable {
-                        contactViewModel.openDiscord(context = context)
-                    },
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Spacer(modifier = Modifier.width(24.dp))
-                Icon(
-                    painterResource(id = R.drawable.ic_discord),
+                        .height(56.dp)
+                        .clickable {
+                            contactViewModel.sendEmail(context = context)
+                        },
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Spacer(modifier = Modifier.width(24.dp))
+                    Icon(
+                        Icons.Default.MailOutline,
+                        modifier = Modifier
+                            .size(24.dp),
+                        contentDescription = "Mail"
+                    )
+                    Spacer(modifier = Modifier.width(24.dp))
+                    Text(text = contactViewModel.getLocalizedTextUseCase(contactViewModel.mailText))
+                }
+                Spacer(modifier = Modifier.height(16.dp))
+                Row(
                     modifier = Modifier
-                        .size(24.dp),
-                    contentDescription = "Discord",
-                    tint = Color(0xFF5865F2)
-                )
-                Spacer(modifier = Modifier.width(24.dp))
-                Text(text = contactViewModel.getLocalizedTextUseCase(contactViewModel.discordText))
+                        .height(56.dp)
+                        .clickable {
+                            contactViewModel.openDiscord(context = context)
+                        },
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Spacer(modifier = Modifier.width(24.dp))
+                    Icon(
+                        painterResource(id = R.drawable.ic_discord),
+                        modifier = Modifier
+                            .size(24.dp),
+                        contentDescription = "Discord",
+                        tint = Color(0xFF5865F2)
+                    )
+                    Spacer(modifier = Modifier.width(24.dp))
+                    Text(text = contactViewModel.getLocalizedTextUseCase(contactViewModel.discordText))
+                }
             }
         }
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .windowInsetsTopHeight(WindowInsets.statusBars)
+                .background(Color.White)
+        )
     }
 }

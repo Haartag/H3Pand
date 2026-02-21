@@ -9,14 +9,17 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
@@ -31,13 +34,14 @@ fun MapSelectionScreen(
     navController: NavController,
     viewModel: MapSelectionViewModel = hiltViewModel()
 ) {
-    val systemUiController = rememberSystemUiController()
-    systemUiController.setNavigationBarColor(
-        color = Color.Black
-    )
-    systemUiController.setStatusBarColor(
-        color = Color.White
-    )
+    val view = LocalView.current
+    SideEffect {
+        val window = (view.context as Activity).window
+        WindowInsetsControllerCompat(window, view).apply {
+            isAppearanceLightStatusBars = true // dark icons for white background
+            isAppearanceLightNavigationBars = false // light icons for black nav bar
+        }
+    }
     //Close app to prevent navigation to splashscreen
     val activity = (LocalContext.current as? Activity)
     BackPressHandler(
@@ -46,16 +50,39 @@ fun MapSelectionScreen(
         }
     )
 
-    Column() {
-        MainTopBar(
-            title = viewModel.mapTitle,
-            backgroundColor = Color.White
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .windowInsetsBottomHeight(WindowInsets.navigationBars)
+                .background(Color.White)
+                .align(Alignment.BottomStart)
         )
-        MapList(
-            modifier = Modifier.weight(1f),
-            navController
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .statusBarsPadding() // pushes MainTopBar below status bar
+                .navigationBarsPadding() // pushes BottomButtonRow above nav bar
+        ) {
+            MainTopBar(
+                title = viewModel.mapTitle,
+                backgroundColor = Color.White
+            )
+            MapList(
+                modifier = Modifier.weight(1f),
+                navController
+            )
+            BottomButtonRow(navController)
+        }
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .windowInsetsTopHeight(WindowInsets.statusBars)
+                .background(Color.White)
         )
-        BottomButtonRow(navController)
     }
 }
 

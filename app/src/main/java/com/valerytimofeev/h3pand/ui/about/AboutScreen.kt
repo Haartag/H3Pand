@@ -1,5 +1,6 @@
 package com.valerytimofeev.h3pand.ui.about
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.Icon
@@ -25,77 +26,87 @@ fun AboutScreen(
     navController: NavController,
     aboutViewModel: AboutViewModel = hiltViewModel()
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize(),
-    ) {
-        MainTopBar(
-            title = aboutViewModel.aboutTitleText,
-            buttonIcon = {
-                Icon(
-                    Icons.Default.ArrowBack,
-                    contentDescription = "Back button",
-                )
-            },
-            onButtonClicked = { navController.popBackStack() }
-        )
-        Spacer(modifier = Modifier.height(24.dp))
+    Box(modifier = Modifier.fillMaxSize()) {
         Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.SpaceBetween
+            modifier = Modifier
+                .fillMaxSize()
+                .statusBarsPadding()
+                .navigationBarsPadding()
         ) {
-
-            //What`s new
+            MainTopBar(
+                title = aboutViewModel.aboutTitleText,
+                buttonIcon = {
+                    Icon(
+                        Icons.Default.ArrowBack,
+                        contentDescription = "Back button",
+                    )
+                },
+                onButtonClicked = { navController.popBackStack() }
+            )
+            Spacer(modifier = Modifier.height(24.dp))
             Column(
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(
-                    modifier = Modifier.padding(16.dp),
-                    style = MaterialTheme.typography.body1,
-                    text = aboutViewModel.aboutWhatsNewText
-                )
-                Spacer(modifier = Modifier.height(4.dp))
-                Text(
-                    modifier = Modifier.padding(16.dp),
-                    style = MaterialTheme.typography.body2,
-                    text = aboutViewModel.pointOne
-                )
-                Text(
-                    modifier = Modifier.padding(16.dp),
-                    style = MaterialTheme.typography.body2,
-                    text = aboutViewModel.pointTwo
-                )
-                Text(
-                    modifier = Modifier.padding(16.dp),
-                    style = MaterialTheme.typography.body2,
-                    text = aboutViewModel.pointThree
-                )
-                Spacer(modifier = Modifier.weight(1f))
-                ClickableText(
-                    text = AnnotatedString("Open source libraries used in this app."),
-                    style = MaterialTheme.typography.caption.merge(
-                        TextStyle(
-                            textAlign = TextAlign.Center,
-                            textDecoration = TextDecoration.Underline,
-                            color = Color.DarkGray
-                        )
-                    ),
-                    modifier = Modifier.fillMaxWidth(),
-                    onClick = {
-                        navController.navigate("about_licenses_screen")
-                    }
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    modifier = Modifier
-                        .padding(8.dp)
-                        .fillMaxWidth(),
-                    text = "Application version: ${BuildConfig.VERSION_NAME}",
-                    style = MaterialTheme.typography.caption,
-                    textAlign = TextAlign.End,
-                    color = Color.Gray
-                )
+
+                //What`s new
+                Column(
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    Text(
+                        modifier = Modifier.padding(16.dp),
+                        style = MaterialTheme.typography.body1,
+                        text = aboutViewModel.aboutWhatsNewText
+                    )
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Text(
+                        modifier = Modifier.padding(16.dp),
+                        style = MaterialTheme.typography.body2,
+                        text = aboutViewModel.pointOne
+                    )
+                    Text(
+                        modifier = Modifier.padding(16.dp),
+                        style = MaterialTheme.typography.body2,
+                        text = aboutViewModel.pointTwo
+                    )
+                    Text(
+                        modifier = Modifier.padding(16.dp),
+                        style = MaterialTheme.typography.body2,
+                        text = aboutViewModel.pointThree
+                    )
+                    Spacer(modifier = Modifier.weight(1f))
+                    ClickableText(
+                        text = AnnotatedString("Open source libraries used in this app."),
+                        style = MaterialTheme.typography.caption.merge(
+                            TextStyle(
+                                textAlign = TextAlign.Center,
+                                textDecoration = TextDecoration.Underline,
+                                color = Color.DarkGray
+                            )
+                        ),
+                        modifier = Modifier.fillMaxWidth(),
+                        onClick = {
+                            navController.navigate("about_licenses_screen")
+                        }
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .fillMaxWidth(),
+                        text = "Application version: ${BuildConfig.VERSION_NAME}",
+                        style = MaterialTheme.typography.caption,
+                        textAlign = TextAlign.End,
+                        color = Color.Gray
+                    )
+                }
             }
         }
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .windowInsetsTopHeight(WindowInsets.statusBars)
+                .background(Color.White)
+        )
     }
 }

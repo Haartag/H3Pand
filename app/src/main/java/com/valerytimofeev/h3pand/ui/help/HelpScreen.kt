@@ -1,6 +1,7 @@
 package com.valerytimofeev.h3pand.ui.help
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Icon
@@ -10,6 +11,7 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -26,31 +28,41 @@ fun HelpScreen(
     navController: NavController,
     helpViewModel: HelpViewModel = hiltViewModel()
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize(),
-    ) {
-        MainTopBar(
-            title = helpViewModel.helpTitleText,
-            buttonIcon = {
-                Icon(
-                    Icons.Default.ArrowBack,
-                    contentDescription = "Back button",
-                )
-            },
-            onButtonClicked = { navController.popBackStack() }
-        )
-        LazyColumn{
-            items(count = helpViewModel.helpBoxes.size) {
-                HelpListItem(
-                    img = helpViewModel.helpBoxes[it].img,
-                    imgDescription = helpViewModel.helpBoxes[it].imgDescription,
-                    text = helpViewModel.getLocalizedTextUseCase(
-                        helpViewModel.helpBoxes[it].text
+    Box(modifier = Modifier.fillMaxSize()) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .statusBarsPadding()
+                .navigationBarsPadding()
+        ) {
+            MainTopBar(
+                title = helpViewModel.helpTitleText,
+                buttonIcon = {
+                    Icon(
+                        Icons.Default.ArrowBack,
+                        contentDescription = "Back button",
                     )
-                )
+                },
+                onButtonClicked = { navController.popBackStack() }
+            )
+            LazyColumn {
+                items(count = helpViewModel.helpBoxes.size) {
+                    HelpListItem(
+                        img = helpViewModel.helpBoxes[it].img,
+                        imgDescription = helpViewModel.helpBoxes[it].imgDescription,
+                        text = helpViewModel.getLocalizedTextUseCase(
+                            helpViewModel.helpBoxes[it].text
+                        )
+                    )
+                }
             }
         }
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .windowInsetsTopHeight(WindowInsets.statusBars)
+                .background(Color.White)
+        )
     }
 }
 
